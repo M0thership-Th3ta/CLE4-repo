@@ -2,6 +2,7 @@ import { Scene} from "excalibur";
 import { Background3 } from "./background_3.js";
 import { Platform } from "./platform.js";
 import { Turtle } from "./turtle.js";
+import { Dock } from "./dock.js";
 
 export class Minigame_3 extends Scene {
 
@@ -21,6 +22,8 @@ export class Minigame_3 extends Scene {
 
         const background3 = new Background3();
         this.add(background3);
+
+        this.add(new Dock(190, 600));
 
         this.add(new Platform());
         this.add(new Platform());

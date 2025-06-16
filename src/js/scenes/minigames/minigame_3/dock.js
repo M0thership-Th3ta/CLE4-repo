@@ -8,13 +8,13 @@ export class Dock extends Actor {
             pos: new Vector(x, y),
             width: width,
             height: height,
-            collisionType: CollisionType.Passive
+            collisionType: CollisionType.Fixed,
         });
     }
 
     onInitialize(engine) {
-        this.graphics.use(Resources.Platform.toSprite());
-        this.scale = new Vector(0.5, 0.35);
+        this.graphics.use(Resources.Dock.toSprite());
+        this.scale = new Vector(1, 1);
         this.collider.set(Shape.Box(500, 100, Vector.Half, new Vector(0, -15)));
     }
 }
