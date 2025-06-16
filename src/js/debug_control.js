@@ -1,22 +1,35 @@
-import { Actor, Engine, Vector, DisplayMode, Keys } from "excalibur"
-import { Resources, ResourceLoader } from './resources.js'
+import { Actor, Keys } from "excalibur"
 
 export class DebugControl extends Actor {
-    onPreUpdate(engine, delta) {
-        if (engine.input.keyboard.wasPressed(Keys.One)) {
-            engine.currentScene.clear();
-            engine.goToScene('minigame_1');
-            setTimeout(() => {
-            minigame_1.startGame();
-            }, 0);
-        }
+    engine
 
-        if (engine.input.keyboard.wasPressed(Keys.Two)) {
-            engine.currentScene.clear();
-            engine.goToScene('minigame_2');
-            setTimeout(() => {
-            minigame_2.startMinigame();
-            }, 0);
+    constructor(engine) {
+        super()
+        this.engine = engine
+    }
+
+    initialize() {
+        this.engine.input.keyboard.on('press', (evt) => this.handleKeyPress(evt))
+    }
+
+    handleKeyPress(evt) {
+        switch (evt.key) {
+            case Keys.Q:
+                this.switchScene('minigame_1')
+                break
+            case Keys.W:
+                this.switchScene('minigame_2')
+                break
         }
+    }
+
+    // Wissel van scene en verwijder alle actors uit de oude scene
+    switchScene(sceneName) {
+        const currentScene = this.engine.currentScene
+        // Verwijder alle actors uit de scene
+        for (const actor of currentScene.actors) {
+            currentScene.remove(actor)
+        }
+        this.engine.goToScene(sceneName)
     }
 }
