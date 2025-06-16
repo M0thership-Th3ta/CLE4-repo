@@ -14,8 +14,11 @@ const Resources = {
     Farmer: new ImageSource('images/pokemonFarmer.png'),
 }
 
-
-
+// Voeg error handling toe voor elke resource
+Object.entries(Resources).forEach(([name, resource]) => {
+    resource.onLoad = () => console.log(`✓ ${name} geladen`)
+    resource.onError = (error) => console.error(`✗ Fout bij laden ${name}:`, error)
+})
 
 const ResourceLoader = new Loader()
 for (let res of Object.values(Resources)) {
