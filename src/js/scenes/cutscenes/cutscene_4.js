@@ -2,7 +2,7 @@ import { Actor, Scene, Label, Vector, Color, FontUnit, Keys } from "excalibur";
 import { Resources, ResourceLoader } from '../../../resources.js';
 import { Player } from '../../../player/player.js';
 
-export class Testscene extends Scene {
+export class Cutscene_4 extends Scene {
 
     constructor() {
         super()
@@ -10,11 +10,11 @@ export class Testscene extends Scene {
 
     onActivate(engine) {
         // Start de cutscene zodra de scene geladen wordt
-        this.startTestscene(engine)
+        this.startCutscene4(engine)
     }
 
     // Deze functie bevat de cutscene functionaliteit
-    startTestscene(engine) {
-        console.log("Start test cutscene!");
+    startCutscene4(engine) {
+        console.log("Start cutscene 4!");
     }
 }

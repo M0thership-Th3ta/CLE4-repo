@@ -29,11 +29,14 @@ export class DebugControl extends Actor {
             case Keys.T:
                 this.switchScene('cutscene_3')
                 break
-            case Keys.R:
+            case Keys.Y:
                 this.switchScene('minigame_3')
                 break
-            case Keys.R:
+            case Keys.U:
                 this.switchScene('cutscene_4')
+                break
+            case Keys.I:
+                this.switchScene('testscene')
                 break
         }
     }
