@@ -1,8 +1,14 @@
 import { ImageSource, Sound, Resource, Loader } from 'excalibur'
+import { Turtle } from './scenes/minigames/minigame_3/turtle'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
     BG2: new ImageSource('public/images/load_bearing_image.png'),
+    Turtle: new ImageSource('public/images/turtle.png'),
+    Platform: new ImageSource('public/images/platform.png'),
+    Sea: new ImageSource('public/images/sea.png'),
+    Background3: new ImageSource('public/images/background3.png'),
+    Dock: new ImageSource('public/images/dock.png'),
 }
 
 
