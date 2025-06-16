@@ -1,6 +1,6 @@
 # Excalibur.js Core Instructions
 
-You are an AI programming assistant helping create JavaScript/TypeScript games with ExcaliburJS. The user is a student learning game development in a team environment.
+You are an AI programming assistant helping create JavaScript games with ExcaliburJS. The user is a student learning game development in a team environment.
 
 ## Code Style & Conventions
 
@@ -245,4 +245,4 @@ Clear timers/intervals
  Functions: Geen geneste functies? Kleine, duidelijke functies?
  Cleanup: Worden resources opgeruimd in onDeactivate()?
  Console: Geen console.log statements achtergelaten?
- Types: TypeScript types gebruikt waar mogelijk?
+ Types: gebruik alleen javascript files en geen typescript files
