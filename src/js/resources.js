@@ -10,6 +10,7 @@ const Resources = {
     BG1: new ImageSource('public/images/greengrassbluebackground.png'),
     BG2: new ImageSource('public/images/snackbar.png'),
     RestaurantLayout: new ImageSource('public/images/restaurantLayout.png'),
+    Shanty: new ImageSource('public/images/pokemonGirl.png'),
 }
 
 
