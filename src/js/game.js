@@ -4,6 +4,7 @@ import { Resources, ResourceLoader } from './resources.js'
 import { DebugControl } from './debug_control.js'
 import { Minigame_1 } from './scenes/minigames/minigame_1/minigame_1.js'
 import { Minigame_2 } from './scenes/minigames/minigame_2/minigame_2.js'
+import { Minigame_3 } from './scenes/minigames/minigame_3/minigame_3.js'
 
 export class Game extends Engine {
 
@@ -21,6 +22,7 @@ export class Game extends Engine {
         console.log("start de game!")
         this.add('minigame_1', new Minigame_1())
         this.add('minigame_2', new Minigame_2())
+        this.add('minigame_3', new Minigame_3())
         this.goToScene('root')
 
         this.debugControl = new DebugControl(this)
