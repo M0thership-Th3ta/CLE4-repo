@@ -1,0 +1,19 @@
+{
+    "cutsceneDialogue": [
+        {
+            "speaker": "NPC1",
+            "text": "Hé daar! Waar ga je naartoe?",
+            "duration": 2000
+        },
+        {
+            "speaker": "NPC2", 
+            "text": "Ik loop naar de markt. Ga je mee?",
+            "duration": 2500
+        },
+        {
+            "speaker": "NPC1",
+            "text": "Natuurlijk! Laten we samen gaan.",
+            "duration": 2000
+        }
+    ]
+}
