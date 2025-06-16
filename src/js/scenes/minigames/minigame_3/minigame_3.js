@@ -22,21 +22,17 @@ export class Minigame_3 extends Scene {
         const background3 = new Background3();
         this.add(background3);
 
-        this.add(new Platform(150, 700));
-        this.add(new Platform(1100, 700));
-        this.add(new Platform(180, 200));
+        this.add(new Platform());
+        this.add(new Platform());
 
-        this.add(new Platform(400, 600));
-        this.add(new Platform(750, 600));
+        this.add(new Platform());
+        this.add(new Platform());
 
-        this.add(new Platform(90, 470));
-        this.add(new Platform(1050, 470));
+        this.add(new Platform());
+        this.add(new Platform());
 
-        this.add(new Platform(650, 340));
-        this.add(new Platform(1250, 340));
-
-        this.add(new Platform(950, 220));
-        this.add(new Platform(600, 120));
+        this.add(new Platform());
+        this.add(new Platform());
 
         for (let i = 0; i < 5; i++) {
             // @ts-ignore

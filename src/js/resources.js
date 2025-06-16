@@ -7,7 +7,7 @@ const Resources = {
     Turtle: new ImageSource('public/images/turtle.png'),
     Platform: new ImageSource('public/images/platform.png'),
     Sea: new ImageSource('public/images/sea.png'),
-    Background3: new ImageSource('public/images/background3.png'),
+    Background3: new ImageSource('public/images/backgroundCliff.png'),
     Dock: new ImageSource('public/images/dock.png'),
     BG1: new ImageSource('public/images/skyblue.png'),
     BG2: new ImageSource('public/images/snackbar.png'),

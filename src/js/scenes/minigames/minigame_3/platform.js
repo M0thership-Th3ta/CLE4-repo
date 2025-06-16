@@ -14,7 +14,7 @@ export class Platform extends Actor {
 
     onInitialize(engine) {
         this.graphics.use(Resources.Platform.toSprite());
-        this.scale = new Vector(0.5, 0.35);
+        this.scale = new Vector(0.75, 0.75);
         this.collider.set(Shape.Box(500, 100, Vector.Half, new Vector(0, -15)));
     }
 }
