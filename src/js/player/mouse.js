@@ -7,6 +7,7 @@ export class Mouse extends Actor {
         this.pos.y = 0
         this.events.on("pointermove", (e) => this.mouseMove(e))
     }
+    
     mouseMove(e) {
         console.log("Mouse moved!")
         console.log(e.worldPos.x, e.worldPos.y)
