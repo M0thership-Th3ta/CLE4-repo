@@ -11,6 +11,7 @@ const Resources = {
     BG2: new ImageSource('images/snackbar.png'),
     RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
     Shanty: new ImageSource('images/pokemonGirl.png'),
+    Farmer: new ImageSource('images/pokemonFarmer.png'),
 }
 
 
