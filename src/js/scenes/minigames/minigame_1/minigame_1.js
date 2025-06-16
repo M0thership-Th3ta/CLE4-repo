@@ -1,6 +1,8 @@
 import { Actor, Scene, Label, Vector, Color, FontUnit, Keys } from "excalibur";
 import { Resources, ResourceLoader } from '../../../resources.js';
 import { Player } from '../../../player/player.js';
+import { Mouse } from '../../../player/mouse.js';
+import { Background1 } from "./background_1.js";
 
 export class Minigame_1 extends Scene {
 
@@ -16,5 +18,6 @@ export class Minigame_1 extends Scene {
     // Deze functie bevat de minigame functionaliteit
     startMinigame1(engine) {
         console.log("Start minigame 1!");
+        this.add(new Background1());
     }
 }

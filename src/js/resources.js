@@ -9,6 +9,9 @@ const Resources = {
     Sea: new ImageSource('public/images/sea.png'),
     Background3: new ImageSource('public/images/background3.png'),
     Dock: new ImageSource('public/images/dock.png'),
+    BG1: new ImageSource('public/images/skyblue.png'),
+    BG2: new ImageSource('public/images/snackbar.png'),
+    RestaurantLayout: new ImageSource('public/images/restaurantlayout.png'),
 }
 
 
