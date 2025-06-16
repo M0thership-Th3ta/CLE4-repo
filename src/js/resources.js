@@ -2,7 +2,7 @@ import { ImageSource, Sound, Resource, Loader } from 'excalibur'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
-    BG1: new ImageSource('public/images/skyblue.png'),
+    BG1: new ImageSource('public/images/greengrassbluebackground.png'),
     BG2: new ImageSource('public/images/snackbar.png'),
 }
 
