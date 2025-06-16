@@ -198,6 +198,7 @@ export class GameScene extends Scene {
 5. **If resources loading fails, the whole game will fail and give strange errors, double check all loading code**
 
 ### Input Handling
+```javascript
 onPreUpdate(engine) {
   let xspeed = 0;
   let yspeed = 0;
@@ -223,7 +224,7 @@ onPreUpdate(engine) {
 ```
 Beweging beperken
 Als je wilt voorkomen dat het object het scherm uitgaat, kan je gebruik maken van de functie clamp. Deze zit in het Excalibur framework.
-
+```javascript
 this.pos.x = clamp(this.pos.x, this.width / 2, engine.drawWidth - this.width / 2);
 this.pos.y = clamp(this.pos.y, this.width / 2, engine.drawHeight - this.height / 2);
 
