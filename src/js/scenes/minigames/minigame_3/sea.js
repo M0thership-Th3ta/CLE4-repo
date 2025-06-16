@@ -14,7 +14,7 @@ export class Sea extends Actor {
     }
 
     onInitialize(engine) {
-        this.graphics.use(Resources.Platform.toSprite());
+        this.graphics.use(Resources.Sea.toSprite());
         this.scale = new Vector(0.5, 0.35);
         this.collider.set(Shape.Box(500, 100, Vector.Half, new Vector(0, -15)));
     }
