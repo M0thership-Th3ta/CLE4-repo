@@ -4,7 +4,7 @@ import { ImageSource, Sound, Resource, Loader } from 'excalibur'
 const Resources = {
     Turtle: new ImageSource('images/turtle.png'),
     Platform: new ImageSource('images/platform.png'),
-    Sea: new ImageSource('images/sea.png'),
+    Sea: new ImageSource('images/sea.jpg'),
     Background3: new ImageSource('images/backgroundCliff.png'),
     Dock: new ImageSource('images/dock.png'),
     BG1: new ImageSource('images/greengrassbluebackground.png'),
