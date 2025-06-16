@@ -38,8 +38,8 @@ export class Minigame_3 extends Scene {
         this.add(new Platform());
 
         for (let i = 0; i < 5; i++) {
-            // @ts-ignore
-            const platforms = this.isCurrentScene.actors.filter(actor => actor instanceof Platform);
+            // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
+            const platforms = this.actors.filter(actor => actor instanceof Platform);
 
             const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
 
