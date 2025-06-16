@@ -8,7 +8,7 @@ export class Minigame_2 extends Scene {
         super()
     }
 
-    onInitialize(engine) {
+    onActivate(engine) {
         // Start de minigame zodra de scene geladen wordt
         this.startMinigame2(engine)
     }
