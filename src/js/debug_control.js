@@ -15,13 +15,25 @@ export class DebugControl extends Actor {
     handleKeyPress(evt) {
         switch (evt.key) {
             case Keys.Q:
-                this.switchScene('minigame_1')
+                this.switchScene('cutscene_1')
                 break
             case Keys.W:
-                this.switchScene('minigame_2')
+                this.switchScene('minigame_1')
                 break
             case Keys.E:
+                this.switchScene('cutscene_2')
+                break
+            case Keys.R:
+                this.switchScene('minigame_2')
+                break
+            case Keys.T:
+                this.switchScene('cutscene_3')
+                break
+            case Keys.R:
                 this.switchScene('minigame_3')
+                break
+            case Keys.R:
+                this.switchScene('cutscene_4')
                 break
         }
     }
