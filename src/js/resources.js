@@ -15,10 +15,9 @@ const Resources = {
     RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
     Shanty: new ImageSource('images/pokemonGirl.png'),
     Farmer: new ImageSource('images/pokemonFarmer.png'),
-    BG1: new ImageSource('public/images/skyblue.png'),
-    BG2: new ImageSource('public/images/snackbar.png'),
-    RestaurantLayout: new ImageSource('public/images/restaurantlayout.png'),
-    Tree: new ImageSource('public/images/tree.png'),
+    BG2: new ImageSource('images/snackbar.png'),
+    RestaurantLayout: new ImageSource('images/restaurantlayout.png'),
+    Tree: new ImageSource('images/tree.png'),
 }
 
 // Voeg error handling toe voor elke resource
