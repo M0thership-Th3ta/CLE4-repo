@@ -11,11 +11,18 @@ export class Testscene extends Scene {
         super()
     }
 
+    onInitialize(engine) {
+        // Deze functie wordt één keer aangeroepen wanneer de scene wordt geladen
+        this.setupRestaurant(engine)
+    }
+
     onActivate(engine) {
-        // Start de cutscene zodra de scene geladen wordt
-        this.startTestscene(engine)
-    }    // Deze functie bevat de cutscene functionaliteit
-    startTestscene(engine) {
+        // Deze functie wordt aangeroepen telkens als de scene actief wordt
+        console.log("Testscene is nu actief")
+    }
+
+    // Deze functie bevat de restaurant setup
+    setupRestaurant(engine) {
         console.log("Start test cutscene!");
 
         // Laad de restaurant achtergrond in deze scene
