@@ -17,7 +17,7 @@ export class DebugControl extends Actor {
             case Keys.Q:
                 this.switchScene('cutscene_1')
                 break
-            case Keys.W:
+            case Keys.P:
                 this.switchScene('minigame_1')
                 break
             case Keys.E:
@@ -38,7 +38,7 @@ export class DebugControl extends Actor {
             case Keys.I:
                 this.switchScene('testscene')
                 break
-            case Keys.D:
+            case Keys.F:
                 // Toggle debug mode om colliders te zien
                 this.engine.toggleDebug()
                 console.log(`Debug mode: ${this.engine.isDebug ? 'AAN' : 'UIT'}`)

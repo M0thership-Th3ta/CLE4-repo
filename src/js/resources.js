@@ -16,6 +16,7 @@ const Resources = {
     Shanty: new ImageSource('images/pokemonGirl.png'),
     Farmer: new ImageSource('images/pokemonFarmer.png'),
     Tree: new ImageSource('images/tree.png'),
+    Pointer: new ImageSource('images/pointer.png'),
 }
 
 // Voeg error handling toe voor elke resource

@@ -2,47 +2,24 @@ import { Actor, Engine, Vector, CollisionType, Shape, RotationType } from "excal
 import { Resources } from '../../../resources.js'
 import { Mouse } from '../../../player/robot/mouse.js'
 
-export class Food1 extends Actor {
+export class Food extends Actor {
+    // Geef aan dat dit object interactable is
+    isInteractible = true
 
-    constructor() {
-        super({ 
-            pos: new Vector(200, 200),
-            width: Resources.Food1.width, 
-            height: Resources.Food1.height,
+    constructor(pos, resource) {
+        super({
+            resource,
+            pos,
+            width: 32,
+            height: 32,
+            scale: new Vector(0.5, 0.5),
             collisionType: CollisionType.Active
         })
-        //this.on("collisionstart", (event) => this.hitSomething(event))
-        this.graphics.use(Resources.Food1.toSprite())
-        this.isInteractable = true
     }
-}
 
-export class Food2 extends Actor {
-
-    constructor() {
-        super({ 
-            anchor: new Vector(100, 300),
-            width: Resources.Food2.width, 
-            height: Resources.Food2.height,
-            collisionType: CollisionType.Active
-        })
-        //this.on("collisionstart", (event) => this.hitSomething(event))
-        this.graphics.use(Resources.Food2.toSprite())
-        this.isInteractable = true
-    }
-}
-
-export class Food3 extends Actor {
-
-    constructor() {
-        super({ 
-            pos: new Vector(300, 400),
-            width: Resources.Food3.width, 
-            height: Resources.Food3.height,
-            collisionType: CollisionType.Active
-        })
-        //this.on("collisionstart", (event) => this.hitSomething(event))
-        this.graphics.use(Resources.Food3.toSprite())
-        this.isInteractable = true
+    // Deze functie wordt één keer aangeroepen wanneer het food item wordt toegevoegd
+    onInitialize(engine) {
+        // Zet de sprite van het food item
+        this.graphics.use(this.resource.toSprite())
     }
 }
