@@ -1,59 +1,36 @@
 // actors/npc.js
-import { Actor, Vector, CollisionType, Animation } from "excalibur"
+import { Actor, CollisionType, Shape } from "excalibur"
 import { Resources } from '../resources'
 
 export class NPC extends Actor {
-    #walkAnimation
-    #isWalking = false
-
-    constructor(pos, name) {
-        super({
+    constructor(pos, name, collisionRadius = 40) {        super({
             pos,
-            width: 32,
-            height: 64,
-            collisionType: CollisionType.PreventCollision
+            // Verwijder width en height - we gebruiken een circle collider
+            collisionType: CollisionType.Passive
         })
         this.name = name
+        this.collisionRadius = collisionRadius
     }
 
     onInitialize(engine) {
-        // Maak walking animation van spritesheet
-        this.#walkAnimation = Animation.fromSpriteSheet(
-            Resources.NpcSprite.toSpriteSheet(4, 4), // 4x4 grid
-            [0, 1, 2, 3], // Frame indices voor walking
-            100 // Snelheid in ms
-        )
+        // Stel ronde collision shape in
+        this.collider.set(Shape.Circle(this.collisionRadius))
         
-        this.graphics.add('walk', this.#walkAnimation)
-        this.graphics.add('idle', Resources.NpcSprite.toSprite())
+        // Roep setupGraphics aan die door subclasses kan worden override
+        this.setupGraphics()
+        
+        // Setup collision events voor dialoog triggers
+        this.on('collisionstart', (evt) => this.onCollision(evt))
     }
 
-    // Deze methode start het lopen naar een target positie
-    walkTo(targetPos, speed = 50) {
-        this.#isWalking = true
-        this.graphics.use('walk')
-        
-        // Bereken direction vector
-        const direction = targetPos.sub(this.pos).normalize()
-        this.vel = direction.scale(speed)
-        
-        return new Promise(resolve => {
-            // Check of we bij target zijn aangekomen
-            const checkArrival = () => {
-                if (this.pos.distance(targetPos) < 10) {
-                    this.stopWalking()
-                    resolve()
-                } else {
-                    setTimeout(checkArrival, 16) // Check elke frame
-                }
-            }
-            checkArrival()
-        })
+    // Deze methode moet door subclasses worden override om graphics in te stellen
+    setupGraphics() {
+        // Standaard geen graphics - subclasses moeten dit implementeren
+        console.log(`${this.name}: setupGraphics() moet worden override door subclass`)
     }
 
-    stopWalking() {
-        this.#isWalking = false
-        this.vel = Vector.Zero
-        this.graphics.use('idle')
+    // Base collision handler - kan worden override door subclasses
+    onCollision(evt) {
+        console.log(`${this.name} collision met:`, evt.other.owner.constructor.name)
     }
 }

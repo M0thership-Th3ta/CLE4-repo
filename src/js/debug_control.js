@@ -38,6 +38,11 @@ export class DebugControl extends Actor {
             case Keys.I:
                 this.switchScene('testscene')
                 break
+            case Keys.D:
+                // Toggle debug mode om colliders te zien
+                this.engine.toggleDebug()
+                console.log(`Debug mode: ${this.engine.isDebug ? 'AAN' : 'UIT'}`)
+                break
         }
     }
 

@@ -13,11 +13,23 @@ const Resources = {
     Food2: new ImageSource('images/food2.png'),
     Food3: new ImageSource('images/food3.png'),
     RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
+    Shanty: new ImageSource('images/pokemonGirl.png'),
+    Farmer: new ImageSource('images/pokemonFarmer.png'),
+  BG1: new ImageSource('public/images/skyblue.png'),
+  BG2: new ImageSource('public/images/snackbar.png'),
+  RestaurantLayout: new ImageSource('public/images/restaurantlayout.png'),
+  Tree: new ImageSource('public/images/tree.png'),
 }
+
+// Voeg error handling toe voor elke resource
+Object.entries(Resources).forEach(([name, resource]) => {
+    resource.onLoad = () => console.log(`✓ ${name} geladen`)
+    resource.onError = (error) => console.error(`✗ Fout bij laden ${name}:`, error)
+})
 
 const ResourceLoader = new Loader()
 for (let res of Object.values(Resources)) {
-    ResourceLoader.addResource(res)
+  ResourceLoader.addResource(res)
 }
 
 export { Resources, ResourceLoader }
