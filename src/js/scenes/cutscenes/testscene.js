@@ -1,6 +1,6 @@
 import { Actor, Scene, Label, Vector, Color, FontUnit, Keys } from "excalibur";
 import { Resources, ResourceLoader } from '../../resources.js';
-import { Player } from '../../player/player.js';
+import { Player } from '../../player/robot/player.js';
 import { Restaurant } from '../locations/restaurant.js';
 
 export class Testscene extends Scene {
