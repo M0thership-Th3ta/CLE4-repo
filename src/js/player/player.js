@@ -1,7 +1,79 @@
-import { Actor } from "excalibur"
-import { Resources, ResourceLoader } from '../resources.js'
-import { Mouse } from './mouse.js'
+import { Actor, CollisionType, DegreeOfFreedom, Shape, Side, Vector } from "excalibur"
+import { Resources } from '../resources.js'
+import { Turtle } from "../scenes/minigames/minigame_3/turtle.js";
 
 export class Player extends Actor {
-    
+
+    leftKey;
+    rightKey;
+    upKey;
+    downKey;
+
+    isGrounded = false;
+
+    speed = 200;
+
+    constructor(leftKey, rightKey, upKey, downKey, startPos) {
+
+        super({
+            pos: startPos,
+            scale: new Vector(0.5, 0.5),
+            collisionType: CollisionType.Active,
+            collider: Shape.Box(100, 150, Vector.Half, new Vector(0, 20)),
+        });
+
+        this.graphics.use(Resources.Player.toSprite());
+
+        this.leftKey = leftKey;
+        this.rightKey = rightKey;
+        this.upKey = upKey;
+        this.downKey = downKey;
+    }
+
+    onInitialize(engine) {
+        this.body.useGravity = true;
+        this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
+
+        this.on("collisionstart", (event) => {
+            this.handleCollision(event);
+
+            if (event.side === Side.Bottom) {
+                this.isGrounded = true;
+            }
+        });
+
+        this.on("collisionend", (event) => {
+            if (event.side === Side.Bottom) {
+                this.isGrounded = false;
+            }
+        });
+    }
+
+    onPreUpdate(engine) {
+        let xspeed = 0;
+
+        if (engine.input.keyboard.isHeld(this.leftKey)) {
+            xspeed = -this.speed;
+        }
+        if (engine.input.keyboard.isHeld(this.rightKey)) {
+            xspeed = this.speed;
+        }
+
+        if (engine.input.keyboard.wasPressed(this.upKey) && this.isGrounded) {
+            this.vel.y = -480;
+            this.isGrounded = false;
+        }
+
+        this.vel.x = xspeed;
+
+        if (this.pos.y > 720 && !engine.gameHasEnded) {
+            this.health = 0;
+        }
+    }
+
+    handleCollision(event) {
+        if (event.other instanceof Turtle) {
+            event.other.kill();
+        }
+    }
 }

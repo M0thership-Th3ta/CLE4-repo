@@ -14,13 +14,13 @@ export class Turtle extends Actor {
 
     onInitialize(engine) {
         this.graphics.use(Resources.Turtle.toSprite());
-        this.scale = new Vector(0.09, 0.09);
+        this.scale = new Vector(0.20, 0.20);
 
-        this.collider.set(Shape.Box(200, 350, Vector.Half, new Vector(0, 0)));
+        this.collider.set(Shape.Box(200, 200, Vector.Half, new Vector(0, 0)));
     }
 
     hit() {
-        this.scene?.emit('pointCollected');
+        this.scene?.emit('turtleCollected');
         this.kill();
     }
 }
