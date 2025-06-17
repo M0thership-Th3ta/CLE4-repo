@@ -19,6 +19,6 @@ export class Minigame_1 extends Scene {
     startMinigame1(engine) {
         console.log("Start minigame 1!");
         this.add(new Background1());
-        this.add(new Tree( 75, 600 ))
+        // this.add(new Tree( 75, 600 ))
     }
 }
