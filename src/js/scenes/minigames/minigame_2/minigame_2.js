@@ -3,13 +3,9 @@ import { Resources, ResourceLoader } from '../../../resources.js';
 import { Player } from '../../../player/robot/player.js';
 import { Pointer } from '../../../player/robot/pointer.js';
 import { Background2 } from "./background_2.js";
-import { Food } from "./food.js";
+import { Food1, Food2, Food3 } from "./food.js";
 
 export class Minigame_2 extends Scene {
-    Food1 = Resources.Food1
-    Food2 = Resources.Food2
-    Food3 = Resources.Food3
-
     constructor() {
         super()
     }
@@ -25,8 +21,8 @@ export class Minigame_2 extends Scene {
         const pointer = new Pointer(new Vector(200,200))
         this.add(pointer)
         this.add(new Background2());
-        this.add(new Food(new Vector(100, 100), Food1));
-        this.add(new Food(new Vector(300, 100), Food2));
-        this.add(new Food(new Vector(200, 200), Food3));
+        this.add(new Food1(new Vector(100, 100)));
+        this.add(new Food2(new Vector(300, 100)));
+        this.add(new Food3(new Vector(200, 200)));
     }
 }
