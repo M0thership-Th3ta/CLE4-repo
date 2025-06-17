@@ -1,6 +1,5 @@
 import { Actor, Engine, Vector, CollisionType, Shape, RotationType } from "excalibur"
 import { Resources } from '../../../resources.js'
-import { Mouse } from '../../../player/robot/mouse.js'
 
 export class Food extends Actor {
     // Geef aan dat dit object interactable is
