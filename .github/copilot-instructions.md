@@ -52,22 +52,53 @@ hitSomething(event) {
 ## Project Structure
 
 ```
-minigame-collection/
-├── docs/                   
-├── public/              
-│   ├── images/          
-│   ├── sounds/          
-│   └── dialogues/       
-└── src/
-    ├── main.ts          
-    ├── game.ts          
-    ├── resources.ts     
-    ├── config.ts        
-    ├── actors/          
-    ├── scenes/          
-    └── core/   
-index.html
-package.json         
+public/
+├── dialogue/
+│   └── testdialogue.json
+└── images/
+src/
+├── css/
+│   └── style.css
+├── js/
+│   ├── actors/              # Game characters/entities
+│   │   ├── npc.js           # Parent NPC class
+│   │   └── testactor.js     # test NPC implementation
+│   ├── player/              # Player characters
+│   │   ├── robot/           # Robot player type
+│   │   │   ├── mouse.js     # Mouse interaction
+│   │   │   ├── player.js    # Robot player (nog leeg)
+│   │   │   └── pointer.js   # Pointer interaction
+│   │   └── shanty/          # Shanty player type
+│   │       └── shanty.js    # Shanty character
+│   ├── scenes/              # Game scenes
+│   │   ├── cutscenes/       # Story scenes
+│   │   │   ├── restaurantscene_1.js
+│   │   │   ├── restaurantscene_2.js
+│   │   │   ├── restaurantscene_3.js
+│   │   │   ├── restaurantscene_4.js
+│   │   │   └── testscene.js
+│   │   ├── locations/       # Reusable locations
+│   │   │   ├── restaurant.js
+│   │   │   └── worldmap.js  # (nog leeg)
+│   │   └── minigames/       # Interactive gameplay
+│   │       ├── minigame_1/
+│   │       │   ├── background_1.js
+│   │       │   ├── minigame_1.js
+│   │       │   └── tree.js  # (nog leeg)
+│   │       ├── minigame_2/
+│   │       │   ├── background_2.js
+│   │       │   ├── food.js
+│   │       │   └── minigame_2.js
+│   │       └── minigame_3/
+│   │           ├── background_3.js
+│   │           ├── dock.js
+│   │           ├── minigame_3.js
+│   │           ├── platform.js
+│   │           ├── sea.js
+│   │           └── turtle.js
+│   ├── debug_control.js     # Development debugging
+│   ├── game.js             # Main game entry point
+│   └── resources.js        # Asset management      
 ```
 
 ## Basic Templates
