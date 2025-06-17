@@ -1,7 +1,5 @@
 import { Actor, Scene, Label, Vector, Color, FontUnit, Keys, CollisionType } from "excalibur";
 import { Resources, ResourceLoader } from '../../resources.js';
-import { Player } from '../../player/player.js';
-import { Resources, ResourceLoader } from '../../resources.js';
 import { Player } from '../../player/robot/player.js';
 import { Restaurant } from '../locations/restaurant.js';
 import { Shanty } from '../../player/shanty/shanty.js';
