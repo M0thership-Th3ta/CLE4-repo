@@ -1,4 +1,4 @@
-import { Actor, Vector, CollisionType } from "excalibur";
+import { Actor, Vector, CollisionType, Rectangle, Color } from "excalibur";
 
 /**
  * Hook die aan robot hangt en kan uitsteken om fruit te pakken
@@ -23,17 +23,30 @@ export class Hook extends Actor {
     this.isRetracting = false;
     this.currentLength = this.originalLength;
     this.grabbedFruit = null;
-  }
-
-  /**
+  }  /**
    * Initialiseer hook graphics en collision
    */
   onInitialize(engine) {
-    // Setup basic hook graphics (simpele rechthoek)
-    this.graphics.use(this.graphics.rect(this.width, this.height, { color: "#8B4513" }));
+    // Setup graphics
+    this.updateGraphics();
     
     // Setup collision events
     this.on("collisionstart", (evt) => this.onCollision(evt));
+  }
+
+  /**
+   * Update graphics van de hook
+   */
+  updateGraphics() {
+    // Voor nu gebruiken we gewoon een simpele rechthoek voor de hook
+    // Later kunnen we dit uitbreiden met een touw visual
+    const hookRect = new Rectangle({
+      width: this.width,
+      height: this.height,
+      color: Color.fromHex("#8B4513")
+    });
+    
+    this.graphics.use(hookRect);
   }
 
   /**
@@ -82,20 +95,24 @@ export class Hook extends Actor {
     
     // Verberg fruit of maak het onderdeel van hook
     fruit.visible = false;
-  }
-
-  /**
+  }  /**
    * Update hook logica elke frame
    */
   onPostUpdate(engine, delta) {
+    let shouldUpdate = false;
+
     if (this.isExtending) {
       this.extend(delta);
+      shouldUpdate = true;
     } else if (this.isRetracting) {
       this.retract(delta);
+      shouldUpdate = true;
     }
 
-    // Update graphics hoogte
-    this.graphics.use(this.graphics.rect(this.width, this.currentLength, { color: "#8B4513" }));
+    // Update graphics alleen als er verandering is
+    if (shouldUpdate) {
+      this.updateGraphics();
+    }
   }
 
   /**
