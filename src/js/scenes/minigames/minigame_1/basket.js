@@ -1,15 +1,14 @@
-import { Actor, Vector, CollisionType, Rectangle, Color } from "excalibur";
+import { Actor, Vector, CollisionType, Rectangle, Color, GraphicsGroup } from "excalibur";
 import { Resources } from '../../../resources.js';
 
 /**
  * Mand voor het verzamelen van specifieke fruit types
  */
-export class Basket extends Actor {
-  constructor(pos, fruitType) {
+export class Basket extends Actor {  constructor(pos, fruitType) {
     super({
       pos,
-      width: 80,
-      height: 60,
+      width: 120,
+      height: 100,
       collisionType: CollisionType.Fixed
     });
 
@@ -27,56 +26,43 @@ export class Basket extends Actor {
     
     // Setup collision events
     this.on("collisionstart", (evt) => this.onCollision(evt));
-  }
-  /**
+  }  /**
    * Setup graphics gebaseerd op fruit type
    */
   setupGraphics() {
-    // Gebruik specifieke mand graphics voor elk fruit type
+    // Maak basket sprite
+    const basketSprite = Resources.Basket.toSprite();
+    basketSprite.scale = new Vector(2, 2); // Maak basket groter
+    
+    // Maak fruit sprite bovenop de basket
+    let fruitSprite;
     switch (this.fruitType) {
       case 'lime':
-        if (Resources.BasketMango) {
-          this.graphics.use(Resources.BasketMango.toSprite());
-        } else {
-          const limeBasket = new Rectangle({
-            width: this.width,
-            height: this.height,
-            color: Color.fromHex("#90EE90")
-          });
-          this.graphics.use(limeBasket);
-        }
+        fruitSprite = Resources.Lime.toSprite();
         break;
       case 'lemon':
-        if (Resources.BasketOrange) {
-          this.graphics.use(Resources.BasketOrange.toSprite());
-        } else {
-          const lemonBasket = new Rectangle({
-            width: this.width,
-            height: this.height,
-            color: Color.fromHex("#FFFF00")
-          });
-          this.graphics.use(lemonBasket);
-        }
-        break;      case 'passionfruit':
-        if (Resources.BasketPapaya) {
-          this.graphics.use(Resources.BasketPapaya.toSprite());
-        } else {
-          const passionBasket = new Rectangle({
-            width: this.width,
-            height: this.height,
-            color: Color.fromHex("#800080")
-          });
-          this.graphics.use(passionBasket);
-        }
+        fruitSprite = Resources.Lemon.toSprite();
+        break;
+      case 'passionfruit':
+        fruitSprite = Resources.Passionfruit.toSprite();
         break;
       default:
-        const defaultBasket = new Rectangle({
-          width: this.width,
-          height: this.height,
-          color: Color.fromHex("#8B4513")
-        });
-        this.graphics.use(defaultBasket);
-    }
+        fruitSprite = Resources.Lemon.toSprite();
+    }    // Schaal fruit sprite kleiner voor badge effect
+    fruitSprite.scale = new Vector(0.8, 0.8);
+    
+    // Positioneer fruit als badge op de voorkant van de basket (gecentreerd)
+    fruitSprite.offset = new Vector(0, -5);
+    
+    // Combineer basket en fruit in een graphics group
+    const group = new GraphicsGroup({
+      members: [
+        { graphic: basketSprite, offset: Vector.Zero },
+        { graphic: fruitSprite, offset: new Vector(0, -5) }
+      ]
+    });
+    
+    this.graphics.use(group);
   }
 
   /**

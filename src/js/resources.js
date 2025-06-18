@@ -11,13 +11,16 @@ const Resources = {
     BG2: new ImageSource('images/snackbar.png'),
     Food1: new ImageSource('images/food1.png'),
     Food2: new ImageSource('images/food2.png'),
-    Food3: new ImageSource('images/food3.png'),
-    RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
+    Food3: new ImageSource('images/food3.png'),    RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
     Shanty: new ImageSource('images/pokemonGirl.png'),
     Farmer: new ImageSource('images/pokemonFarmer.png'),
     Tree: new ImageSource('images/tree.png'),
     Pointer: new ImageSource('images/pointer.png'),
     Customer1: new ImageSource('images/persona1.png'),
+    Lime: new ImageSource('images/lime.png'),
+    Lemon: new ImageSource('images/Lemon.png'),
+    Basket: new ImageSource('images/basket.png'),
+    Passionfruit: new ImageSource('images/pomegranete.png'),
 }
 
 // Voeg error handling toe voor elke resource
