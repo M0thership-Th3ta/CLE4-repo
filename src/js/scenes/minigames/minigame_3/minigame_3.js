@@ -1,16 +1,24 @@
-import { Keys, Scene, Vector } from "excalibur";
+import { Color, Font, Keys, Label, Scene, TextAlign, Vector } from "excalibur";
 import { Background3 } from "./background_3.js";
 import { Platform } from "./platform.js";
 import { Turtle } from "./turtle.js";
 import { Dock } from "./dock.js";
 import { Sea } from "./sea.js";
 import { Player } from "../../../player/player.js";
+import { AmountManager } from "./amount_manager.js";
 
 export class Minigame_3 extends Scene {
+
+    amountManager;
+    totalTurtles = 5; // Aantal schildpadden in deze minigame
+    collectedTurtles = 0; // Aantal verzamelde schildpadden
+    amountTracker;
 
     constructor() {
 
         super();
+
+        this.amountTracker = this.amountTracker ?? {amount: 0};
     }
 
     onActivate(engine) {
@@ -59,7 +67,32 @@ export class Minigame_3 extends Scene {
 
             const turtle = new Turtle(turtleX, turtleY);
             this.add(turtle);
+            this.totalTurtles++;
         }
 
+        const amountManager = new AmountManager(
+            this.amountTracker
+        );
+        this.add(amountManager);
+
+    }
+
+    gameCompleted() {
+        this.gameHasEnded = true;
+        console.log("Minigame 3 voltooid!");
+
+        const gameCompletedlabel = new Label({
+            text: "Minigame 3 voltooid!",
+            pos: new Vector(400, 300),
+            font: new Font({
+                family: "Arial",
+                size: 32,
+                color: Color.White,
+                textAlign: TextAlign.Center,
+            }),
+            anchor: Vector.Half,
+        });
+
+        this.add(gameCompletedlabel);
     }
 }

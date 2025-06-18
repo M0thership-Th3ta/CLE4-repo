@@ -72,8 +72,9 @@ export class Player extends Actor {
     }
 
     handleCollision(event) {
-        if (event.other instanceof Turtle) {
-            event.other.kill();
+        if (event.other.owner instanceof Turtle) {
+            event.other.owner.hit();
         }
+
     }
 }

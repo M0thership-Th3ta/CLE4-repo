@@ -1,5 +1,6 @@
 import { Actor, CollisionType, Shape, Vector } from "excalibur";
 import { Resources } from "../../../resources";
+import { Sea } from "./sea";
 
 export class Turtle extends Actor {
     constructor(x, y, width, height) {
@@ -10,6 +11,8 @@ export class Turtle extends Actor {
             height: height,
             collisionType: CollisionType.Passive,
         });
+        this.engine = undefined;
+        this.actors = undefined;
     }
 
     onInitialize(engine) {
@@ -20,7 +23,16 @@ export class Turtle extends Actor {
     }
 
     hit() {
-        this.scene?.emit('turtleCollected');
         this.kill();
+    }
+
+    handleCollision(event) {
+        if (event.other.owner instanceof Sea) {
+            event.other.owner.hit();
+
+            if (this.actors.collectedTurtles >= this.actors.totalTurtles) {
+                this.actors.gameCompleted();
+            }
+        }
     }
 }
