@@ -52,7 +52,7 @@ export class FruitGrabberGame extends Actor {
    */
   setupGameObjects(engine) {
     // Maak robot speler
-    this.robot = new Robot(new Vector(640, 500));
+    this.robot = new Robot(new Vector(640, 650)); // Lager op het scherm
     
     // Maak 3 bomen zoals in de afbeelding
     this.createTrees();

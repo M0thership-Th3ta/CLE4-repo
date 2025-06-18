@@ -1,4 +1,4 @@
-import { Actor, Vector, CollisionType, clamp, EasingFunctions } from "excalibur";
+import { Actor, Vector, CollisionType, clamp } from "excalibur";
 import { Resources } from '../../../resources.js';
 import { Hook } from "./hook.js";
 
@@ -13,89 +13,43 @@ export class Robot extends Actor {
       height: 64,
       collisionType: CollisionType.Active
     });
+
     this.speed = 200;
-    this.#hook = null;
-    this._isMoving = false;  // Private field met underscore
-    this._isJumping = false; // Private field met underscore
-    this.jumpCallback = null;
-    this.animationStartTime = 0;
-    this.currentAnimateHandler = null; // Track huidige animatie handler
+    this.hook = null;
+    this.isMoving = false;
   }
 
-  // Private hook property
-  #hook = null;
   /**
    * Initialiseer robot graphics en hook
-   */  onInitialize(engine) {
-    // Schakel gravity permanent uit voor robot
-    this.body.useGravity = false;
-    
+   */
+  onInitialize(engine) {
     // Setup robot graphics (gebruik bestaande resource of fallback)
     if (Resources.Robot) {
       this.graphics.use(Resources.Robot.toSprite());
     }
 
     // Maak hook object
-    this.#hook = new Hook(this);    this.scene.add(this.#hook);
+    this.hook = new Hook(this);
+    this.scene.add(this.hook);
 
     // Setup collision events
     this.on("collisionstart", (evt) => this.onCollision(evt));
   }
-  
+
   /**
-   * Spring naar specifieke x-positie met animatie (zonder actions systeem)
+   * Zet robot beweging
    */
-  jumpToPosition(targetX, callback = null) {
-    if (this._isJumping) return;
+  setMovement(xSpeed) {
+    this.vel = new Vector(xSpeed, 0);
+    this.isMoving = xSpeed !== 0;
+  }
 
-    // Stop vorige animatie als die er nog is (safety check)
-    if (this.currentAnimateHandler) {
-      this.scene.off("postupdate", this.currentAnimateHandler);
-      this.currentAnimateHandler = null;
-    }
-
-    this._isJumping = true;
-    this.jumpCallback = callback;
-    
-    // Stop alle beweging (gravity is al permanent uit)
-    this.vel = new Vector(0, 0);
-    
-    const startX = this.pos.x;
-    const startY = this.pos.y;
-    const duration = 500; // 0.5 seconde
-    this.animationStartTime = Date.now();
-    
-    // Animatie handler als class property voor betere cleanup
-    this.currentAnimateHandler = () => {
-      const elapsed = Date.now() - this.animationStartTime;
-      const t = Math.min(elapsed / duration, 1);
-      
-      // EaseInOutQuad easing functie
-      const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      
-      this.pos.x = startX + (targetX - startX) * ease;
-      this.pos.y = startY; // Y blijft constant
-        if (t >= 1) {
-        this.pos.x = targetX; // Exacte eindpositie
-        this._isJumping = false;
-        
-        // Cleanup animatie handler
-        this.scene.off("postupdate", this.currentAnimateHandler);
-        this.currentAnimateHandler = null;
-        
-        if (this.jumpCallback) {
-          this.jumpCallback();
-          this.jumpCallback = null;
-        }
-      }
-    };
-    
-    this.scene.on("postupdate", this.currentAnimateHandler);
-  }  /**
+  /**
    * Gebruik hook om fruit te pakken
-   */  useHook() {
-    if (this.#hook && !this.#hook.isActive() && !this._isJumping) {
-      this.#hook.activate();
+   */
+  useHook() {
+    if (this.hook && !this.hook.isActive()) {
+      this.hook.activate();
     }
   }
 
@@ -105,35 +59,46 @@ export class Robot extends Actor {
   onCollision(evt) {
     // Collision met manden of andere objecten
   }
+
   /**
    * Update robot logica elke frame
    */  onPostUpdate(engine, delta) {
     // Beperk robot beweging tot scherm grenzen
     this.pos.x = clamp(this.pos.x, this.width / 2, engine.drawWidth - this.width / 2);
-    this.pos.y = clamp(this.pos.y, this.height / 2, engine.drawHeight - this.height / 2);
-    
-    // Update hook positie
-    if (this.#hook) {
-      this.#hook.updatePosition();
+    if (typeof engine.drawHeight === 'undefined' || isNaN(engine.drawHeight)) {
+        this.pos.y = clamp(this.pos.y, 600, 720 - this.height / 2);
+    } else {
+        this.pos.y = clamp(this.pos.y, 600, engine.drawHeight - this.height / 2);
     }
-  }
-  /**
-   * Krijg hook object (read-only access)
-   */
-  getHook() {
-    return this.#hook;
-  }
-  /**
-   * Check of robot aan het bewegen is
-   */
-  get isMoving() {
-    return this._isMoving;
+    if (isNaN(this.pos.y)) {
+        this.pos.y = 650; // Fallback naar veilige waarde
+    }
+    if (this.hook) {
+      this.hook.updatePosition();
+    }
   }
 
   /**
-   * Check of robot aan het jumpen is
+   * Krijg hook object
    */
-  get isJumping() {
-    return this._isJumping;
+  getHook() {
+    return this.hook;
+  }
+
+  /**
+   * Check of robot aan het bewegen is
+   */
+  getIsMoving() {
+    return this.isMoving;
+  }  /**
+   * Laat robot naar specifieke positie springen met animatie
+   */
+  jumpToPosition(targetX, targetY) {
+    if (isNaN(targetX) || isNaN(targetY)) {
+        return;
+    }
+    this.vel = Vector.Zero;
+    this.actions.clearActions();
+    this.actions.moveTo(targetX, targetY, 300);
   }
 }

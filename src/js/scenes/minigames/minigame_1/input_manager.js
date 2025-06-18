@@ -44,17 +44,19 @@ export class InputManager {
     if (!this.canMoveToBasket(direction)) {
       console.log("Kan niet verder in deze richting");
       return;
-    }
-
-    // Bereken nieuwe basket index
+    }    // Bereken nieuwe basket index
     const newBasketIndex = this.currentBasket + direction;
     const targetX = this.basketPositions[newBasketIndex];
+    const targetY = 650; // Robot positie onder de baskets
 
-    // Start animatie naar nieuwe positie
-    robot.jumpToPosition(targetX, () => {
-      this.currentBasket = newBasketIndex;
-      console.log(`Robot is nu bij basket ${this.currentBasket + 1}`);
-    });
+    console.log(`Spring naar basket ${newBasketIndex + 1} op positie: x=${targetX}, y=${targetY}`);
+
+    // Spring naar nieuwe positie (alleen numerieke waarden!)
+    robot.jumpToPosition(targetX, targetY);
+    
+    // Update basket index na de sprong
+    this.currentBasket = newBasketIndex;
+    console.log(`Robot is nu bij basket ${this.currentBasket + 1}`);
   }
 
   /**
