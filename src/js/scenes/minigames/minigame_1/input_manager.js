@@ -10,6 +10,9 @@ export class InputManager {
       right: Keys.ArrowRight,
       action: Keys.Space
     };
+      // Basket posities (3 baskets) - moet overeenkomen met FruitGrabberGame
+    this.basketPositions = [200, 640, 1080]; // x-coördinaten van de 3 baskets
+    this.currentBasket = 1; // Start bij basket 2 (midden, index 1)
   }
 
   /**
@@ -19,22 +22,59 @@ export class InputManager {
     this.handleMovement(engine, robot);
     this.handleActions(engine, robot);
   }
-
   /**
-   * Behandel robot beweging
+   * Behandel robot beweging - nu met basket jumping
    */
   handleMovement(engine, robot) {
-    let xSpeed = 0;
-
-    if (engine.input.keyboard.isHeld(this.keys.left)) {
-      xSpeed = -robot.speed;
+    // Check voor basket jumps (alleen bij wasPressed, niet isHeld)
+    if (engine.input.keyboard.wasPressed(this.keys.left)) {
+      this.jumpToBasket(robot, -1); // Spring naar links
     }
 
-    if (engine.input.keyboard.isHeld(this.keys.right)) {
-      xSpeed = robot.speed;
+    if (engine.input.keyboard.wasPressed(this.keys.right)) {
+      this.jumpToBasket(robot, 1); // Spring naar rechts
+    }
+  }
+
+  /**
+   * Spring naar een andere basket
+   */
+  jumpToBasket(robot, direction) {
+    // Check of movement mogelijk is vanaf huidige basket
+    if (!this.canMoveToBasket(direction)) {
+      console.log("Kan niet verder in deze richting");
+      return;
     }
 
-    robot.setMovement(xSpeed);
+    // Bereken nieuwe basket index
+    const newBasketIndex = this.currentBasket + direction;
+    const targetX = this.basketPositions[newBasketIndex];
+
+    // Start animatie naar nieuwe positie
+    robot.jumpToPosition(targetX, () => {
+      this.currentBasket = newBasketIndex;
+      console.log(`Robot is nu bij basket ${this.currentBasket + 1}`);
+    });
+  }
+
+  /**
+   * Check of robot naar bepaalde richting kan bewegen
+   */
+  canMoveToBasket(direction) {
+    const newBasketIndex = this.currentBasket + direction;
+    
+    // Basket 1 (index 0): alleen naar rechts
+    if (this.currentBasket === 0 && direction === -1) {
+      return false;
+    }
+    
+    // Basket 3 (index 2): alleen naar links  
+    if (this.currentBasket === 2 && direction === 1) {
+      return false;
+    }
+    
+    // Check of nieuwe index geldig is
+    return newBasketIndex >= 0 && newBasketIndex < this.basketPositions.length;
   }
 
   /**
@@ -58,5 +98,28 @@ export class InputManager {
    */
   isKeyHeld(engine, key) {
     return engine.input.keyboard.isHeld(key);
+  }
+
+  /**
+   * Krijg huidige basket nummer (1-3)
+   */
+  getCurrentBasketNumber() {
+    return this.currentBasket + 1;
+  }
+
+  /**
+   * Krijg huidige basket positie
+   */
+  getCurrentBasketPosition() {
+    return this.basketPositions[this.currentBasket];
+  }
+
+  /**
+   * Zet robot bij specifieke basket
+   */
+  setCurrentBasket(basketIndex) {
+    if (basketIndex >= 0 && basketIndex < this.basketPositions.length) {
+      this.currentBasket = basketIndex;
+    }
   }
 }

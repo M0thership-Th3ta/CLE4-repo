@@ -1,4 +1,4 @@
-import { Actor, Vector, CollisionType } from "excalibur";
+import { Actor, Vector, CollisionType, Rectangle, Color } from "excalibur";
 import { Resources } from '../../../resources.js';
 
 /**
@@ -28,7 +28,6 @@ export class Basket extends Actor {
     // Setup collision events
     this.on("collisionstart", (evt) => this.onCollision(evt));
   }
-
   /**
    * Setup graphics gebaseerd op fruit type
    */
@@ -39,25 +38,44 @@ export class Basket extends Actor {
         if (Resources.BasketMango) {
           this.graphics.use(Resources.BasketMango.toSprite());
         } else {
-          this.graphics.use(this.graphics.rect(this.width, this.height, { color: "#90EE90" }));
+          const limeBasket = new Rectangle({
+            width: this.width,
+            height: this.height,
+            color: Color.fromHex("#90EE90")
+          });
+          this.graphics.use(limeBasket);
         }
         break;
       case 'lemon':
         if (Resources.BasketOrange) {
           this.graphics.use(Resources.BasketOrange.toSprite());
         } else {
-          this.graphics.use(this.graphics.rect(this.width, this.height, { color: "#FFFF00" }));
+          const lemonBasket = new Rectangle({
+            width: this.width,
+            height: this.height,
+            color: Color.fromHex("#FFFF00")
+          });
+          this.graphics.use(lemonBasket);
         }
-        break;
-      case 'passionfruit':
+        break;      case 'passionfruit':
         if (Resources.BasketPapaya) {
           this.graphics.use(Resources.BasketPapaya.toSprite());
         } else {
-          this.graphics.use(this.graphics.rect(this.width, this.height, { color: "#800080" }));
+          const passionBasket = new Rectangle({
+            width: this.width,
+            height: this.height,
+            color: Color.fromHex("#800080")
+          });
+          this.graphics.use(passionBasket);
         }
         break;
       default:
-        this.graphics.use(this.graphics.rect(this.width, this.height, { color: "#8B4513" }));
+        const defaultBasket = new Rectangle({
+          width: this.width,
+          height: this.height,
+          color: Color.fromHex("#8B4513")
+        });
+        this.graphics.use(defaultBasket);
     }
   }
 

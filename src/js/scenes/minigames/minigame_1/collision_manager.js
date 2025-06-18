@@ -13,12 +13,14 @@ export class CollisionManager {
     this.checkHookFruitCollisions(robot.getHook(), tree);
     this.checkRobotBasketCollisions(robot, baskets);
   }
-
   /**
    * Check collisions tussen hook en fruit op boom
    */
   checkHookFruitCollisions(hook, tree) {
-    if (!hook || !hook.isExtending) return;
+    if (!hook || !hook.isExtending || !tree) return;
+
+    // Check of tree getFruits methode heeft
+    if (typeof tree.getFruits !== 'function') return;
 
     const fruits = tree.getFruits();
     
@@ -31,14 +33,20 @@ export class CollisionManager {
       }
     });
   }
-
   /**
    * Check collisions tussen robot en manden
    */
   checkRobotBasketCollisions(robot, baskets) {
+    // Controleer of robot en baskets bestaan
+    if (!robot || !baskets) {
+      return;
+    }
+
     baskets.forEach(basket => {
-      if (this.isColliding(robot, basket)) {
+      // Controleer of basket bestaat voordat we collision checken
+      if (basket && this.isColliding(robot, basket)) {
         // Collision wordt behandeld door basket zelf
+        console.log("Robot raakt basket!");
       }
     });
   }
@@ -47,6 +55,12 @@ export class CollisionManager {
    * Check of twee actors botsen
    */
   isColliding(actor1, actor2) {
+    // Controleer of beide actors bestaan en bounds hebben
+    if (!actor1 || !actor2 || !actor1.body || !actor2.body || 
+        !actor1.body.collisionArea || !actor2.body.collisionArea) {
+      return false;
+    }
+
     const bounds1 = actor1.body.collisionArea.bounds;
     const bounds2 = actor2.body.collisionArea.bounds;
     
