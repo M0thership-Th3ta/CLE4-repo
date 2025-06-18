@@ -31,19 +31,13 @@ onInitialize(engine) {
 - ExcaliburJS has its own game loop - NO `requestAnimationFrame`
 - Use `onInitialize()` for setup, not constructor
 - Use `onPostUpdate()` for per-frame logic
+- never use setTimeout or setInterval, if you need to track frames, just use a frameCounter / cooldown counter
 
-### Movement & Physics
-```javascript
+### Movement
+
+```js
 // Movement
 this.vel = new Vector(x, y)
-
-// Enable physics
-const game = new Engine({
-    physics: {
-        gravity: vec(0, 800),
-        solver: SolverStrategy.Realistic
-    }
-});
 ```
 
 ### Collision Detection
@@ -58,22 +52,53 @@ hitSomething(event) {
 ## Project Structure
 
 ```
-minigame-collection/
-├── dist/                 
-├── public/              
-│   └── index.html       
-├── assets/              
-│   ├── images/          
-│   ├── sounds/          
-│   └── dialogues/       
-└── src/
-    ├── main.ts          
-    ├── game.ts          
-    ├── resources.ts     
-    ├── config.ts        
-    ├── actors/          
-    ├── scenes/          
-    └── core/            
+public/
+├── dialogue/
+│   └── testdialogue.json
+└── images/
+src/
+├── css/
+│   └── style.css
+├── js/
+│   ├── actors/              # Game characters/entities
+│   │   ├── npc.js           # Parent NPC class
+│   │   └── testactor.js     # test NPC implementation
+│   ├── player/              # Player characters
+│   │   ├── robot/           # Robot player type
+│   │   │   ├── mouse.js     # Mouse interaction
+│   │   │   ├── player.js    # Robot player (nog leeg)
+│   │   │   └── pointer.js   # Pointer interaction
+│   │   └── shanty/          # Shanty player type
+│   │       └── shanty.js    # Shanty character
+│   ├── scenes/              # Game scenes
+│   │   ├── cutscenes/       # Story scenes
+│   │   │   ├── restaurantscene_1.js
+│   │   │   ├── restaurantscene_2.js
+│   │   │   ├── restaurantscene_3.js
+│   │   │   ├── restaurantscene_4.js
+│   │   │   └── testscene.js
+│   │   ├── locations/       # Reusable locations
+│   │   │   ├── restaurant.js
+│   │   │   └── worldmap.js  # (nog leeg)
+│   │   └── minigames/       # Interactive gameplay
+│   │       ├── minigame_1/
+│   │       │   ├── background_1.js
+│   │       │   ├── minigame_1.js
+│   │       │   └── tree.js  # (nog leeg)
+│   │       ├── minigame_2/
+│   │       │   ├── background_2.js
+│   │       │   ├── food.js
+│   │       │   └── minigame_2.js
+│   │       └── minigame_3/
+│   │           ├── background_3.js
+│   │           ├── dock.js
+│   │           ├── minigame_3.js
+│   │           ├── platform.js
+│   │           ├── sea.js
+│   │           └── turtle.js
+│   ├── debug_control.js     # Development debugging
+│   ├── game.js             # Main game entry point
+│   └── resources.js        # Asset management      
 ```
 
 ## Basic Templates
@@ -89,6 +114,11 @@ export class Game extends Engine {
             width: 1280,
             height: 720,
             maxFps: 60,
+            pixelRatio:1,
+             physics: {
+                gravity: new Vector(0, 800),
+                solver: SolverStrategy.Realistic
+            },
             displayMode: DisplayMode.FitScreen
         })
         this.start(ResourceLoader).then(() => this.startGame())
@@ -127,6 +157,10 @@ export class Player extends Actor {
         this.on("collisionstart", (evt) => this.onCollision(evt))
     }
 
+    onCollision(evt){
+        console.log(evt.other.owner)
+    }
+
     onPostUpdate(engine, delta) {
         // Per-frame logic
         this.handleInput(engine)
@@ -134,7 +168,7 @@ export class Player extends Actor {
 }
 ```
 
-### Resources (resources.ts)
+### Resources (resources.js)
 ```javascript
 import { ImageSource, Sound, Loader } from 'excalibur'
 
@@ -192,21 +226,39 @@ export class GameScene extends Scene {
 2. **Using constructor instead of onInitialize()**
 3. **Wrong event names** - Use 'pointerdown' not 'click'
 4. **Creating objects in update loops** - Causes GC issues
+5. **If resources loading fails, the whole game will fail and give strange errors, double check all loading code**
 
 ### Input Handling
 ```javascript
-onPostUpdate(engine, delta) {
-    // Keyboard
-    if (engine.input.keyboard.isHeld(Keys.Space)) {
-        this.jump()
-    }
-    
-    // Mouse/Touch
-    if (engine.input.pointers.primary.isDown) {
-        this.shoot()
-    }
+onPreUpdate(engine) {
+  let xspeed = 0;
+  let yspeed = 0;
+  
+  if (engine.input.keyboard.isHeld(Keys.Left)) {
+      xspeed = -this.speed;
+  }
+  
+  if (engine.input.keyboard.isHeld(Keys.Right)) {
+      xspeed = this.speed;
+  }
+  
+  if (engine.input.keyboard.isHeld(Keys.Up)) {
+      yspeed = -this.speed;
+  }
+  
+  if (engine.input.keyboard.isHeld(Keys.Down)) {
+      yspeed = this.speed;
+  }
+  
+  this.vel = new Vector(xspeed, yspeed);
 }
 ```
+Beweging beperken
+Als je wilt voorkomen dat het object het scherm uitgaat, kan je gebruik maken van de functie clamp. Deze zit in het Excalibur framework.
+```javascript
+this.pos.x = clamp(this.pos.x, this.width / 2, engine.drawWidth - this.width / 2);
+this.pos.y = clamp(this.pos.y, this.width / 2, engine.drawHeight - this.height / 2);
+
 
 ## Debugging
 

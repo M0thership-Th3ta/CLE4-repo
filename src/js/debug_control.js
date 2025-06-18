@@ -15,28 +15,33 @@ export class DebugControl extends Actor {
     handleKeyPress(evt) {
         switch (evt.key) {
             case Keys.Q:
-                this.switchScene('cutscene_1')
+                this.switchScene('restaurantscene_1')
                 break
-            case Keys.W:
+            case Keys.P:
                 this.switchScene('minigame_1')
                 break
             case Keys.E:
-                this.switchScene('cutscene_2')
+                this.switchScene('restaurantscene_2')
                 break
             case Keys.R:
                 this.switchScene('minigame_2')
                 break
             case Keys.T:
-                this.switchScene('cutscene_3')
+                this.switchScene('restaurantscene_3')
                 break
             case Keys.Y:
                 this.switchScene('minigame_3')
                 break
             case Keys.U:
-                this.switchScene('cutscene_4')
+                this.switchScene('restaurantscene_4')
                 break
             case Keys.I:
                 this.switchScene('testscene')
+                break
+            case Keys.F:
+                // Toggle debug mode om colliders te zien
+                this.engine.toggleDebug()
+                console.log(`Debug mode: ${this.engine.isDebug ? 'AAN' : 'UIT'}`)
                 break
         }
     }

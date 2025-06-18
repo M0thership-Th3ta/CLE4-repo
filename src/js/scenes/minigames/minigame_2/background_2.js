@@ -1,11 +1,15 @@
-import { Actor, Vector } from "excalibur"
+import { Actor, Vector, Sprite } from "excalibur"
 import { Resources } from '../../../resources.js'
 
 export class Background2 extends Actor {
-    constructor(){
-        super()
-        this.graphics.use(Resources.BG2.toSprite())
+    #sprite
+
+    onInitialize(engine){
+        this.#sprite = new Sprite({
+            image: Resources.BG2,
+            sourceView: { x: 0, y: 0, width: engine.drawWidth, height: engine.drawWidth }
+        })
         this.anchor = Vector.Zero
-        this.pos = new Vector(0, 0)
+        this.graphics.use(this.#sprite)
     }
 }
