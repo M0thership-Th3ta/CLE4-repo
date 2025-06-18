@@ -11,7 +11,7 @@ export class Food1 extends Actor {
             width: Resources.Food1.width,
             height: Resources.Food1.height,
             scale: new Vector(0.5, 0.5),
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Passive
         })
     }
 
@@ -19,6 +19,13 @@ export class Food1 extends Actor {
     onInitialize(engine) {
         // Zet de sprite van het food item
         this.graphics.use(Resources.Food1.toSprite())
+    }
+
+    clone() {
+        // Maak een nieuwe instantie met dezelfde eigenschappen
+        const copy = new Food1(this.pos.clone())
+        // Kopieer hier eventueel meer eigenschappen indien nodig
+        return copy
     }
 }
 
@@ -32,7 +39,7 @@ export class Food2 extends Actor {
             width: 32,
             height: 32,
             scale: new Vector(0.5, 0.5),
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Passive
         })
     }
 
@@ -40,6 +47,13 @@ export class Food2 extends Actor {
     onInitialize(engine) {
         // Zet de sprite van het food item
         this.graphics.use(Resources.Food2.toSprite())
+    }
+
+    clone() {
+        // Maak een nieuwe instantie met dezelfde eigenschappen
+        const copy = new Food2(this.pos.clone())
+        // Kopieer hier eventueel meer eigenschappen indien nodig
+        return copy
     }
 }
 
@@ -53,7 +67,7 @@ export class Food3 extends Actor {
             width: 32,
             height: 32,
             scale: new Vector(0.5, 0.5),
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Passive
         })
     }
 
@@ -61,5 +75,12 @@ export class Food3 extends Actor {
     onInitialize(engine) {
         // Zet de sprite van het food item
         this.graphics.use(Resources.Food3.toSprite())
+    }
+
+    clone() {
+        // Maak een nieuwe instantie met dezelfde eigenschappen
+        const copy = new Food3(this.pos.clone())
+        // Kopieer hier eventueel meer eigenschappen indien nodig
+        return copy
     }
 }

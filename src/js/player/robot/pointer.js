@@ -84,16 +84,28 @@ export class Pointer extends Actor {
     }
 
     // Pak een item op
-    pickUpItem(item) {
+    pickUpItem(item, engine) {
+        if (this.#heldItem) return
         // Zet het item als vastgehouden
-        this.#heldItem = item
-        item.collisionType = CollisionType.PreventCollision
+        // Controleer of het item een clone-methode heeft
+        if (typeof item.clone === 'function') {
+            // Maak een duplicaat via de clone-methode
+            this.#heldItem = item.clone()
+            this.#heldItem.pos = this.pos.clone()
+            this.#heldItem.z = 100
+
+            this.scene.engine.currentScene.add(this.#heldItem)
+        }
+
+        this.#heldItem.collisionType = CollisionType.PreventCollision
+        this.#heldItem.z = this.z - 1
     }
 
     // Laat het item los
     dropItem() {
         if (this.#heldItem) {
             this.#heldItem.collisionType = CollisionType.Active
+            this.#heldItem.kill()
             this.#heldItem = null
         }
     }
