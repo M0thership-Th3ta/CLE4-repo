@@ -12,6 +12,7 @@ import { Restaurantscene_4 } from './scenes/cutscenes/restaurantscene_4.js'
 import { Testscene } from './scenes/cutscenes/testscene.js'
 
 export class Game extends Engine {
+    gamepadControl
 
     constructor() {
         super({ 
@@ -37,6 +38,12 @@ export class Game extends Engine {
 
         this.debugControl = new DebugControl(this)
         this.debugControl.initialize()
+
+        this.input.gamepads.enabled = true
+        this.input.gamepads.on('connect', (connectevent) => {
+            console.log("gamepad detected")
+            this.gamepadControl = connectevent.gamepad
+        })
     }
 }
 
