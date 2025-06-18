@@ -5,32 +5,34 @@ export class CollisionManager {
   constructor() {
     this.activeCollisions = new Set();
   }
-
   /**
    * Update collision detection elke frame
    */
-  update(robot, tree, baskets) {
-    this.checkHookFruitCollisions(robot.getHook(), tree);
+  update(robot, trees, baskets) {
+    this.checkHookFruitCollisions(robot.getHook(), trees);
     this.checkRobotBasketCollisions(robot, baskets);
-  }
-  /**
-   * Check collisions tussen hook en fruit op boom
+  }  /**
+   * Check collisions tussen hook en fruit op bomen
    */
-  checkHookFruitCollisions(hook, tree) {
-    if (!hook || !hook.isExtending || !tree) return;
+  checkHookFruitCollisions(hook, trees) {
+    if (!hook || !hook.isExtending || !trees || trees.length === 0) return;
 
-    // Check of tree getFruits methode heeft
-    if (typeof tree.getFruits !== 'function') return;
+    trees.forEach(tree => {
+      if (!tree) return;
+      
+      // Check of tree getFruits methode heeft
+      if (typeof tree.getFruits !== 'function') return;
 
-    const fruits = tree.getFruits();
-    
-    fruits.forEach(fruit => {
-      if (fruit.visible && this.isColliding(hook, fruit)) {
-        if (!this.activeCollisions.has(fruit.id)) {
-          this.activeCollisions.add(fruit.id);
-          hook.grabFruit(fruit);
+      const fruits = tree.getFruits();
+      
+      fruits.forEach(fruit => {
+        if (fruit.visible && this.isColliding(hook, fruit)) {
+          if (!this.activeCollisions.has(fruit.id)) {
+            this.activeCollisions.add(fruit.id);
+            hook.grabFruit(fruit);
+          }
         }
-      }
+      });
     });
   }
   /**

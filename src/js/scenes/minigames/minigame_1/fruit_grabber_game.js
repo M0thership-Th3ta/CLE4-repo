@@ -20,10 +20,9 @@ export class FruitGrabberGame extends Actor {
     this.gameTimer = null;
     this.inputManager = null;
     this.collisionManager = null;
-    
-    // Game objects
+      // Game objects
     this.robot = null;
-    this.tree = null;
+    this.trees = [];
     this.baskets = [];
     
     // Game state
@@ -48,7 +47,6 @@ export class FruitGrabberGame extends Actor {
     this.inputManager = new InputManager();
     this.collisionManager = new CollisionManager();
   }
-
   /**
    * Setup alle game objecten
    */
@@ -56,26 +54,35 @@ export class FruitGrabberGame extends Actor {
     // Maak robot speler
     this.robot = new Robot(new Vector(640, 500));
     
-    // Maak boom met fruit
-    this.tree = new Tree(new Vector(640, 300));
+    // Maak 3 bomen zoals in de afbeelding
+    this.createTrees();
     
     // Maak manden
     this.createBaskets();
     
     // Voeg objecten toe aan scene
     this.scene.add(this.robot);
-    this.scene.add(this.tree);
+    this.trees.forEach(tree => this.scene.add(tree));
     this.baskets.forEach(basket => this.scene.add(basket));
   }
 
   /**
+   * Maak 3 fruit bomen
+   */
+  createTrees() {
+    // Drie bomen verdeeld over het scherm
+    this.trees.push(new Tree(new Vector(300, 250))); // Links
+    this.trees.push(new Tree(new Vector(640, 250))); // Midden
+    this.trees.push(new Tree(new Vector(980, 250))); // Rechts
+  }
+  /**
    * Maak fruit manden
    */
   createBaskets() {
-    // Drie manden voor verschillende fruit types
-    this.baskets.push(new Basket(new Vector(200, 600), 'lime'));
-    this.baskets.push(new Basket(new Vector(640, 600), 'lemon'));
-    this.baskets.push(new Basket(new Vector(1080, 600), 'passionfruit'));
+    // Drie manden voor verschillende fruit types - links lemon, midden passionfruit, rechts lime
+    this.baskets.push(new Basket(new Vector(200, 600), 'lemon'));     // Links
+    this.baskets.push(new Basket(new Vector(640, 600), 'passionfruit')); // Midden  
+    this.baskets.push(new Basket(new Vector(1080, 600), 'lime'));    // Rechts
   }
 
   /**
@@ -90,11 +97,9 @@ export class FruitGrabberGame extends Actor {
    * Update game logic elke frame
    */
   onPostUpdate(engine, delta) {
-    if (!this.isGameActive) return;
-
-    // Update alle managers
+    if (!this.isGameActive) return;    // Update alle managers
     this.inputManager.update(engine, this.robot);
-    this.collisionManager.update(this.robot, this.tree, this.baskets);
+    this.collisionManager.update(this.robot, this.trees, this.baskets);
     this.gameTimer.update(delta);
     
     // Check win/lose condities
