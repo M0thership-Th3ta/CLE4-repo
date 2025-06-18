@@ -21,9 +21,9 @@ export class Minigame_2 extends Scene {
         const pointer = new Pointer(new Vector(200,200))
         this.add(pointer)
         this.add(new Background2());
-        this.add(new Food(new Vector(100, 100), Resources.Food1));
-        this.add(new Food(new Vector(300, 100), Resources.Food2));
-        this.add(new Food(new Vector(200, 200), Resources.Food3));
+        this.add(new Food(new Vector(100, 100), Resources.Food1, 1));
+        this.add(new Food(new Vector(300, 100), Resources.Food2, 2));
+        this.add(new Food(new Vector(200, 200), Resources.Food3, 3));
         this.add(new Customer(new Vector(735, 220), Resources.Customer1));
     }
 }

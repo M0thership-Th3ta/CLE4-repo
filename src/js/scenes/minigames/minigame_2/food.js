@@ -2,10 +2,10 @@ import { Actor, Engine, Vector, CollisionType, Shape, RotationType } from "excal
 import { Resources } from '../../../resources.js'
 
 export class Food extends Actor {
-    sprite
     isInteractible = true
+    foodId
 
-    constructor(pos, sprite) {
+    constructor(pos, sprite, foodId) {
         super({
             pos,
             width: sprite.width,
@@ -14,6 +14,7 @@ export class Food extends Actor {
             collisionType: CollisionType.Passive
         })
         this.sprite = sprite
+        this.foodId = foodId
     }
 
     // Deze functie wordt één keer aangeroepen wanneer het food item wordt toegevoegd
@@ -24,7 +25,7 @@ export class Food extends Actor {
 
     clone() {
         // Maak een nieuwe instantie met dezelfde eigenschappen
-        const copy = new Food(this.pos.clone(), this.sprite)
+        const copy = new Food(this.pos.clone(), this.sprite, this.foodId)
         // Kopieer hier eventueel meer eigenschappen indien nodig
         return copy
     }
