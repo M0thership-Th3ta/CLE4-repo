@@ -6,7 +6,7 @@ export class Shanty extends Actor {    constructor(pos) {
             pos,
             width: 16,
             height: 16,
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Passive
         })
         
         // Bewegingssnelheid configureren

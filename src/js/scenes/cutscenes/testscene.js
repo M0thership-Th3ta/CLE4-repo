@@ -650,6 +650,7 @@
 import { Scene, Actor, Vector, CollisionType, Color, Rectangle, Keys, clamp } from 'excalibur'
 import { Resources } from '../../resources.js'
 
+
 // Spelerklasse met movement
 class TestPlayer extends Actor {
     #speed = 180
@@ -659,7 +660,7 @@ class TestPlayer extends Actor {
             pos,
             width: 158,
             height: 158,
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Passive
         })
     }
 
