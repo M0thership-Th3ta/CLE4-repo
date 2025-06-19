@@ -2,15 +2,15 @@ import { ImageSource, Sound, Resource, Loader } from 'excalibur'
 
 // voeg hier jouw eigen resources toe
 const Resources = {
-    Turtle: new ImageSource('public/images/turtle.png'),
-    Platform: new ImageSource('public/images/platform.png'),
-    Sea: new ImageSource('public/images/sea.png'),
-    Background3: new ImageSource('public/images/backgroundCliff.png'),
-    Dock: new ImageSource('public/images/dock.png'),
-    BG1: new ImageSource('public/images/greengrassbluebackground.png'),
-    BG2: new ImageSource('public/images/snackbar.png'),
-    RestaurantLayout: new ImageSource('public/images/restaurantLayout.png'),
-    Player: new ImageSource('public/images/robot.png'),
+    Turtle: new ImageSource('images/turtle.png'),
+    Platform: new ImageSource('images/platform.png'),
+    Sea: new ImageSource('images/sea.png'),
+    Background3: new ImageSource('images/backgroundCliff.png'),
+    Dock: new ImageSource('images/dock.png'),
+    BG1: new ImageSource('images/greengrassbluebackground.png'),
+    BG2: new ImageSource('images/snackbar.png'),
+    RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
+    Player: new ImageSource('images/robot.png'),
     Food1: new ImageSource('images/food1.png'),
     Food2: new ImageSource('images/food2.png'),
     Food3: new ImageSource('images/food3.png'),    
@@ -23,7 +23,7 @@ const Resources = {
     Lemon: new ImageSource('images/Lemon.png'),
     Basket: new ImageSource('images/basket.png'),
     Passionfruit: new ImageSource('images/pomegranete.png'),
-    WorldMap: new ImageSource('public/images/map2.png'),
+    WorldMap: new ImageSource('images/map2.png'),
 }
 
 // Voeg error handling toe voor elke resource

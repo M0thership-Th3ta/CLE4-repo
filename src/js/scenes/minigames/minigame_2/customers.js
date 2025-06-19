@@ -1,10 +1,11 @@
 import { Actor, Engine, Vector, CollisionType, Keys, Shape, RotationType } from "excalibur"
 import { Resources } from '../../../resources.js'
+import { Order } from "./order.js"
 
 export class Customer extends Actor {
     sprite
     #givenFood = []
-    #wantedFood = []
+    #order
     #processedCollisions = new Set()
     #collidingFood = null
 
@@ -17,6 +18,7 @@ export class Customer extends Actor {
             collisionType: CollisionType.Fixed
         })
         this.sprite = sprite;
+        this.#order = new Order()
     }
 
     // Deze functie wordt één keer aangeroepen wanneer de klant wordt toegevoegd
@@ -26,6 +28,9 @@ export class Customer extends Actor {
 
         // Zet de sprite van de klant
         this.graphics.use(this.sprite.toSprite())
+
+        // Log de bestelling in de console
+        console.log("Nieuwe bestelling:", this.#order.getOrder())
         
         // Collision detectie
         this.on('collisionstart', (evt) => {
