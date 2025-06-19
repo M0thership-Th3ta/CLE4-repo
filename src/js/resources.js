@@ -21,7 +21,10 @@ const Resources = {
     Lemon: new ImageSource('images/Lemon.png'),
     Basket: new ImageSource('images/basket.png'),
     Passionfruit: new ImageSource('images/pomegranete.png'),
-}
+  GreenGrassBlueBackground: new ImageSource('images/greengrassbluebackground.png'),
+  Persona1: new ImageSource('images/persona1.png'),
+  Persona2: new ImageSource('images/persona2.png'),
+  }
 
 // Voeg error handling toe voor elke resource
 Object.entries(Resources).forEach(([name, resource]) => {
