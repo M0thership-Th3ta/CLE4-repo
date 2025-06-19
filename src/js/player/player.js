@@ -2,6 +2,7 @@ import { Actor, CollisionType, DegreeOfFreedom, Engine, Shape, Side, Vector } fr
 import { Resources } from '../resources.js'
 import { Turtle } from "../scenes/minigames/minigame_3/turtle.js";
 import { MarineBiologist } from "../actors/marine_biologist.js";
+import { Sea } from "../scenes/minigames/minigame_3/sea.js";
 
 export class Player extends Actor {
 
@@ -95,5 +96,10 @@ export class Player extends Actor {
                 this.engine.gameCompleted();
             }
         }
+
+        if (event.other.owner instanceof Sea) {
+            
+        }
     }
+
 }

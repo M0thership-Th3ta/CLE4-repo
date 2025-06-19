@@ -14,6 +14,7 @@ export class Minigame_3 extends Scene {
     totalTurtles = 0;
     collectedTurtles = 0;
     amountTracker;
+    gameHasEnded = false;
 
     constructor() {
 
@@ -35,7 +36,7 @@ export class Minigame_3 extends Scene {
         const background3 = new Background3();
         this.add(background3);
 
-        this.add(new Sea(1000, 600));
+        this.add(new Sea());
 
         this.add(new Dock(280, 600));
 
@@ -102,4 +103,5 @@ export class Minigame_3 extends Scene {
 
         this.add(gameCompletedlabel);
     }
+
 }

@@ -2,21 +2,23 @@ import { Actor, CollisionType, Shape, Vector } from "excalibur";
 import { Resources } from "../../../resources";
 
 export class Sea extends Actor {
-    constructor(x, y, width, height) {
+    constructor() {
 
         super({
-            pos: new Vector(x, y),
-            width: width,
-            height: height,
+            pos: new Vector(800, 650),
+            width: 1280,
+            height: 720,
             collisionType: CollisionType.Fixed,
 
         });
+
+        const sprite = Resources.Sea.toSprite();
+        sprite.destSize = {width: 1800, height: 180};
+        this.graphics.use(sprite);
     }
 
     onInitialize(engine) {
-        this.graphics.use(Resources.Sea.toSprite());
-        this.scale = new Vector(0.5, 0.35);
-        this.collider.set(Shape.Box(500, 100, Vector.Half, new Vector(0, -15)));
+        this.collider.set(Shape.Box(750, 150, Vector.Half, new Vector(120, -15)));
     }
 
     hit() {

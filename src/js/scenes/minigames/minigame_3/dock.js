@@ -16,6 +16,6 @@ export class Dock extends Actor {
         this.graphics.use(Resources.Dock.toSprite());
         this.scale = new Vector(1, 1);
 
-        this.collider.set(Shape.Box(550, 5, Vector.Half, new Vector(0, 45)));
+        this.collider.set(Shape.Box(530, 5, Vector.Half, new Vector(0, 45)));
     }
 }
