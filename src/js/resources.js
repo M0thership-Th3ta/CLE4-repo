@@ -23,6 +23,7 @@ const Resources = {
     Lemon: new ImageSource('images/Lemon.png'),
     Basket: new ImageSource('images/basket.png'),
     Passionfruit: new ImageSource('images/pomegranete.png'),
+    WorldMap: new ImageSource('public/images/map2.png'),
 }
 
 // Voeg error handling toe voor elke resource
