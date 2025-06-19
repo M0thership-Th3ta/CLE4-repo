@@ -39,6 +39,9 @@ export class DebugControl extends Actor {
                 this.switchScene('testscene')
                 break
             case Keys.F:
+            case Keys.F2:
+                this.switchScene('worldmap')
+                break
                 // Toggle debug mode om colliders te zien
                 this.engine.toggleDebug()
                 console.log(`Debug mode: ${this.engine.isDebug ? 'AAN' : 'UIT'}`)
