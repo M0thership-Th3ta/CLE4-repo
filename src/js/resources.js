@@ -7,6 +7,8 @@ const Resources = {
     Sea: new ImageSource('public/images/sea.png'),
     Background3: new ImageSource('public/images/backgroundCliff.png'),
     Dock: new ImageSource('public/images/dock.png'),
+    MarineBiologist: new ImageSource('public/images/marineBiologist.png'),
+    RobotWithTurtle: new ImageSource('public/images/robotWithTurtle.png'),
     BG1: new ImageSource('public/images/greengrassbluebackground.png'),
     BG2: new ImageSource('public/images/snackbar.png'),
     RestaurantLayout: new ImageSource('public/images/restaurantLayout.png'),

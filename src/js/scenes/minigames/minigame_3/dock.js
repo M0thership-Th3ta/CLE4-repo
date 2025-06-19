@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Shape, Vector } from "excalibur";
+import { Actor, CollisionType, EdgeCollider, Shape, Vector } from "excalibur";
 import { Resources } from "../../../resources";
 
 export class Dock extends Actor {
@@ -15,6 +15,7 @@ export class Dock extends Actor {
     onInitialize(engine) {
         this.graphics.use(Resources.Dock.toSprite());
         this.scale = new Vector(1, 1);
-        this.collider.set(Shape.Box(500, 100, Vector.Half, new Vector(0, -15)));
+
+        this.collider.set(Shape.Box(550, 5, Vector.Half, new Vector(0, 45)));
     }
 }

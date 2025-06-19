@@ -1,6 +1,7 @@
-import { Actor, CollisionType, DegreeOfFreedom, Shape, Side, Vector } from "excalibur"
+import { Actor, CollisionType, DegreeOfFreedom, Engine, Shape, Side, Vector } from "excalibur"
 import { Resources } from '../resources.js'
 import { Turtle } from "../scenes/minigames/minigame_3/turtle.js";
+import { MarineBiologist } from "../actors/marine_biologist.js";
 
 export class Player extends Actor {
 
@@ -9,8 +10,8 @@ export class Player extends Actor {
     upKey;
     downKey;
 
+    amount = 0;
     isGrounded = false;
-
     speed = 200;
 
     constructor(leftKey, rightKey, upKey, downKey, startPos) {
@@ -19,7 +20,7 @@ export class Player extends Actor {
             pos: startPos,
             scale: new Vector(0.5, 0.5),
             collisionType: CollisionType.Active,
-            collider: Shape.Box(100, 150, Vector.Half, new Vector(0, 20)),
+            collider: Shape.Box(100, 150, Vector.Half, new Vector(0, 10)),
         });
 
         this.graphics.use(Resources.Player.toSprite());
@@ -31,6 +32,7 @@ export class Player extends Actor {
     }
 
     onInitialize(engine) {
+        this.engine = engine;
         this.body.useGravity = true;
         this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
 
@@ -47,6 +49,7 @@ export class Player extends Actor {
                 this.isGrounded = false;
             }
         });
+
     }
 
     onPreUpdate(engine) {
@@ -66,15 +69,31 @@ export class Player extends Actor {
 
         this.vel.x = xspeed;
 
-        if (this.pos.y > 720 && !engine.gameHasEnded) {
-            this.health = 0;
-        }
+        // if (this.pos.y > 720 && !engine.gameHasEnded) {
+        //     this.health = 0;
+        // }
     }
 
     handleCollision(event) {
+
         if (event.other.owner instanceof Turtle) {
             event.other.owner.hit();
+            this.graphics.use(Resources.RobotWithTurtle.toSprite());
+            this.scale = new Vector(0.60, 0.60);
+
         }
 
+        if (event.other.owner instanceof MarineBiologist) {
+            event.other.owner.hit();
+            this.amount++;
+            this.engine.minigame3UI.updateAmount(this.amount);
+            this.engine.collectedTurtles++;
+            this.graphics.use(Resources.Player.toSprite());
+            this.scale = new Vector(0.5, 0.5);
+
+            if (this.engine.collectedTurtles >= this.engine.totalTurtles) {
+                this.engine.gameCompleted();
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
 import { Actor, CollisionType, Shape, Vector } from "excalibur";
 import { Resources } from "../../../resources";
-import { Sea } from "./sea";
 
 export class Turtle extends Actor {
     constructor(x, y, width, height) {
@@ -11,28 +10,17 @@ export class Turtle extends Actor {
             height: height,
             collisionType: CollisionType.Passive,
         });
-        this.engine = undefined;
-        this.actors = undefined;
     }
 
     onInitialize(engine) {
         this.graphics.use(Resources.Turtle.toSprite());
         this.scale = new Vector(0.20, 0.20);
-
         this.collider.set(Shape.Box(200, 200, Vector.Half, new Vector(0, 0)));
+
     }
 
     hit() {
         this.kill();
     }
 
-    handleCollision(event) {
-        if (event.other.owner instanceof Sea) {
-            event.other.owner.hit();
-
-            if (this.actors.collectedTurtles >= this.actors.totalTurtles) {
-                this.actors.gameCompleted();
-            }
-        }
-    }
 }

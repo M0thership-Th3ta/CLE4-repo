@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Resource, Shape, Vector } from "excalibur";
+import { Actor, CollisionType, CompositeCollider, EdgeCollider, Resource, Shape, Vector } from "excalibur";
 import { Resources } from "../../../resources";
 
 export class Platform extends Actor {
