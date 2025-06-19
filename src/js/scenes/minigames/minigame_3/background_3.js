@@ -3,9 +3,9 @@ import { Resources } from "../../../resources";
 
 export class Background3 extends Actor {
     constructor(x, y, screenWidth, screenHeight) {
-
+        x;
+        y;
         super({
-            x, y,
             anchor: new Vector(0, 0),
             width: screenWidth,
             height: screenHeight,

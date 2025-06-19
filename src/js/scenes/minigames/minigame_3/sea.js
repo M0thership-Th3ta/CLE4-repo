@@ -18,4 +18,8 @@ export class Sea extends Actor {
         this.scale = new Vector(0.5, 0.35);
         this.collider.set(Shape.Box(500, 100, Vector.Half, new Vector(0, -15)));
     }
+
+    hit() {
+        this.actions.blink(this.width, this.height);
+    }
 }
