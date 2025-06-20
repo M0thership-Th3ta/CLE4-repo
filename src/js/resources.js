@@ -28,17 +28,21 @@ const Resources = {
     WorldMap: new ImageSource('images/map2.png'),
     Food4: new ImageSource('images/lime.png'), // Placeholder: lime
     Food5: new ImageSource('images/Lemon.png'), // Placeholder: lemon
-}
-    GreenGrassBlueBackground: new ImageSource('images/greengrassbluebackground.png'),
+     GreenGrassBlueBackground: new ImageSource('images/greengrassbluebackground.png'),
     Persona1: new ImageSource('images/persona1.png'),
     Persona2: new ImageSource('images/persona2.png'),
     Persona3: new ImageSource('images/persona3.png'),
 }
+   
 
 // Voeg error handling toe voor elke resource
+// Voeg load handlers toe voor elke resource
 Object.entries(Resources).forEach(([name, resource]) => {
-    resource.onLoad = () => console.log(`✓ ${name} geladen`)
-    resource.onError = (error) => console.error(`✗ Fout bij laden ${name}:`, error)
+    if (typeof resource.load === 'function') {
+        resource.load()
+            .then(() => console.log(`✓ ${name} geladen`))
+            .catch((error) => console.error(`✗ Fout bij laden ${name}:`, error))
+    }
 })
 
 const ResourceLoader = new Loader()
