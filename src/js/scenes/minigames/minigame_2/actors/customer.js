@@ -13,7 +13,7 @@ export class Customer extends Actor {
     #processedCollisions = new Set()
     #collidingFood = null
 
-    constructor(pos, sprite) {
+    constructor(pos, sprite, orderSize = 1) {
         super({
             pos,
             width: sprite.width,
@@ -22,7 +22,11 @@ export class Customer extends Actor {
             collisionType: CollisionType.Fixed
         })
         this.sprite = sprite;
-        this.#order = new Order()
+        
+        // Genereer order met gewenste grootte
+        this.#order = new Order(orderSize)
+        
+        console.log('Customer aangemaakt met order size:', orderSize)
     }
 
     // Deze functie wordt één keer aangeroepen wanneer de klant wordt toegevoegd
@@ -111,10 +115,13 @@ export class Customer extends Actor {
     // Publieke getters - retourneren kopieën om mutaties van buitenaf te voorkomen
     getGivenFood() {
         return [...this.#givenFood] // Retourneer kopie
+    }    getOrder() {
+        return this.#order.getOrder()
     }
 
-    getOrder() {
-        return this.#order.getOrder()
+    // Getter voor orderArray compatibiliteit met minigame_2.js
+    get orderArray() {
+        return this.#order.orderArray
     }
 
     // Publieke method voor resetten (gebruikt private implementation)

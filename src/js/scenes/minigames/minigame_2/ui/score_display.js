@@ -1,40 +1,43 @@
-import { Actor, Label, Vector, Color, Font, FontUnit } from "excalibur"
+import { Actor, Vector, Color, Font, Text } from "excalibur"
 
 export class ScoreDisplay extends Actor {
-    #scoreLabel
+    #scoreText
 
-    constructor(pos = new Vector(50, 100)) {
+    constructor(pos = new Vector(50, 50)) {
         super({
             pos,
+            anchor: new Vector(0, 0.5),
             z: 100 // Zorg dat score bovenop wordt weergegeven
         })
-    }
-
-    // Deze functie wordt één keer aangeroepen wanneer de score display wordt toegevoegd
+        
+        console.log('ScoreDisplay constructor aangeroepen')
+    }    // Deze functie wordt één keer aangeroepen wanneer de score display wordt toegevoegd
     onInitialize(engine) {
-        // Maak het score label aan
-        this.#scoreLabel = new Label({
+        console.log('ScoreDisplay onInitialize aangeroepen')
+        
+        // Maak het score text aan met Text graphic (niet Label!)
+        this.#scoreText = new Text({
             text: "Score: 0",
-            pos: Vector.Zero, // Relatief ten opzichte van de actor positie
-            color: Color.White,
             font: new Font({
                 family: 'Arial',
                 size: 24,
-                unit: FontUnit.Px
+                color: Color.White
             })
         })
         
-        // Voeg het label toe aan de actor
-        this.graphics.use(this.#scoreLabel)
-    }
-
-    /**
+        // Voeg text direct toe aan graphics
+        this.graphics.use(this.#scoreText)
+        
+        console.log('Score text gemaakt:', this.#scoreText)
+        console.log('Score positie:', this.pos)
+    }    /**
      * Update de weergegeven score
      * @param {number} score - De nieuwe score om weer te geven
      */
     updateScore(score) {
-        if (this.#scoreLabel) {
-            this.#scoreLabel.text = `Score: ${score}`
+        console.log('Score update naar:', score)
+        if (this.#scoreText) {
+            this.#scoreText.text = `Score: ${score}`
         }
     }
 
@@ -43,13 +46,19 @@ export class ScoreDisplay extends Actor {
      */
     resetScore() {
         this.updateScore(0)
-    }
-
-    /**
+    }    /**
      * Krijg de huidige score tekst (voor debugging)
      * @returns {string} De huidige score tekst
      */
     getCurrentText() {
-        return this.#scoreLabel ? this.#scoreLabel.text : "Score: 0"
+        return this.#scoreText ? this.#scoreText.text : "Score: 0"
+    }
+
+    /**
+     * Reset de score display naar 0
+     */
+    reset() {
+        console.log('Score reset naar 0')
+        this.updateScore(0)
     }
 }

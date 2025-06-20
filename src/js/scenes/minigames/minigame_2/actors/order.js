@@ -1,48 +1,59 @@
 // Geen imports nodig - dit is een pure data class
 
 /**
- * Represents a customer order with random food items
- * Generates 1-3 random food IDs (1-5) for the customer to order, or specific size if provided
+ * Represents a customer order with specific number of food items
+ * Generates exact number of random food IDs (1-5) based on desiredSize parameter
  */
 export class Order {
     #orderArray = []
+    #size
     
     /**
-     * Creates a new order
-     * @param {number} [size] - Optional specific size for the order (1-4). If not provided, uses random 1-3.
+     * Creates a new order with specific size
+     * @param {number} desiredSize - Exact number of items for this order (1-4)
      */
-    constructor(size = null) {
-        this.#generateRandomOrder(size)
-    }    /**
-     * Generate a random order with specified or random number of food items
-     * @param {number|null} size - Specific size for the order, or null for random 1-3
-     * @private
-     */
-    #generateRandomOrder(size = null) {
-        // Bepaal aantal items: gebruik size parameter of random 1-3
-        let arrayLength
-        if (size !== null && typeof size === 'number' && size >= 1 && size <= 4) {
-            arrayLength = size
-        } else {
-            // Fallback naar originele random logica (1-3)
-            arrayLength = Math.floor(Math.random() * 3) + 1
-        }
-        
-        // Vul array met random getallen tussen 1-5
-        for(let i = 0; i < arrayLength; i++) {
-            const randomNumber = Math.floor(Math.random() * 5) + 1
-            this.#orderArray.push(randomNumber)
-        }
-        
-        console.log(`Order gegenereerd met ${arrayLength} items:`, this.#orderArray)
+    constructor(desiredSize = 1) {
+        this.#size = desiredSize
+        this.#generateOrder()
     }
 
     /**
+     * Generate order with exact number of food items
+     * @private
+     */
+    #generateOrder() {
+        this.#orderArray = []
+        
+        // Genereer exact het aantal items dat gewenst is
+        for (let i = 0; i < this.#size; i++) {
+            // Random food ID tussen 1 en 5
+            const randomFoodId = Math.floor(Math.random() * 5) + 1
+            this.#orderArray.push(randomFoodId)
+        }
+        
+        console.log(`Order gegenereerd met ${this.#size} items:`, this.#orderArray)
+    }    /**
      * Get a copy of the order array (immutable)
      * @returns {number[]} Copy of the order array
      */
     getOrder() {
         return [...this.#orderArray] // Retourneer kopie voor immutability
+    }
+
+    /**
+     * Get a copy of the order array using getter syntax
+     * @returns {number[]} Copy of the order array
+     */
+    get orderArray() {
+        return [...this.#orderArray]
+    }
+
+    /**
+     * Get the exact size of this order
+     * @returns {number} Number of items in the order
+     */
+    get size() {
+        return this.#size
     }
 
     /**
