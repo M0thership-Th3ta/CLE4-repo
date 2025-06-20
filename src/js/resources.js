@@ -1,18 +1,18 @@
-import { ImageSource, Sound, Resource, Loader } from 'excalibur'
+import { ImageSource, Sound, Loader } from 'excalibur'
 
-// voeg hier jouw eigen resources toe
+// Gebruik altijd paden relatief aan de public folder
 const Resources = {
-    Turtle: new ImageSource('public/images/turtle.png'),
-    Platform: new ImageSource('public/images/platform.png'),
-    Sea: new ImageSource('public/images/sea.png'),
-    Background3: new ImageSource('public/images/backgroundCliff.png'),
-    Dock: new ImageSource('public/images/dock.png'),
-    MarineBiologist: new ImageSource('public/images/marineBiologist.png'),
-    RobotWithTurtle: new ImageSource('public/images/robotWithTurtle.png'),
-    BG1: new ImageSource('public/images/greengrassbluebackground.png'),
-    BG2: new ImageSource('public/images/snackbar.png'),
-    RestaurantLayout: new ImageSource('public/images/restaurantLayout.png'),
-    Player: new ImageSource('public/images/robot.png'),
+    Turtle: new ImageSource('images/turtle.png'),
+    Platform: new ImageSource('images/platform.png'),
+    Sea: new ImageSource('images/sea.png'),
+    Background3: new ImageSource('images/backgroundCliff.png'),
+    Dock: new ImageSource('images/dock.png'),
+    MarineBiologist: new ImageSource('images/marineBiologist.png'),
+    RobotWithTurtle: new ImageSource('images/robotWithTurtle.png'),
+    BG1: new ImageSource('images/greengrassbluebackground.png'),
+    BG2: new ImageSource('images/snackbar.png'),
+    RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
+    Player: new ImageSource('images/robot.png'),
     Food1: new ImageSource('images/food1.png'),
     Food2: new ImageSource('images/food2.png'),
     Food3: new ImageSource('images/food3.png'),    
@@ -46,8 +46,8 @@ Object.entries(Resources).forEach(([name, resource]) => {
 })
 
 const ResourceLoader = new Loader()
-for (let res of Object.values(Resources)) {
-  ResourceLoader.addResource(res)
+for (const res of Object.values(Resources)) {
+    ResourceLoader.addResource(res)
 }
 
 export { Resources, ResourceLoader }
