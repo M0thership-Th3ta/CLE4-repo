@@ -4,7 +4,7 @@ import { Platform } from "./platform.js";
 import { Turtle } from "./turtle.js";
 import { Dock } from "./dock.js";
 import { Sea } from "./sea.js";
-import { Player } from "../../../player/player.js";
+import { Player } from "../../../player/playermarine.js";
 import { Minigame3UI } from "./minigame_3_UI.js";
 import { MarineBiologist } from "../../../actors/marine_biologist.js";
 
@@ -84,6 +84,9 @@ export class Minigame_3 extends Scene {
             this.amountTracker
         );
         this.add(minigame3UI);
+        this.minigame3UI = minigame3UI; // Koppel UI aan scene zodat Player hem kan vinden
+        // Zet direct het juiste aantal in de UI
+        this.minigame3UI.updateAmount(this.collectedTurtles);
     }
 
     gameCompleted() {
