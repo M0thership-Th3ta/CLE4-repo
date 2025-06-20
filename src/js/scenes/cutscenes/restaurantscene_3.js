@@ -36,7 +36,7 @@ export class Restaurantscene_3 extends Scene {
         // Voeg Level 2 label toe
         const levelLabel = new Label({
             text: 'Level 2',
-            pos: new Vector(0, 0),
+            pos: new Vector(-80, -10), // 80px naar links binnen de triggerbalk
             color: Color.Black,
             font: new Font({
                 family: 'Arial',

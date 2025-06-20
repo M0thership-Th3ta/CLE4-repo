@@ -32,6 +32,7 @@ const Resources = {
     Persona1: new ImageSource('images/persona1.png'),
     Persona2: new ImageSource('images/persona2.png'),
     Persona3: new ImageSource('images/persona3.png'),
+    Zwartachtergrond: new ImageSource('images/zwartachtergrond.png'),
 }
 
 // Loader vullen
