@@ -88,20 +88,24 @@ export class Player extends Actor {
             event.other.owner.hit();
 
             if (this.hasTurtle) { // Alleen als robot een turtle heeft
-                const scene = this.engine.currentScene;
-                scene.collectedTurtles++;
-                scene.amountTracker.amount++;
-                if (scene.minigame3UI) {
-                    scene.minigame3UI.updateAmount(scene.amountTracker.amount);
+                // const scene = this.engine.currentScene;
+                this.engine.currentScene.collectedTurtles++;
+                this.engine.currentScene.amountTracker.amount++;
+                if (this.engine.currentScene.minigame3UI) {
+                    this.engine.currentScene.minigame3UI.updateAmount(this.engine.currentScene.amountTracker.amount);
                 }
                 this.graphics.use(Resources.Player.toSprite());
                 this.scale = new Vector(0.5, 0.5);
                 this.hasTurtle = false; // Zet terug op false
 
-                if (scene.collectedTurtles >= scene.totalTurtles) {
-                    scene.gameCompleted();
+                if (this.engine.currentScene.collectedTurtles >= this.engine.currentScene.totalTurtles) {
+                    this.engine.currentScene.gameCompleted();
                 }
             }
+        }
+
+        if (event.other.owner instanceof Sea) {
+            this.engine.currentScene.gameOver();
         }
     }
 }

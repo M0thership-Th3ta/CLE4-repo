@@ -11,7 +11,7 @@ import { MarineBiologist } from "../../../actors/marine_biologist.js";
 export class Minigame_3 extends Scene {
 
     minigame3UI;
-    totalTurtles = 0;
+    totalTurtles = 5;
     collectedTurtles = 0;
     amountTracker;
     gameHasEnded = false;
@@ -62,20 +62,27 @@ export class Minigame_3 extends Scene {
         );
         this.add(player);
 
-        for (let i = 0; i < 5; i++) {
-            // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
-            const platforms = this.actors.filter(actor => actor instanceof Platform);
+        // for (let i = 0; i < 5; i++) {
+        //     // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
+        //     const platforms = this.actors.filter(actor => actor instanceof Platform);
 
-            const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
+        //     const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
 
-            const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
-            const turtleY = randomPlatform.pos.y - 45;
+        //     const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
+        //     const turtleY = randomPlatform.pos.y - 45;
 
-            const turtle = new Turtle(turtleX, turtleY);
+        //     const turtle = new Turtle(turtleX, turtleY);
 
-            this.add(turtle);
-            this.totalTurtles++;
-        }
+        //     this.add(turtle);
+        //     this.totalTurtles++;
+        // }
+
+        this.add(new Turtle(160, 160));
+        this.add(new Turtle(440, 280));
+        this.add(new Turtle(860, 360));
+        this.add(new Turtle(1150, 240));
+        this.add(new Turtle(350, 40));
+
 
         const minigame3UI = new Minigame3UI(
             player,
