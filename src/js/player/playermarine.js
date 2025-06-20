@@ -71,9 +71,6 @@ export class Player extends Actor {
 
         this.vel.x = xspeed;
 
-        // if (this.pos.y > 720 && !engine.gameHasEnded) {
-        //     this.health = 0;
-        // }
     }
 
     handleCollision(event) {
