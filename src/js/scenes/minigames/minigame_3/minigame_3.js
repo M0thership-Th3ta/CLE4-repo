@@ -85,8 +85,6 @@ export class Minigame_3 extends Scene {
         );
         this.add(minigame3UI);
         this.minigame3UI = minigame3UI; // Koppel UI aan scene zodat Player hem kan vinden
-        // Zet direct het juiste aantal in de UI
-        this.minigame3UI.updateAmount(this.collectedTurtles);
     }
 
     gameCompleted() {

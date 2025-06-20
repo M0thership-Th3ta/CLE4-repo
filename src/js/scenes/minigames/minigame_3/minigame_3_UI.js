@@ -28,12 +28,14 @@ export class Minigame3UI extends Actor {
         })
 
         this.amountLabel = new Label({
-            text: `Aantal geredt schildpadden: ${this.amount}`,
+            text: `Aantal geredt schildpadden: 0`,
             pos: new Vector(10, 10),
             font: font,
         })
 
         this.addChild(this.amountLabel);
+        // Zet direct het juiste aantal na initialisatie
+        this.updateAmount(this.amountTracker.amount);
     }
 
     updateAmount(amount) {
