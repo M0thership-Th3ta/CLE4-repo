@@ -5,16 +5,21 @@
 export class GameState {
     #score = 0
     #ordersCompleted = 0
-    #totalOrders = 7
-
-    /**
+    #totalOrders = 6/**
      * Verhoog het aantal voltooide orders en update de score
      * Score wordt berekend op basis van huidige moeilijkheidsgraad
      */
     incrementOrder() {
+        console.log(`=== ORDER COMPLETION DEBUG ===`)
+        console.log(`Voor increment: ordersCompleted = ${this.#ordersCompleted}`)
+        console.log(`Huidige order size was: ${this.getCurrentOrderSize()}`)
+        
         this.#ordersCompleted++
         this.#score += 100
+          console.log(`Na increment: ordersCompleted = ${this.#ordersCompleted}`)
+        console.log(`Volgende order size wordt: ${this.getCurrentOrderSize()}`)
         console.log(`Order ${this.#ordersCompleted}/${this.#totalOrders} voltooid! Score: ${this.#score}`)
+        console.log(`Progression info:`, this.getOrderProgressionInfo())
     }
 
     /**
@@ -23,14 +28,12 @@ export class GameState {
      */
     isGameComplete() {
         return this.#ordersCompleted >= this.#totalOrders
-    }
-
-    /**
+    }    /**
      * Bepaal het aantal items voor de huidige order op basis van progressie
-     * @returns {number} Aantal items (1-4) voor de volgende order
+     * @returns {number} Aantal items (1-3) voor de volgende order
      */
     getCurrentOrderSize() {
-        // Logic voor difficulty progression volgens instructies:
+        // Logic voor difficulty progression:
         // 2x orders met 1 item (orders 0-1)
         if (this.#ordersCompleted < 2) return 1
         
@@ -38,10 +41,26 @@ export class GameState {
         if (this.#ordersCompleted < 4) return 2
         
         // 2x orders met 3 items (orders 4-5)
-        if (this.#ordersCompleted < 6) return 3
+        return 3
+    }    /**
+     * Debug methode om order progressie te tonen
+     */
+    getOrderProgressionInfo() {
+        const progression = [
+            "Order 1: 1 item",
+            "Order 2: 1 item", 
+            "Order 3: 2 items",
+            "Order 4: 2 items",
+            "Order 5: 3 items", 
+            "Order 6: 3 items"
+        ]
         
-        // 1x order met 4 items (order 6)
-        return 4
+        return {
+            currentOrder: this.#ordersCompleted + 1,
+            expectedSize: this.getCurrentOrderSize(),
+            description: progression[this.#ordersCompleted] || "Game compleet",
+            progression: progression
+        }
     }
 
     /**
