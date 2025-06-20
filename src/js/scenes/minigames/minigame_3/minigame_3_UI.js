@@ -28,7 +28,7 @@ export class Minigame3UI extends Actor {
         })
 
         this.amountLabel = new Label({
-            text: `Aantal geredt schildpadden: ${this.amountTracker.amount}`,
+            text: `Aantal geredt schildpadden: ${this.amount}`,
             pos: new Vector(10, 10),
             font: font,
         })

@@ -70,9 +70,6 @@ export class Player extends Actor {
 
         this.vel.x = xspeed;
 
-        // if (this.pos.y > 720 && !engine.gameHasEnded) {
-        //     this.health = 0;
-        // }
     }
 
     handleCollision(event) {
@@ -89,7 +86,6 @@ export class Player extends Actor {
 
             if (this.graphics.current === Resources.RobotWithTurtle.toSprite()) {
                 this.amount++;
-                // this.engine.currentScene.minigame3UI.updateAmount(this.amount);
 
                 const scene = this.engine.currentScene
                 if (scene.minigame3UI) {
