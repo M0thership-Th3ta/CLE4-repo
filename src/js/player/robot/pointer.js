@@ -71,21 +71,21 @@ export class Pointer extends Actor {
                 }
             }
         }
-    }
-
-    // Controleer overlap tussen twee actors (AABB)
+    }    // Controleer overlap tussen twee actors (AABB) - rekening houdend met scale
     collidesWith(other) {
+        const otherWidth = (other.width || 32) * (other.scale?.x || 1)
+        const otherHeight = (other.height || 32) * (other.scale?.y || 1)
+        
         return (
-            this.pos.x + this.width / 2 > other.pos.x - other.width / 2 &&
-            this.pos.x - this.width / 2 < other.pos.x + other.width / 2 &&
-            this.pos.y + this.height / 2 > other.pos.y - other.height / 2 &&
-            this.pos.y - this.height / 2 < other.pos.y + other.height / 2
+            this.pos.x + this.width / 2 > other.pos.x - otherWidth / 2 &&
+            this.pos.x - this.width / 2 < other.pos.x + otherWidth / 2 &&
+            this.pos.y + this.height / 2 > other.pos.y - otherHeight / 2 &&
+            this.pos.y - this.height / 2 < other.pos.y + otherHeight / 2
         )
-    }
-
-    // Pak een item op
-    pickUpItem(item, engine) {
+    }    // Pak een item op
+    pickUpItem(item) {
         if (this.#heldItem) return
+        
         // Zet het item als vastgehouden
         // Controleer of het item een clone-methode heeft
         if (typeof item.clone === 'function') {
@@ -94,7 +94,7 @@ export class Pointer extends Actor {
             this.#heldItem.pos = this.pos.clone()
             this.#heldItem.z = 100
 
-            this.scene.engine.currentScene.add(this.#heldItem)
+            this.scene.add(this.#heldItem)
         }
 
         this.#heldItem.collisionType = CollisionType.PreventCollision

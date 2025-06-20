@@ -20,10 +20,12 @@ export class Minigame_2 extends Scene {
         console.log("Start minigame 2!");
         const pointer = new Pointer(new Vector(200,200))
         this.add(pointer)
-        this.add(new Background2());
-        this.add(new Food(new Vector(100, 100), Resources.Food1, 1));
+        this.add(new Background2());        this.add(new Food(new Vector(100, 100), Resources.Food1, 1));
         this.add(new Food(new Vector(300, 100), Resources.Food2, 2));
         this.add(new Food(new Vector(200, 200), Resources.Food3, 3));
+        // Voeg food items 4 en 5 toe met grotere scale
+        this.add(new Food(new Vector(400, 100), Resources.Food4, 4, 0.8));
+        this.add(new Food(new Vector(500, 100), Resources.Food5, 5, 0.8));
         this.add(new Customer(new Vector(735, 220), Resources.Customer1));
     }
 }
