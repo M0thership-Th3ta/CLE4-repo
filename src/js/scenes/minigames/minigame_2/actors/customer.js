@@ -1,5 +1,5 @@
 import { Actor, Engine, Vector, CollisionType, Keys } from "excalibur"
-import { Resources } from '../../../resources.js'
+import { Resources } from '../../../../resources.js'
 import { Order } from "./order.js"
 
 // Constanten voor event strings om magic strings te vermijden
@@ -61,9 +61,7 @@ export class Customer extends Actor {
             this.#collidingFood = null
             console.log("Food collision ended")
         }
-    }
-
-    // Private method voor food delivery logic
+    }    // Private method voor food delivery logic
     #handleFoodDelivery(foodActor) {
         if (this.#processedCollisions.has(foodActor)) return;
         this.#processedCollisions.add(foodActor);
@@ -73,6 +71,12 @@ export class Customer extends Actor {
         if (this.#givenFood.length < orderList.length) {
             this.#givenFood.push(foodActor.foodId);
             console.log(`Added food ${foodActor.foodId}, array now:`, this.#givenFood)
+            
+            // Emit foodDelivered event voor OrderDisplay highlighting
+            this.scene.engine.emit('foodDelivered', { 
+                foodId: foodActor.foodId,
+                customer: this
+            })
         }
 
         // Check of order compleet is
@@ -94,12 +98,14 @@ export class Customer extends Actor {
         const sortedA = [...a].sort();
         const sortedB = [...b].sort();
         return JSON.stringify(sortedA) === JSON.stringify(sortedB);
-    }
-
-    // Private method voor het resetten van given food state
+    }    // Private method voor het resetten van given food state
     #resetGivenFood() {
         this.#givenFood = [];
         this.#processedCollisions.clear();
+        
+        // Emit orderReset event voor OrderDisplay om highlights te resetten
+        this.scene.engine.emit('orderReset', { customer: this })
+        console.log("Order gereset - highlights worden gecleared")
     }
 
     // Publieke getters - retourneren kopieën om mutaties van buitenaf te voorkomen

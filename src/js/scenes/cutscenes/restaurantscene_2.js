@@ -65,7 +65,7 @@ export class Restaurantscene_2 extends Scene {
         if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.goToScene('minigame_2')
+                engine.goToScene('minigame_2_instruction')
             }
         } else {
             this.#overlapFrames = 0
