@@ -11,10 +11,10 @@ import { MarineBiologist } from "../../../actors/marine_biologist.js";
 export class Minigame_3 extends Scene {
 
     minigame3UI;
-    totalTurtles = 0;
-    collectedTurtles = 0;
-    amountTracker;
-    gameHasEnded = false;
+    // totalTurtles = 5;
+    // collectedTurtles = 0;
+    // amountTracker;
+    // gameHasEnded = false;
 
     constructor() {
 
@@ -28,7 +28,7 @@ export class Minigame_3 extends Scene {
         // Reset game state
         this.gameHasEnded = false;
         this.collectedTurtles = 0;
-        this.totalTurtles = 0;
+        this.totalTurtles = 5;
         this.amountTracker = { amount: 0 };
         this.amountTurtles = 5;
         // Verwijder alle event listeners van vorige sessie
@@ -70,20 +70,26 @@ export class Minigame_3 extends Scene {
         );
         this.add(player);
 
-        for (let i = 0; i < 5; i++) {
-            // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
-            const platforms = this.actors.filter(actor => actor instanceof Platform);
+        // for (let i = 0; i < 5; i++) {
+        //     // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
+        //     const platforms = this.actors.filter(actor => actor instanceof Platform);
 
-            const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
+        //     const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
 
-            const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
-            const turtleY = randomPlatform.pos.y - 45;
+        //     const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
+        //     const turtleY = randomPlatform.pos.y - 45;
 
-            const turtle = new Turtle(turtleX, turtleY);
+        //     const turtle = new Turtle(turtleX, turtleY);
 
-            this.add(turtle);
-            this.totalTurtles++;
-        }
+        //     this.add(turtle);
+        //     this.totalTurtles++;
+        // }
+
+        this.add(new Turtle(160, 160));
+        this.add(new Turtle(440, 280));
+        this.add(new Turtle(860, 360));
+        this.add(new Turtle(1150, 240));
+        this.add(new Turtle(350, 40));
 
         const minigame3UI = new Minigame3UI(
             player,
@@ -138,38 +144,38 @@ export class Minigame_3 extends Scene {
         // Ga naar de gameover scene zodat de speler daar opnieuw kan starten
         this.engine.goToScene('gameover');
 
-        const gameOverLabel = new Label({
-            text: "Game Over",
-            pos: new Vector(300, 400),
-            font: new Font({
-                family: "Arial",
-                size: 100,
-                color: Color.White,
-                textAlign: TextAlign.Center
-            }),
-            anchor: Vector.Half
-        })
+        // const gameOverLabel = new Label({
+        //     text: "Game Over",
+        //     pos: new Vector(300, 400),
+        //     font: new Font({
+        //         family: "Arial",
+        //         size: 100,
+        //         color: Color.White,
+        //         textAlign: TextAlign.Center
+        //     }),
+        //     anchor: Vector.Half
+        // })
 
-        const restartLabel = new Label({
-            text: "Press Space to Restart",
-            pos: new Vector(200, 500),
-            font: new Font({
-                family: "Arial",
-                size: 50,
-                color: Color.White,
-                textAlign: TextAlign.Center
-            }),
-            anchor: Vector.Half
-        })
+        // const restartLabel = new Label({
+        //     text: "Press Space to Restart",
+        //     pos: new Vector(200, 500),
+        //     font: new Font({
+        //         family: "Arial",
+        //         size: 50,
+        //         color: Color.White,
+        //         textAlign: TextAlign.Center
+        //     }),
+        //     anchor: Vector.Half
+        // })
 
-        this.add(gameOverLabel);
-        this.add(restartLabel);
+        // this.add(gameOverLabel);
+        // this.add(restartLabel);
 
-        this.input.keyboard.on("press", (evt) => {
-            if (evt.key === Keys.Space) {
-                window.location.reload();
-            }
-        });
+        // this.input.keyboard.on("press", (evt) => {
+        //     if (evt.key === Keys.Space) {
+        //         window.location.reload();
+        //     }
+        // });
     }
 
 }
