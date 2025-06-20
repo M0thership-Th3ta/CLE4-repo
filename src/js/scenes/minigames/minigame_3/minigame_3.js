@@ -7,7 +7,6 @@ import { Sea } from "./sea.js";
 import { Player } from "../../../player/player.js";
 import { Minigame3UI } from "./minigame_3_UI.js";
 import { MarineBiologist } from "../../../actors/marine_biologist.js";
-import { Testscene } from "../../cutscenes/testscene.js";
 
 export class Minigame_3 extends Scene {
 
