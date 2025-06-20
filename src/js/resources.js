@@ -7,6 +7,8 @@ const Resources = {
     Sea: new ImageSource('public/images/sea.png'),
     Background3: new ImageSource('public/images/backgroundCliff.png'),
     Dock: new ImageSource('public/images/dock.png'),
+    MarineBiologist: new ImageSource('public/images/marineBiologist.png'),
+    RobotWithTurtle: new ImageSource('public/images/robotWithTurtle.png'),
     BG1: new ImageSource('public/images/greengrassbluebackground.png'),
     BG2: new ImageSource('public/images/snackbar.png'),
     RestaurantLayout: new ImageSource('public/images/restaurantLayout.png'),
@@ -23,6 +25,8 @@ const Resources = {
     Lemon: new ImageSource('images/Lemon.png'),
     Basket: new ImageSource('images/basket.png'),
     Passionfruit: new ImageSource('images/pomegranete.png'),
+    WorldMap: new ImageSource('images/map2.png'),
+}
     GreenGrassBlueBackground: new ImageSource('images/greengrassbluebackground.png'),
     Persona1: new ImageSource('images/persona1.png'),
     Persona2: new ImageSource('images/persona2.png'),

@@ -1,9 +1,10 @@
 import { Actor, Color, Font, Label, TextAlign, Vector } from "excalibur";
 
-export class AmountManager extends Actor {
+export class Minigame3UI extends Actor {
 
-    amountTracker;
+    // amountTracker;
     amountLabel;
+    amount = 0;
 
     constructor(player, amountTracker) {
 
@@ -13,8 +14,9 @@ export class AmountManager extends Actor {
             z: 100
         });
 
-        this.player = this.player;
-        this.amountTracker = this.amountTracker ?? { amount: 0 };
+        this.player = player;
+        this.amountTracker = amountTracker ?? { amount: 0 };
+
     }
 
     onInitialize(engine) {
@@ -26,7 +28,7 @@ export class AmountManager extends Actor {
         })
 
         this.amountLabel = new Label({
-            text: `Aantal geredt schildpadden: ${this.amountTracker.amount}`,
+            text: `Aantal geredt schildpadden: ${this.amount}`,
             pos: new Vector(10, 10),
             font: font,
         })

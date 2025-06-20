@@ -5,20 +5,23 @@ import { Turtle } from "./turtle.js";
 import { Dock } from "./dock.js";
 import { Sea } from "./sea.js";
 import { Player } from "../../../player/player.js";
-import { AmountManager } from "./amount_manager.js";
+import { Minigame3UI } from "./minigame_3_UI.js";
+import { MarineBiologist } from "../../../actors/marine_biologist.js";
 
 export class Minigame_3 extends Scene {
 
-    amountManager;
-    totalTurtles = 5; // Aantal schildpadden in deze minigame
-    collectedTurtles = 0; // Aantal verzamelde schildpadden
+    minigame3UI;
+    totalTurtles = 0;
+    collectedTurtles = 0;
     amountTracker;
+    gameHasEnded = false;
 
     constructor() {
 
         super();
 
-        this.amountTracker = this.amountTracker ?? {amount: 0};
+        // this.amountTracker = this.amountTracker ?? {amount: 0};
+        // this.amountTurtles = (localStorage.getItem(`amountTurtles`)) || 5;
     }
 
     onActivate(engine) {
@@ -33,15 +36,18 @@ export class Minigame_3 extends Scene {
         const background3 = new Background3();
         this.add(background3);
 
-        this.add(new Sea(1000, 600));
+        this.add(new Sea());
 
         this.add(new Dock(280, 600));
+
+        const marineBiologist = new MarineBiologist(new Vector(450, 590));
+        this.add(marineBiologist);
 
         this.add(new Platform(150, 200));
         this.add(new Platform(250, 450));
         this.add(new Platform(320, 80));
         this.add(new Platform(420, 320));
-        this.add(new Platform(600, 500));
+        this.add(new Platform(600, 530));
         this.add(new Platform(680, 200));
         this.add(new Platform(900, 400));
         this.add(new Platform(1150, 280));
@@ -62,7 +68,7 @@ export class Minigame_3 extends Scene {
 
             const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
 
-            const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width - 35));
+            const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width - 10));
             const turtleY = randomPlatform.pos.y - 45;
 
             const turtle = new Turtle(turtleX, turtleY);
@@ -70,11 +76,13 @@ export class Minigame_3 extends Scene {
             this.totalTurtles++;
         }
 
-        const amountManager = new AmountManager(
+        this.amountTracker = { amount: 0 };
+
+        const minigame3UI = new Minigame3UI(
+            player,
             this.amountTracker
         );
-        this.add(amountManager);
-
+        this.add(minigame3UI);
     }
 
     gameCompleted() {
@@ -95,4 +103,5 @@ export class Minigame_3 extends Scene {
 
         this.add(gameCompletedlabel);
     }
+
 }

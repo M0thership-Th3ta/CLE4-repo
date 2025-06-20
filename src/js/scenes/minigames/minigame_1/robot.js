@@ -5,13 +5,12 @@ import { Hook } from "./hook.js";
 /**
  * Robot speler die tussen manden beweegt en fruit kan pakken
  */
-export class Robot extends Actor {
-  constructor(pos) {
+export class Robot extends Actor {  constructor(pos) {
     super({
       pos,
       width: 64,
       height: 64,
-      collisionType: CollisionType.Active
+      collisionType: CollisionType.Fixed
     });
 
     this.speed = 200;
@@ -23,6 +22,12 @@ export class Robot extends Actor {
    * Initialiseer robot graphics en hook
    */
   onInitialize(engine) {
+    // Zet physics instellingen voor robot
+    if (this.body) {
+        this.body.gravityScale = 0;  // Negeert engine gravity
+        this.body.fixedRotation = true;  // Voorkomt rotatie
+    }
+
     // Setup robot graphics (gebruik bestaande resource of fallback)
     if (Resources.Robot) {
       this.graphics.use(Resources.Robot.toSprite());
@@ -63,6 +68,14 @@ export class Robot extends Actor {
   /**
    * Update robot logica elke frame
    */  onPostUpdate(engine, delta) {
+    // Debug: Log velocity en acceleration
+    if (engine.currentFrameNumber % 60 === 0) { // Elke seconde
+        console.log('=== ROBOT MOVEMENT DEBUG ===');
+        console.log('Robot velocity:', this.vel);
+        console.log('Robot acceleration:', this.acc);
+        console.log('Robot positie:', this.pos);
+        console.log('Is robot body sleeping?:', this.body?.sleeping);
+    }
     // Beperk robot beweging tot scherm grenzen
     this.pos.x = clamp(this.pos.x, this.width / 2, engine.drawWidth - this.width / 2);
     if (typeof engine.drawHeight === 'undefined' || isNaN(engine.drawHeight)) {
