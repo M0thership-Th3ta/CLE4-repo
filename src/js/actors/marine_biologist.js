@@ -1,7 +1,7 @@
 import { Vector } from "excalibur";
 import { Resources } from "../resources";
 import { NPC } from "./npc";
-import { Player } from "../player/player";
+import { Player } from "../player/playermarine";
 
 export class MarineBiologist extends NPC {
 
