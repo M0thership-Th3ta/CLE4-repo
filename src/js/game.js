@@ -11,6 +11,7 @@ import { Restaurantscene_3 } from './scenes/cutscenes/restaurantscene_3.js'
 import { Restaurantscene_4 } from './scenes/cutscenes/restaurantscene_4.js'
 import { WorldMap } from './scenes/locations/worldmap/worldmap.js'
 import { TestScene } from './scenes/cutscenes/testscene.js'
+import { GameOverScene } from './scenes/cutscenes/gameover.js'
 
 export class Game extends Engine {
     gamepadControl
@@ -40,6 +41,7 @@ export class Game extends Engine {
         this.add('restaurantscene_4', new Restaurantscene_4())
         this.add('worldmap', new WorldMap())
         this.add('testscene', new TestScene())
+        this.add('gameover', new GameOverScene())
 
         this.goToScene('testscene')
         this.goToScene('root')
