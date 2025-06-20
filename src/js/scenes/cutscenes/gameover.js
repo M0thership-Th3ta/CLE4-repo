@@ -10,6 +10,7 @@ export class GameOverScene extends Scene {
     #triggerBar
     #overlapFrames = 0
     #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #START_POS = new Vector(200, 300) // Startpositie van Shanty
 
     onInitialize(engine) {
         // Zwarte achtergrond met sprite
@@ -58,7 +59,7 @@ export class GameOverScene extends Scene {
         this.add(this.#triggerBar)
 
         // Shanty toevoegen
-        this.#player = new Shanty(new Vector(200, 300))
+        this.#player = new Shanty(this.#START_POS.clone())
         this.add(this.#player)
 
         // Hoofdtekst: GAME OVER
@@ -92,6 +93,20 @@ export class GameOverScene extends Scene {
             maxWidth: 500 // Zelfde breedte als in restaurantscene_4
         })
         this.add(uitlegLabel)
+    }
+
+    onActivate(context) {
+        // Zet Shanty altijd terug op haar originele startpositie
+        if (this.#player) {
+            this.#player.pos = this.#START_POS.clone()
+            this.#player.vel = new Vector(0, 0)
+            this.#player.acc = new Vector(0, 0)
+            if (typeof this.#player.resetState === 'function') {
+                // Optioneel: als Shanty een eigen resetState heeft
+                this.#player.resetState()
+            }
+        }
+        this.#overlapFrames = 0
     }
 
     onPostUpdate(engine, delta) {
