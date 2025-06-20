@@ -76,10 +76,12 @@ export class Player extends Actor {
     handleCollision(event) {
 
         if (event.other.owner instanceof Turtle) {
-            event.other.owner.hit();
-            this.graphics.use(Resources.RobotWithTurtle.toSprite());
-            this.scale = new Vector(0.60, 0.60);
-            this.hasTurtle = true; // Zet hasTurtle op true
+            if (!this.hasTurtle) {
+                event.other.owner.hit();
+                this.graphics.use(Resources.RobotWithTurtle.toSprite());
+                this.scale = new Vector(0.60, 0.60);
+                this.hasTurtle = true; // Zet hasTurtle op true
+            }
         }
 
         if (event.other.owner instanceof MarineBiologist) {
