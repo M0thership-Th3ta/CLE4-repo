@@ -7,6 +7,7 @@ import { Sea } from "./sea.js";
 import { Player } from "../../../player/player.js";
 import { Minigame3UI } from "./minigame_3_UI.js";
 import { MarineBiologist } from "../../../actors/marine_biologist.js";
+import { Testscene } from "../../cutscenes/testscene.js";
 
 export class Minigame_3 extends Scene {
 
@@ -20,8 +21,8 @@ export class Minigame_3 extends Scene {
 
         super();
 
-        // this.amountTracker = this.amountTracker ?? {amount: 0};
-        // this.amountTurtles = (localStorage.getItem(`amountTurtles`)) || 5;
+        this.amountTracker = this.amountTracker ?? { amount: 0 };
+        this.amountTurtles = (localStorage.getItem(`amountTurtles`)) || 5;
     }
 
     onActivate(engine) {
@@ -51,14 +52,14 @@ export class Minigame_3 extends Scene {
         this.add(new Platform(680, 200));
         this.add(new Platform(900, 400));
         this.add(new Platform(1150, 280));
-        this.add(new Platform(1000, 100));
+        this.add(new Platform(1000, 150));
 
         const player = new Player(
             Keys.Left,
             Keys.Right,
             Keys.Up,
             Keys.Down,
-            new Vector(220, 400),
+            new Vector(120, 550),
         );
         this.add(player);
 
@@ -68,10 +69,11 @@ export class Minigame_3 extends Scene {
 
             const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
 
-            const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width - 10));
+            const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
             const turtleY = randomPlatform.pos.y - 45;
 
             const turtle = new Turtle(turtleX, turtleY);
+
             this.add(turtle);
             this.totalTurtles++;
         }
@@ -91,17 +93,74 @@ export class Minigame_3 extends Scene {
 
         const gameCompletedlabel = new Label({
             text: "Minigame 3 voltooid!",
-            pos: new Vector(400, 300),
+            pos: new Vector(600, 400),
             font: new Font({
                 family: "Arial",
-                size: 32,
+                size: 50,
                 color: Color.White,
                 textAlign: TextAlign.Center,
             }),
             anchor: Vector.Half,
         });
 
+        const goBackLabel = new Label({
+            text: "Press Esc to Exit",
+            pos: new Vector(600, 500),
+            font: new Font({
+                family: "Arial",
+                size: 50,
+                color: Color.White,
+                textAlign: TextAlign.Center
+            }),
+            anchor: Vector.Half
+        });
+
         this.add(gameCompletedlabel);
+        this.add(goBackLabel);
+
+        this.input.keyboard.on("press", (evt) => {
+            if (evt.key === Keys.Esc) {
+                window.location.reload();
+            }
+        });
+    }
+
+    gameOver() {
+        this.gamehasEnded = true;
+        console.log("Game Over");
+
+        const gameOverLabel = new Label({
+            text: "Game Over",
+            pos: new Vector(300, 400),
+            font: new Font({
+                family: "Arial",
+                size: 100,
+                color: Color.White,
+                textAlign: TextAlign.Center
+            }),
+            anchor: Vector.Half
+        })
+
+        const restartLabel = new Label({
+            text: "Press Space to Restart",
+            pos: new Vector(200, 500),
+            font: new Font({
+                family: "Arial",
+                size: 50,
+                color: Color.White,
+                textAlign: TextAlign.Center
+            }),
+            anchor: Vector.Half
+        })
+
+        this.add(gameOverLabel);
+        this.add(restartLabel);
+
+        this.input.keyboard.on("press", (evt) => {
+            if (evt.key === Keys.Space) {
+                window.location.reload();
+            }
+        });
     }
 
 }

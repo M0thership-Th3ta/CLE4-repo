@@ -86,19 +86,29 @@ export class Player extends Actor {
 
         if (event.other.owner instanceof MarineBiologist) {
             event.other.owner.hit();
-            this.amount++;
-            this.engine.minigame3UI.updateAmount(this.amount);
-            this.engine.collectedTurtles++;
-            this.graphics.use(Resources.Player.toSprite());
-            this.scale = new Vector(0.5, 0.5);
 
-            if (this.engine.collectedTurtles >= this.engine.totalTurtles) {
-                this.engine.gameCompleted();
+            if (this.graphics.current === Resources.RobotWithTurtle.toSprite()) {
+                this.amount++;
+                // this.engine.currentScene.minigame3UI.updateAmount(this.amount);
+
+                const scene = this.engine.currentScene
+                if (scene.minigame3UI) {
+                    scene.minigame3UI.updateAmount(this.amount)
+                };
+
+                scene.collectedTurtles++;
+                this.graphics.use(Resources.Player.toSprite());
+                this.scale = new Vector(0.5, 0.5);
+
+                if (scene.collectedTurtles >= scene.totalTurtles) {
+                    scene.gameCompleted();
+                }
+
             }
         }
 
         if (event.other.owner instanceof Sea) {
-            
+
         }
     }
 
