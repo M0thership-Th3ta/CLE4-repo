@@ -103,7 +103,7 @@ export class Minigame_3 extends Scene {
         });
 
         const goBackLabel = new Label({
-            text: "Press Esc to Exit",
+            text: "Druk op Esc om verder te gaan",
             pos: new Vector(600, 500),
             font: new Font({
                 family: "Arial",
@@ -119,7 +119,7 @@ export class Minigame_3 extends Scene {
 
         this.input.keyboard.on("press", (evt) => {
             if (evt.key === Keys.Esc) {
-                window.location.reload();
+                this.engine.goToScene('restaurantscene_4');
             }
         });
     }
