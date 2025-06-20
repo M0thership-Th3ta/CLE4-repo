@@ -11,7 +11,7 @@ import { MarineBiologist } from "../../../actors/marine_biologist.js";
 export class Minigame_3 extends Scene {
 
     minigame3UI;
-    totalTurtles = 5;
+    totalTurtles = 0;
     collectedTurtles = 0;
     amountTracker;
     gameHasEnded = false;
@@ -25,6 +25,14 @@ export class Minigame_3 extends Scene {
     }
 
     onActivate(engine) {
+        // Reset game state
+        this.gameHasEnded = false;
+        this.collectedTurtles = 0;
+        this.totalTurtles = 0;
+        this.amountTracker = { amount: 0 };
+        this.amountTurtles = 5;
+        // Verwijder alle event listeners van vorige sessie
+        this.input.keyboard.off('press');
         // Start de minigame zodra de scene geladen wordt
         this.startMinigame3(engine)
     }
@@ -62,27 +70,20 @@ export class Minigame_3 extends Scene {
         );
         this.add(player);
 
-        // for (let i = 0; i < 5; i++) {
-        //     // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
-        //     const platforms = this.actors.filter(actor => actor instanceof Platform);
+        for (let i = 0; i < 5; i++) {
+            // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
+            const platforms = this.actors.filter(actor => actor instanceof Platform);
 
-        //     const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
+            const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
 
-        //     const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
-        //     const turtleY = randomPlatform.pos.y - 45;
+            const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
+            const turtleY = randomPlatform.pos.y - 45;
 
-        //     const turtle = new Turtle(turtleX, turtleY);
+            const turtle = new Turtle(turtleX, turtleY);
 
-        //     this.add(turtle);
-        //     this.totalTurtles++;
-        // }
-
-        this.add(new Turtle(160, 160));
-        this.add(new Turtle(440, 280));
-        this.add(new Turtle(860, 360));
-        this.add(new Turtle(1150, 240));
-        this.add(new Turtle(350, 40));
-
+            this.add(turtle);
+            this.totalTurtles++;
+        }
 
         const minigame3UI = new Minigame3UI(
             player,
@@ -133,6 +134,9 @@ export class Minigame_3 extends Scene {
     gameOver() {
         this.gamehasEnded = true;
         console.log("Game Over");
+        // Ga naar de gameover scene zodat de speler daar opnieuw kan starten
+        this.engine.add('minigame_3', new Minigame_3())
+        this.engine.goToScene('gameover')
 
         const gameOverLabel = new Label({
             text: "Game Over",

@@ -2,6 +2,7 @@ import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, Fon
 import { Resources } from '../../resources.js';
 import { Player } from '../../player/robot/player.js';
 import { Shanty } from '../../player/shanty/shanty.js'
+import { Minigame_3 } from '../minigames/minigame_3/minigame_3.js'
 
 // Deze scene wordt getoond als de speler verliest in minigame 3
 export class GameOverScene extends Scene {
@@ -101,7 +102,10 @@ export class GameOverScene extends Scene {
         if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.goToScene('minigame_3') // Terug naar minigame 3
+                // Verwijder eerst de oude scene volledig voordat je een nieuwe toevoegt
+                engine.remove('minigame_3');
+                engine.add('minigame_3', new Minigame_3());
+                engine.goToScene('minigame_3');
             }
         } else {
             this.#overlapFrames = 0
