@@ -22,5 +22,6 @@ export class Turtle extends Actor {
     hit() {
         this.kill();
     }
-
 }
+
+

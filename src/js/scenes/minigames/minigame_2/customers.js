@@ -62,20 +62,26 @@ export class Customer extends Actor {
                 this.handleFoodDelivery(this.#collidingFood)
             }
         }
-    }
-
-    handleFoodDelivery(foodActor) {
+    }    handleFoodDelivery(foodActor) {
         if(!this.#processedCollisions.has(foodActor)) {
             this.#processedCollisions.add(foodActor)
 
-            if(this.#givenFood.length < 3) {
+            if(this.#givenFood.length < this.#order.getOrder().length) {
                 this.#givenFood.push(foodActor.foodId)
                 console.log(`Added food ${foodActor.foodId}, array now:`, this.#givenFood)
             }
 
-            if(this.#givenFood.length === 3) {
-                console.log("Klant heeft 3 items ontvangen:", this.#givenFood)
-                this.kill()
+            // Check of het aantal gegeven food items gelijk is aan de lengte van de order
+            if(this.#givenFood.length === this.#order.getOrder().length) {
+                // Vergelijk arrays met JSON.stringify
+                if(JSON.stringify(this.#givenFood) === JSON.stringify(this.#order.getOrder())) {
+                    console.log("Order correct! 🎉")
+                    this.kill()
+                } else {
+                    console.log("Order fout! ❌", this.#givenFood, "vs", this.#order.getOrder())
+                    this.#givenFood = [] // Reset voor nieuwe poging
+                    this.#processedCollisions.clear() // Reset collision tracking bij foute order
+                }
             }
         }
     }
@@ -83,6 +89,12 @@ export class Customer extends Actor {
     // Haal de lijst met gegeven food op
     getGivenFood() {
         return this.#givenFood
+    }
+
+    // Getter voor de order van de klant
+    getOrder() {
+        // Geeft de order van deze klant terug
+        return this.#order.getOrder()
     }
 
     // Reset de lijst (optioneel)

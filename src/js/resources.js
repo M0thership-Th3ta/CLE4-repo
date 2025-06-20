@@ -26,6 +26,9 @@ const Resources = {
     Basket: new ImageSource('images/basket.png'),
     Passionfruit: new ImageSource('images/pomegranete.png'),
     WorldMap: new ImageSource('images/map2.png'),
+    Food4: new ImageSource('images/lime.png'), // Placeholder: lime
+    Food5: new ImageSource('images/Lemon.png'), // Placeholder: lemon
+}
     GreenGrassBlueBackground: new ImageSource('images/greengrassbluebackground.png'),
     Persona1: new ImageSource('images/persona1.png'),
     Persona2: new ImageSource('images/persona2.png'),

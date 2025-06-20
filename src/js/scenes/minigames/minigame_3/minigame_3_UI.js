@@ -2,7 +2,7 @@ import { Actor, Color, Font, Label, TextAlign, Vector } from "excalibur";
 
 export class Minigame3UI extends Actor {
 
-    // amountTracker;
+    amountTracker;
     amountLabel;
     amount = 0;
 
@@ -37,6 +37,6 @@ export class Minigame3UI extends Actor {
     }
 
     updateAmount(amount) {
-        this.amountLabel.text = `Aantal geredt schildpadden: ${amount}`;
+        this.amountLabel.text = `Aantal geredt schildpadden: ${this.amount}`;
     }
 }
