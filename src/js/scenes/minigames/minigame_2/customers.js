@@ -69,18 +69,20 @@ export class Customer extends Actor {
             if(this.#givenFood.length < this.#order.getOrder().length) {
                 this.#givenFood.push(foodActor.foodId)
                 console.log(`Added food ${foodActor.foodId}, array now:`, this.#givenFood)
-            }
-
-            // Check of het aantal gegeven food items gelijk is aan de lengte van de order
+            }            // Check of het aantal gegeven food items gelijk is aan de lengte van de order
             if(this.#givenFood.length === this.#order.getOrder().length) {
-                // Vergelijk arrays met JSON.stringify
-                if(JSON.stringify(this.#givenFood) === JSON.stringify(this.#order.getOrder())) {
-                    console.log("Order correct! 🎉")
-                    this.kill()
+                // Sorteer beide arrays zodat volgorde niet meer uitmaakt
+                const givenSorted = [...this.#givenFood].sort();
+                const orderSorted = [...this.#order.getOrder()].sort();
+
+                if(JSON.stringify(givenSorted) === JSON.stringify(orderSorted)) {
+                    console.log("Order correct! 🎉");
+                    this.scene.engine.emit('orderComplete', { success: true, customer: this });
+                    this.kill();
                 } else {
-                    console.log("Order fout! ❌", this.#givenFood, "vs", this.#order.getOrder())
-                    this.#givenFood = [] // Reset voor nieuwe poging
-                    this.#processedCollisions.clear() // Reset collision tracking bij foute order
+                    console.log("Order fout! ❌", this.#givenFood, "vs", this.#order.getOrder());
+                    this.#givenFood = []; // Reset voor nieuwe poging
+                    this.#processedCollisions.clear(); // Reset collision tracking bij foute order
                 }
             }
         }
