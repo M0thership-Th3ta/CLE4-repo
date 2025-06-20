@@ -77,8 +77,6 @@ export class Minigame_3 extends Scene {
             this.totalTurtles++;
         }
 
-        this.amountTracker = { amount: 0 };
-
         const minigame3UI = new Minigame3UI(
             player,
             this.amountTracker
@@ -104,7 +102,7 @@ export class Minigame_3 extends Scene {
         });
 
         const goBackLabel = new Label({
-            text: "Druk op Esc om verder te gaan",
+            text: "Press Esc to Exit",
             pos: new Vector(600, 500),
             font: new Font({
                 family: "Arial",
@@ -120,7 +118,7 @@ export class Minigame_3 extends Scene {
 
         this.input.keyboard.on("press", (evt) => {
             if (evt.key === Keys.Esc) {
-                this.engine.goToScene('restaurantscene_4');
+                window.location.reload();
             }
         });
     }
