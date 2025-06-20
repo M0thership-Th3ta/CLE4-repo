@@ -1,5 +1,5 @@
 import { Actor, Vector, CollisionType } from "excalibur"
-import { Resources } from '../../../resources.js'
+import { Resources } from '../../../../resources.js'
 
 export class Food extends Actor {
     // Expliciete property declaraties voor duidelijkheid
