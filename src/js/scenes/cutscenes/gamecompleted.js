@@ -79,7 +79,7 @@ export class GameCompletedScene extends Scene {
 
         // Subtekst: zelfde breedte als restaurantscene_4
         const uitlegLabel = new Label({
-            text: 'Je hebt de level behaald!   Ga terug naar het restaurant.',
+            text: 'Je hebt de level behaald! Ga terug naar het restaurant.',
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 30),
             font: new Font({
                 family: 'Arial',
