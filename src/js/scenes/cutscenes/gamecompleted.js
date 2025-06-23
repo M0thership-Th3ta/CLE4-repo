@@ -1,7 +1,7 @@
 import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit } from "excalibur";
 import { Resources } from '../../resources.js';
 import { Shanty } from '../../player/shanty/shanty.js'
-import { Restaurant } from '../locations/restaurant.js'
+import { Restaurantscene_2 } from "./restaurantscene_2.js";
 
 export class GameCompletedScene extends Scene {
     #player
@@ -107,12 +107,12 @@ export class GameCompletedScene extends Scene {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
                 engine.remove('minigame_3');
-                engine.add('restaurant', new Restaurant());
+                engine.add('restaurant', new Restaurantscene_2());
                 engine.goToScene('restaurant');
             }
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
                 engine.remove('minigame_2');
-                engine.add('restaurant', new Restaurant());
+                engine.add('restaurant', new Restaurantscene_2());
                 engine.goToScene('restaurant');
             }
         } else {
