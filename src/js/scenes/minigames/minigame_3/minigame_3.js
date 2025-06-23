@@ -1,4 +1,4 @@
-import { Color, Font, Keys, Label, Scene, TextAlign, Vector } from "excalibur";
+import { Keys, Scene, Vector } from "excalibur";
 import { Background3 } from "./background_3.js";
 import { Platform } from "./platform.js";
 import { Turtle } from "./turtle.js";
@@ -11,10 +11,6 @@ import { MarineBiologist } from "../../../actors/marine_biologist.js";
 export class Minigame_3 extends Scene {
 
     minigame3UI;
-    // totalTurtles = 5;
-    // collectedTurtles = 0;
-    // amountTracker;
-    // gameHasEnded = false;
 
     constructor() {
 
@@ -25,19 +21,17 @@ export class Minigame_3 extends Scene {
     }
 
     onActivate(engine) {
-        // Reset game state
         this.gameHasEnded = false;
         this.collectedTurtles = 0;
         this.totalTurtles = 5;
         this.amountTracker = { amount: 0 };
         this.amountTurtles = 5;
-        // Verwijder alle event listeners van vorige sessie
+
         this.input.keyboard.off('press');
-        // Start de minigame zodra de scene geladen wordt
+
         this.startMinigame3(engine)
     }
 
-    // Deze functie bevat de minigame functionaliteit
     startMinigame3(engine) {
         console.log("Start minigame 3!");
 
@@ -105,42 +99,6 @@ export class Minigame_3 extends Scene {
         this.gameHasEnded = true;
         console.log("Game Completed");
         this.engine.goToScene('gamecompleted');
-
-        // this.gameHasEnded = true;
-        // console.log("Minigame 3 voltooid!");
-
-        // const gameCompletedlabel = new Label({
-        //     text: "Minigame 3 voltooid!",
-        //     pos: new Vector(600, 400),
-        //     font: new Font({
-        //         family: "Arial",
-        //         size: 50,
-        //         color: Color.White,
-        //         textAlign: TextAlign.Center,
-        //     }),
-        //     anchor: Vector.Half,
-        // });
-
-        // const goBackLabel = new Label({
-        //     text: "Press Esc to Exit",
-        //     pos: new Vector(600, 500),
-        //     font: new Font({
-        //         family: "Arial",
-        //         size: 50,
-        //         color: Color.White,
-        //         textAlign: TextAlign.Center
-        //     }),
-        //     anchor: Vector.Half
-        // });
-
-        // this.add(gameCompletedlabel);
-        // this.add(goBackLabel);
-
-        // this.input.keyboard.on("press", (evt) => {
-        //     if (evt.key === Keys.Esc) {
-        //         window.location.reload();
-        //     }
-        // });
     }
 
     gameOver() {
@@ -148,39 +106,6 @@ export class Minigame_3 extends Scene {
         this.gameHasEnded = true;
         console.log("Game Over");
         this.engine.goToScene('gameover');
-
-        // const gameOverLabel = new Label({
-        //     text: "Game Over",
-        //     pos: new Vector(300, 400),
-        //     font: new Font({
-        //         family: "Arial",
-        //         size: 100,
-        //         color: Color.White,
-        //         textAlign: TextAlign.Center
-        //     }),
-        //     anchor: Vector.Half
-        // })
-
-        // const restartLabel = new Label({
-        //     text: "Press Space to Restart",
-        //     pos: new Vector(200, 500),
-        //     font: new Font({
-        //         family: "Arial",
-        //         size: 50,
-        //         color: Color.White,
-        //         textAlign: TextAlign.Center
-        //     }),
-        //     anchor: Vector.Half
-        // })
-
-        // this.add(gameOverLabel);
-        // this.add(restartLabel);
-
-        // this.input.keyboard.on("press", (evt) => {
-        //     if (evt.key === Keys.Space) {
-        //         window.location.reload();
-        //     }
-        // });
     }
 
 }

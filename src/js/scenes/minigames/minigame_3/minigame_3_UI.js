@@ -16,7 +16,6 @@ export class Minigame3UI extends Actor {
 
         this.player = player;
         this.amountTracker = amountTracker ?? { amount: 0 };
-
     }
 
     onInitialize(engine) {
@@ -34,7 +33,6 @@ export class Minigame3UI extends Actor {
         })
 
         this.addChild(this.amountLabel);
-        // Zet direct het juiste aantal na initialisatie
         this.updateAmount(this.amountTracker.amount);
     }
 
