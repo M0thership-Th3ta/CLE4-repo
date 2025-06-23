@@ -13,9 +13,9 @@ const Resources = {
     BG2: new ImageSource('images/snackbar.png'),
     RestaurantLayout: new ImageSource('images/restaurantLayout.png'),
     Player: new ImageSource('images/robot-02.png'),
-    Food1: new ImageSource('images/food1.png'),
-    Food2: new ImageSource('images/food2.png'),
-    Food3: new ImageSource('images/food3.png'),    
+    Food1: new ImageSource('images/pastechi.png'),
+    Food2: new ImageSource('images/lumpia.png'),
+    Food3: new ImageSource('images/johny-cake.png'),    
     Shanty: new ImageSource('images/pokemonGirl.png'),
     Farmer: new ImageSource('images/pokemonFarmer.png'),
     Tree: new ImageSource('images/tree.png'),
@@ -26,8 +26,8 @@ const Resources = {
     Basket: new ImageSource('images/basket.png'),
     Passionfruit: new ImageSource('images/pomegranete.png'),
     WorldMap: new ImageSource('images/map2.png'),
-    Food4: new ImageSource('images/lime.png'), // Placeholder: lime
-    Food5: new ImageSource('images/Lemon.png'), // Placeholder: lemon
+    Food4: new ImageSource('images/fria.png'), // Placeholder: lime
+    Food5: new ImageSource('images/fria-purple.png'), // Placeholder: lemon
      GreenGrassBlueBackground: new ImageSource('images/greengrassbluebackground.png'),
     Persona1: new ImageSource('images/persona1.png'),
     Persona2: new ImageSource('images/persona2.png'),

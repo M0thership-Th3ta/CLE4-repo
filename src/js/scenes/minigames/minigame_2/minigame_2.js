@@ -14,13 +14,12 @@ import { FailScreen } from "./screens/fail_screen.js";
 
 // Constanten voor betere leesbaarheid en onderhoud
 const GAME_CONFIG = {
-    TIMER_POS: { x: 1080, y: 50 },
-    CUSTOMER_POS: new Vector(735, 220),
-    FOOD_POSITIONS: {
-        food1: new Vector(100, 100),
-        food2: new Vector(300, 100), 
-        food3: new Vector(200, 200),
-        food4: new Vector(1050, 500),
+    TIMER_POS: { x: 1195, y: 75 }, // Verplaatst naar rechts
+    CUSTOMER_POS: new Vector(735, 220),    FOOD_POSITIONS: {
+        food1: new Vector(275, 360), // Verplaatst naar aanrecht
+        food2: new Vector(175, 270), // Verplaatst naar aanrecht
+        food3: new Vector(400, 360), // Verplaatst naar aanrecht
+        food4: new Vector(1050, 350),
         food5: new Vector(950, 500)
     },
     FOOD_SCALE: 0.8,

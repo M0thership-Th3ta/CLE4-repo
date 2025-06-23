@@ -15,24 +15,32 @@ export class Order {
     constructor(desiredSize = 1) {
         this.#size = desiredSize
         this.#generateOrder()
-    }
-
-    /**
-     * Generate order with exact number of food items
+    }    /**
+     * Generate order with exact number of unique food items (geen duplicaten)
      * @private
      */
     #generateOrder() {
         this.#orderArray = []
+        const availableFoodIds = [1, 2, 3, 4, 5] // Alle beschikbare food ID's
         
-        // Genereer exact het aantal items dat gewenst is
-        for (let i = 0; i < this.#size; i++) {
-            // Random food ID tussen 1 en 5
-            const randomFoodId = Math.floor(Math.random() * 5) + 1
-            this.#orderArray.push(randomFoodId)
+        // Zorg ervoor dat de gewenste grootte niet groter is dan beschikbare items
+        const maxSize = Math.min(this.#size, availableFoodIds.length)
+        
+        // Genereer exact het aantal unieke items dat gewenst is
+        for (let i = 0; i < maxSize; i++) {
+            // Kies random index uit beschikbare items
+            const randomIndex = Math.floor(Math.random() * availableFoodIds.length)
+            const selectedFoodId = availableFoodIds[randomIndex]
+            
+            // Voeg geselecteerd item toe aan order
+            this.#orderArray.push(selectedFoodId)
+            
+            // Verwijder geselecteerd item uit beschikbare items om duplicaten te voorkomen
+            availableFoodIds.splice(randomIndex, 1)
         }
         
-        console.log(`Order gegenereerd met ${this.#size} items:`, this.#orderArray)
-    }    /**
+        console.log(`Order gegenereerd met ${maxSize} unieke items:`, this.#orderArray)
+    }/**
      * Get a copy of the order array (immutable)
      * @returns {number[]} Copy of the order array
      */

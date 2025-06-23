@@ -4,7 +4,7 @@ export class TimerDisplay extends Actor {
     #timeRemaining = 60
     #timerText
 
-    constructor(pos = new Vector(1080, 50)) {
+    constructor(pos = new Vector(1150, 50)) { // Aangepast naar nieuwe positie
         super({
             pos,
             anchor: new Vector(0.5, 0.5),
@@ -13,16 +13,15 @@ export class TimerDisplay extends Actor {
         
         // Debug: Log constructor
         console.log('TimerDisplay constructor aangeroepen met positie:', pos)
-    }    // Deze functie wordt één keer aangeroepen wanneer de timer wordt toegevoegd
+    }// Deze functie wordt één keer aangeroepen wanneer de timer wordt toegevoegd
     onInitialize(engine) {
         console.log('TimerDisplay onInitialize aangeroepen')
-        
-        // Maak het timer text aan met Text graphic (niet Label!)
+          // Maak het timer text aan met Text graphic (niet Label!)
         this.#timerText = new Text({
             text: `Tijd: ${this.#timeRemaining}s`,
             font: new Font({
                 family: 'Arial',
-                size: 24,
+                size: 36, // Vergroot van 24 naar 36
                 color: Color.White
             })
         })
