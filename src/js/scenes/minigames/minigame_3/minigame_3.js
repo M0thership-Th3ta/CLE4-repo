@@ -64,21 +64,6 @@ export class Minigame_3 extends Scene {
         );
         this.add(player);
 
-        // for (let i = 0; i < 5; i++) {
-        //     // Fix: gebruik this.actors in plaats van this.isCurrentScene.actors
-        //     const platforms = this.actors.filter(actor => actor instanceof Platform);
-
-        //     const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
-
-        //     const turtleX = randomPlatform.pos.x + (Math.random() * (randomPlatform.width));
-        //     const turtleY = randomPlatform.pos.y - 45;
-
-        //     const turtle = new Turtle(turtleX, turtleY);
-
-        //     this.add(turtle);
-        //     this.totalTurtles++;
-        // }
-
         this.add(new Turtle(160, 160));
         this.add(new Turtle(440, 280));
         this.add(new Turtle(860, 360));

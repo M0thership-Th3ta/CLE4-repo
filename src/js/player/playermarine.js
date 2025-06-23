@@ -71,6 +71,10 @@ export class Player extends Actor {
 
         this.vel.x = xspeed;
 
+        if (this.pos.y > 720) {
+            this.engine.currentScene.gameOver();
+        }
+
     }
 
     handleCollision(event) {
@@ -108,5 +112,6 @@ export class Player extends Actor {
         if (event.other.owner instanceof Sea) {
             this.engine.currentScene.gameOver();
         }
+
     }
 }
