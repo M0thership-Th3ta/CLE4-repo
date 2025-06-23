@@ -20,10 +20,9 @@ export class Game extends Engine {
         super({ 
             width: 1280,
             height: 720,
-            maxFps: 60,
-            displayMode: DisplayMode.FitScreen,
+            maxFps: 60,            displayMode: DisplayMode.FitScreen,
             physics: {
-                solver: SolverStrategy.Realistic,
+                solver: SolverStrategy.Arcade,
                 gravity: new Vector(0, 800)
             }
          })
