@@ -52,18 +52,11 @@ export class Persona2 extends NPC {
         // Bereken afstand tussen Persona2 en Shanty
         const distance = this.pos.distance(this.#shanty.pos)
         if (distance < 100 && !this.#dialogSystem.isDialogActive) {
-            this.#dialogSystem.showDialog([
-    
-    "Shanty: (smiling) Hey there, Hildo. You look like you've been wrestling with the fields all morning. Everything alright?",
-    "Hildo: (chuckling weakly) Ah, just the usual. Though, gotta admit, it's been a bit tougher since Jonny went and broke his arm.",
-    "Shanty: (concerned) Oh no! That's awful. How's he holding up?",
-    "Hildo: Doc says he'll heal fine... *flexes arm* ...but farming don't stop for broken bones. So this old man's picking up the slack.",
-    "Shanty: (folding arms) Hildo, you can't do everything by yourself. Let me help - I can pull weeds or feed the animals at least.",
-    "Hildo: (raising eyebrow) You'd do that? Farming's dirty work, Shanty.",
-    "Shanty: (grinning) I've handled messier things in this kitchen. What's the point of a town if we don't help each other?",
-    "Hildo: (soft smile) Heh. Your grandpa would've said the same. Alright, just don't blame me if you're sore tomorrow.",
-    "Shanty: *laughs* Deal! Consider me your temporary farmhand!",
-    "MISSION UNLOCKED: Helping Hands - Assist Hildo with farm chores while Jonny recovers!"
+       this.#dialogSystem.showDialog([
+    "Shanty: Whoa. You look like you tried to hug a jet engine. What's up?",
+    "Miles: Turtle emergency. Storm last night washed hatchlings onto those broken docks by the cliffs—they're stranded!",
+    "Shanty: And let me guess... you want Clippy to play tightrope walker over shark bait?",
+    "Miles: Just across the floating debris! He's nimble, and I'll guide him from shore. Please?"
 ]);
         }
     }

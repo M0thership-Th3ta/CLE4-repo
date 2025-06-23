@@ -9,10 +9,10 @@ export class DialogSystem {
             pos: new Vector(game.drawWidth / 2, game.drawHeight - 100),
             width: game.drawWidth - 40,
             height: 150,
-            color: Color.Transparent,
+            color: Color.Gray,
         });
         this.dialogBox.anchor.setTo(0.5, 0.5);
-        this.dialogBox.graphics.opacity = 0.8;
+        this.dialogBox.graphics.opacity = 0;
         
         // Text display
         this.textActor = new Actor({
@@ -21,48 +21,43 @@ export class DialogSystem {
             height: 130,
         });
         this.textActor.anchor.setTo(0, 0);
+        this.textActor.graphics.opacity = 0;
         
         // State
         this.currentDialog = [];
         this.currentLine = 0;
         this.isDialogActive = false;
-        // Hide initially
-        this.dialogBox.visible = false
-        this.textActor.visible = false
     }
     
-    
-
     hideDialog() {
-    this.isDialogActive = false;
-    this.dialogBox.visible = false;
-    this.textActor.visible = false;
-    // Optionally clear the text as well
-    this.textActor.graphics.use(null);
-}
+        this.isDialogActive = false;
+        this.dialogBox.graphics.opacity = 0;
+        this.textActor.graphics.opacity = 0;
+        this.textActor.graphics.use(null);
+    }
 
     displayCurrentLine() {
-    if (this.currentLine < this.currentDialog.length) {
-        const text = new Text({
-            text: this.currentDialog[this.currentLine],
-            font: new Font({ 
-                size: 70, 
-                family: 'Press Start 2P', 
-                color: Color.Black,
-                shadow: {
-                    blur: 5,
-                    offset: new Vector(2, 2),
-                    color: Color.Black
-                }
-            }),
-            maxWidth: this.game.drawWidth - 80
-        });
-        this.textActor.graphics.use(text);
-        this.updateDialogVisibility();
-    } else {
-        this.hideDialog();
+        if (this.currentLine < this.currentDialog.length) {
+            const text = new Text({
+                text: this.currentDialog[this.currentLine],
+                font: new Font({ 
+                    size: 25, 
+                    family: 'Arial', 
+                    color: Color.Black,
+                    shadow: {
+                        blur: 5,
+                        offset: new Vector(2, 2),
+                        color: Color.White
+                    }
+                }),
+                maxWidth: this.game.drawWidth - 80
+            });
+            this.textActor.graphics.use(text);
+            this.updateDialogVisibility();
+        } else {
+            this.hideDialog();
+        }
     }
-}
     
     nextLine() {
         this.currentLine++;
@@ -78,8 +73,7 @@ export class DialogSystem {
     }
 
     updateDialogVisibility() {
-        // Only show the dialog box and text if dialog is active
-        this.dialogBox.visible = this.isDialogActive;
-        this.textActor.visible = this.isDialogActive;
+        this.dialogBox.graphics.opacity = this.isDialogActive ? 0.8 : 0;
+        this.textActor.graphics.opacity = this.isDialogActive ? 1 : 0;
     }
 }

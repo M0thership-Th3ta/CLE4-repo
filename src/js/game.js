@@ -1,5 +1,5 @@
 import '../css/style.css'
-import { Actor, Engine, Vector, DisplayMode, SolverStrategy } from "excalibur"
+import { Actor, Engine, Vector, DisplayMode, SolverStrategy, Color } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { DebugControl } from './debug_control.js'
 import { Minigame_1 } from './scenes/minigames/minigame_1/minigame_1.js'
@@ -13,24 +13,40 @@ import { WorldMap } from './scenes/locations/worldmap/worldmap.js'
 import { TestScene } from './scenes/cutscenes/testscene.js'
 import { GameOverScene } from './scenes/cutscenes/gameover.js'
 import { GameCompletedScene } from './scenes/cutscenes/gamecompleted.js'
+import { MenuScene } from './scenes/menuscene.js'
+
+
 
 export class Game extends Engine {
     gamepadControl
 
     constructor() {
-        super({ 
+        super({
             width: 1280,
             height: 720,
-            maxFps: 60,            displayMode: DisplayMode.FitScreen,
+            maxFps: 60,
+            displayMode: DisplayMode.FitScreen,
             physics: {
                 solver: SolverStrategy.Arcade,
-                gravity: new Vector(0, 800)
-            }
-         })
+                gravity: new Vector(0, 800),
+
+            },
+            backgroundColor: Color.fromHex('#87ceeb'),
+        })
+
+
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
+
+
     startGame() {
+
+        this.add('menu', new MenuScene())
+        this.goToScene('menu')
+        console.log(this.goToScene('menu'))
+
+
         console.log("start de game!")
         this.add('restaurantscene_1', new Restaurantscene_1())
         this.add('minigame_1', new Minigame_1())
@@ -47,8 +63,11 @@ export class Game extends Engine {
         this.goToScene('testscene')
         this.goToScene('root')
 
+
+
         this.debugControl = new DebugControl(this)
         this.debugControl.initialize()
+
 
         this.input.gamepads.enabled = true
         this.input.gamepads.on('connect', (connectevent) => {
