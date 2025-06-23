@@ -96,45 +96,51 @@ export class Minigame_3 extends Scene {
             this.amountTracker
         );
         this.add(minigame3UI);
-        this.minigame3UI = minigame3UI; // Koppel UI aan scene zodat Player hem kan vinden
+        this.minigame3UI = minigame3UI;
     }
 
     gameCompleted() {
+
+        if (this.gameHasEnded) return;
         this.gameHasEnded = true;
-        console.log("Minigame 3 voltooid!");
+        console.log("Game Completed");
+        this.engine.goToScene('gamecompleted');
 
-        const gameCompletedlabel = new Label({
-            text: "Minigame 3 voltooid!",
-            pos: new Vector(600, 400),
-            font: new Font({
-                family: "Arial",
-                size: 50,
-                color: Color.White,
-                textAlign: TextAlign.Center,
-            }),
-            anchor: Vector.Half,
-        });
+        // this.gameHasEnded = true;
+        // console.log("Minigame 3 voltooid!");
 
-        const goBackLabel = new Label({
-            text: "Press Esc to Exit",
-            pos: new Vector(600, 500),
-            font: new Font({
-                family: "Arial",
-                size: 50,
-                color: Color.White,
-                textAlign: TextAlign.Center
-            }),
-            anchor: Vector.Half
-        });
+        // const gameCompletedlabel = new Label({
+        //     text: "Minigame 3 voltooid!",
+        //     pos: new Vector(600, 400),
+        //     font: new Font({
+        //         family: "Arial",
+        //         size: 50,
+        //         color: Color.White,
+        //         textAlign: TextAlign.Center,
+        //     }),
+        //     anchor: Vector.Half,
+        // });
 
-        this.add(gameCompletedlabel);
-        this.add(goBackLabel);
+        // const goBackLabel = new Label({
+        //     text: "Press Esc to Exit",
+        //     pos: new Vector(600, 500),
+        //     font: new Font({
+        //         family: "Arial",
+        //         size: 50,
+        //         color: Color.White,
+        //         textAlign: TextAlign.Center
+        //     }),
+        //     anchor: Vector.Half
+        // });
 
-        this.input.keyboard.on("press", (evt) => {
-            if (evt.key === Keys.Esc) {
-                window.location.reload();
-            }
-        });
+        // this.add(gameCompletedlabel);
+        // this.add(goBackLabel);
+
+        // this.input.keyboard.on("press", (evt) => {
+        //     if (evt.key === Keys.Esc) {
+        //         window.location.reload();
+        //     }
+        // });
     }
 
     gameOver() {
