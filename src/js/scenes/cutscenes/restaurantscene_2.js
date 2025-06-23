@@ -2,6 +2,7 @@ import { Actor, Scene, Vector, CollisionType, Color, Rectangle, clamp, Keys, Lab
 import { Resources } from '../../resources.js';
 import { Shanty } from '../../player/shanty/shanty.js';
 import { Persona2 } from '../../actors/persona2.js';
+import { DialogSystem } from '../../dialog.js'
 
 export class Restaurantscene_2 extends Scene {
     #shanty
@@ -9,6 +10,8 @@ export class Restaurantscene_2 extends Scene {
     #persona2
     #overlapFrames = 0
     #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #dialogSystem
+    #hasTalkedToPersona2 = false
 
     onInitialize(engine) {
         // Achtergrond
@@ -55,6 +58,19 @@ export class Restaurantscene_2 extends Scene {
         // Voeg Shanty toe NA het balkje zodat ze er visueel overheen loopt
         this.#shanty = new Shanty(new Vector(200, 300))
         this.add(this.#shanty)
+
+        //////////////////////////////////////////////////////Maak dialogSystem aan en voeg toe aan scene
+        this.#dialogSystem = new DialogSystem(engine)
+        this.add(this.#dialogSystem.dialogBox)
+        this.add(this.#dialogSystem.textActor)
+
+        /////////////////////////////////////////////////////// Voeg event listener toe voor dialog input
+        engine.input.keyboard.on('press', (evt) => {
+            if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.#dialogSystem.isDialogActive) {
+                this.#dialogSystem.nextLine()
+                console.log("Next dialog line")
+            }
+        })
     }
 
     onPostUpdate(engine, delta) {
@@ -70,6 +86,16 @@ export class Restaurantscene_2 extends Scene {
         } else {
             this.#overlapFrames = 0
         }
+
+        /////////////////////////////////////////////////////////// Check of Shanty dicht bij Persona2 is
+        const distance = this.#shanty.pos.distance(this.#persona2.pos)
+        if (distance < 100 && !this.#dialogSystem.isDialogActive) {
+            this.#dialogSystem.showDialog([
+                "Welkom in het restaurant!",
+                "Praat met de chef voor je eerste opdracht."
+            ])
+        }
+
     }
 
     // Simpele AABB overlap check
