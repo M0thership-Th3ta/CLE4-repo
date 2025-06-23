@@ -144,10 +144,9 @@ export class Minigame_3 extends Scene {
     }
 
     gameOver() {
-        if (this.gameHasEnded) return; // Guard zodat gameOver maar 1x triggert
+        if (this.gameHasEnded) return;
         this.gameHasEnded = true;
         console.log("Game Over");
-        // Ga naar de gameover scene zodat de speler daar opnieuw kan starten
         this.engine.goToScene('gameover');
 
         // const gameOverLabel = new Label({

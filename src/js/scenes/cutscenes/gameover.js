@@ -3,6 +3,8 @@ import { Resources } from '../../resources.js';
 import { Player } from '../../player/robot/player.js';
 import { Shanty } from '../../player/shanty/shanty.js'
 import { Minigame_3 } from '../minigames/minigame_3/minigame_3.js'
+import { Minigame_2 } from '../minigames/minigame_2/minigame_2.js'
+
 
 // Deze scene wordt getoond als de speler verliest in minigame 3
 export class GameOverScene extends Scene {
@@ -121,6 +123,12 @@ export class GameOverScene extends Scene {
                 engine.remove('minigame_3');
                 engine.add('minigame_3', new Minigame_3());
                 engine.goToScene('minigame_3');
+            }
+            if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
+                // Verwijder eerst de oude scene volledig voordat je een nieuwe toevoegt
+                engine.remove('minigame_2');
+                engine.add('minigame_2', new Minigame_2());
+                engine.goToScene('minigame_2');
             }
         } else {
             this.#overlapFrames = 0

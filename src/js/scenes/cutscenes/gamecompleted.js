@@ -121,6 +121,12 @@ export class GameCompletedScene extends Scene {
                 engine.add('restaurant', new Restaurant());
                 engine.goToScene('restaurant');
             }
+            if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
+                // Verwijder eerst de oude scene volledig voordat je een nieuwe toevoegt
+                engine.remove('minigame_2');
+                engine.add('restaurant', new Restaurant());
+                engine.goToScene('restaurant');
+            }
         } else {
             this.#overlapFrames = 0
         }

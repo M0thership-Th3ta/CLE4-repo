@@ -14,7 +14,7 @@ export class Player extends Actor {
     amount = 0;
     isGrounded = false;
     speed = 200;
-    hasTurtle = false; // Voeg hasTurtle flag toe
+    hasTurtle = false;
 
     constructor(leftKey, rightKey, upKey, downKey, startPos) {
 
@@ -81,15 +81,14 @@ export class Player extends Actor {
                 this.graphics.use(Resources.RobotWithTurtle.toSprite());
                 this.scale = new Vector(0.7, 0.7);
                 this.collider.set(Shape.Box(100, 100, Vector.Half, new Vector(0, 5)));
-                this.hasTurtle = true; // Zet hasTurtle op true
+                this.hasTurtle = true;
             }
         }
 
         if (event.other.owner instanceof MarineBiologist) {
             event.other.owner.hit();
 
-            if (this.hasTurtle) { // Alleen als robot een turtle heeft
-                // const scene = this.engine.currentScene;
+            if (this.hasTurtle) {
                 this.engine.currentScene.collectedTurtles++;
                 this.engine.currentScene.amountTracker.amount++;
                 if (this.engine.currentScene.minigame3UI) {
@@ -98,7 +97,7 @@ export class Player extends Actor {
                 this.graphics.use(Resources.Player.toSprite());
                 this.scale = new Vector(0.7, 0.7);
                 this.collider.set(Shape.Box(100, 80, Vector.Half, new Vector(0, -8)));
-                this.hasTurtle = false; // Zet terug op false
+                this.hasTurtle = false;
 
                 if (this.engine.currentScene.collectedTurtles >= this.engine.currentScene.totalTurtles) {
                     this.engine.currentScene.gameCompleted();

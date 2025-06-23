@@ -38,7 +38,7 @@ export class DebugControl extends Actor {
             case Keys.I:
                 this.switchScene('testscene')
                 break
-                      case Keys.K:
+            case Keys.K:
                 this.switchScene('gameover')
                 break
             case Keys.F:
