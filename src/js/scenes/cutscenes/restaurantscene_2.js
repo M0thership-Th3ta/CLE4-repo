@@ -10,7 +10,7 @@ export class Restaurantscene_2 extends Scene {
     #persona2
     #overlapFrames = 0
     #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
-    #dialogSystem
+    dialogSystem
     #hasTalkedToPersona2 = false
 
     onInitialize(engine) {
@@ -60,14 +60,14 @@ export class Restaurantscene_2 extends Scene {
         this.add(this.#shanty)
 
         //////////////////////////////////////////////////////Maak dialogSystem aan en voeg toe aan scene
-        this.#dialogSystem = new DialogSystem(engine)
-        this.add(this.#dialogSystem.dialogBox)
-        this.add(this.#dialogSystem.textActor)
+        this.dialogSystem = new DialogSystem(engine)
+        this.add(this.dialogSystem.dialogBox)
+        this.add(this.dialogSystem.textActor)
 
         /////////////////////////////////////////////////////// Voeg event listener toe voor dialog input
         engine.input.keyboard.on('press', (evt) => {
-            if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.#dialogSystem.isDialogActive) {
-                this.#dialogSystem.nextLine()
+            if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.dialogSystem.isDialogActive) {
+                this.dialogSystem.nextLine()
                 console.log("Next dialog line")
             }
         })
@@ -87,14 +87,7 @@ export class Restaurantscene_2 extends Scene {
             this.#overlapFrames = 0
         }
 
-        /////////////////////////////////////////////////////////// Check of Shanty dicht bij Persona2 is
-        const distance = this.#shanty.pos.distance(this.#persona2.pos)
-        if (distance < 100 && !this.#dialogSystem.isDialogActive) {
-            this.#dialogSystem.showDialog([
-                "Welkom in het restaurant!",
-                "Praat met de chef voor je eerste opdracht."
-            ])
-        }
+    
 
     }
 

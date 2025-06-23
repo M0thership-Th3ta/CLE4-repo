@@ -9,7 +9,7 @@ export class DialogSystem {
             pos: new Vector(game.drawWidth / 2, game.drawHeight - 100),
             width: game.drawWidth - 40,
             height: 150,
-            color: Color.Transparent
+            color: Color.Transparent,
         });
         this.dialogBox.anchor.setTo(0.5, 0.5);
         this.dialogBox.graphics.opacity = 0.8;
@@ -46,9 +46,9 @@ export class DialogSystem {
         const text = new Text({
             text: this.currentDialog[this.currentLine],
             font: new Font({ 
-                size: 20, 
-                family: 'Arial', 
-                color: Color.White,
+                size: 70, 
+                family: 'Press Start 2P', 
+                color: Color.Black,
                 shadow: {
                     blur: 5,
                     offset: new Vector(2, 2),
