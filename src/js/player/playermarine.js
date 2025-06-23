@@ -20,9 +20,9 @@ export class Player extends Actor {
 
         super({
             pos: startPos,
-            scale: new Vector(0.5, 0.5),
+            scale: new Vector(0.7, 0.7),
             collisionType: CollisionType.Active,
-            collider: Shape.Box(100, 150, Vector.Half, new Vector(0, 10)),
+            collider: Shape.Box(100, 80, Vector.Half, new Vector(0, -8)),
         });
 
         this.graphics.use(Resources.Player.toSprite());
@@ -79,7 +79,8 @@ export class Player extends Actor {
             if (!this.hasTurtle) {
                 event.other.owner.hit();
                 this.graphics.use(Resources.RobotWithTurtle.toSprite());
-                this.scale = new Vector(0.60, 0.60);
+                this.scale = new Vector(0.7, 0.7);
+                this.collider.set(Shape.Box(100, 100, Vector.Half, new Vector(0, 5)));
                 this.hasTurtle = true; // Zet hasTurtle op true
             }
         }
@@ -95,7 +96,8 @@ export class Player extends Actor {
                     this.engine.currentScene.minigame3UI.updateAmount(this.engine.currentScene.amountTracker.amount);
                 }
                 this.graphics.use(Resources.Player.toSprite());
-                this.scale = new Vector(0.5, 0.5);
+                this.scale = new Vector(0.7, 0.7);
+                this.collider.set(Shape.Box(100, 80, Vector.Half, new Vector(0, -8)));
                 this.hasTurtle = false; // Zet terug op false
 
                 if (this.engine.currentScene.collectedTurtles >= this.engine.currentScene.totalTurtles) {
