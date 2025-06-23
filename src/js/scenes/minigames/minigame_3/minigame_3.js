@@ -104,7 +104,7 @@ export class Minigame_3 extends Scene {
     gameOver() {
         if (this.gameHasEnded) return;
         this.gameHasEnded = true;
-        console.log("Game Over");
+        console.log("Game Over,");
         this.engine.goToScene('gameover');
     }
 

@@ -9,8 +9,9 @@ export class GameOverScene extends Scene {
     #player
     #triggerBar
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 
-    #START_POS = new Vector(200, 300) 
+    #REQUIRED_FRAMES = 120
+    #START_POS = new Vector(200, 300)
+    #lastMinigame = 'minigame_3'
 
     onInitialize(engine) {
         const bgWidth = engine.drawWidth * 2
@@ -22,7 +23,7 @@ export class GameOverScene extends Scene {
             collisionType: CollisionType.PreventCollision,
             anchor: new Vector(0.5, 0.5)
         })
-        const sprite = Resources.Zwartachtergrond?.toSprite?.() ?? new Rectangle({width: bgWidth, height: bgHeight, color: Color.Black})
+        const sprite = Resources.Zwartachtergrond?.toSprite?.() ?? new Rectangle({ width: bgWidth, height: bgHeight, color: Color.Black })
         sprite.width = bgWidth
         sprite.height = bgHeight
         zwartAchtergrond.graphics.use(sprite)
@@ -84,7 +85,7 @@ export class GameOverScene extends Scene {
             }),
             color: Color.White,
             anchor: new Vector(0.5, 0.5),
-            maxWidth: 500 
+            maxWidth: 500
         })
         this.add(uitlegLabel)
     }
@@ -98,6 +99,10 @@ export class GameOverScene extends Scene {
                 this.#player.resetState()
             }
         }
+        
+        if (context && context.data && context.data.lastMinigame) {
+        this.#lastMinigame = context.data.lastMinigame
+    }
         this.#overlapFrames = 0
     }
 
@@ -105,17 +110,19 @@ export class GameOverScene extends Scene {
         const isOverlapping = this.#isOverlapping(this.#player, this.#triggerBar)
         const isStandingStill = Math.abs(this.#player.vel.x) < 1 && Math.abs(this.#player.vel.y) < 1
 
-        if (isOverlapping && isStandingStill) {
+       if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.remove('minigame_3');
-                engine.add('minigame_3', new Minigame_3());
-                engine.goToScene('minigame_3');
-            }
-            if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.remove('minigame_2');
-                engine.add('minigame_2', new Minigame_2());
-                engine.goToScene('minigame_2');
+                // Start alleen de juiste minigame opnieuw
+                if (this.#lastMinigame === 'minigame_2') {
+                    engine.remove('minigame_2')
+                    engine.add('minigame_2', new Minigame_2())
+                    engine.goToScene('minigame_2', { data: { lastMinigame: 'minigame_2' } })
+                } else if (this.#lastMinigame === 'minigame_3') {
+                    engine.remove('minigame_3')
+                    engine.add('minigame_3', new Minigame_3())
+                    engine.goToScene('minigame_3', { data: { lastMinigame: 'minigame_3' } })
+                }
             }
         } else {
             this.#overlapFrames = 0
