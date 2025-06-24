@@ -14,6 +14,8 @@ import { TestScene } from './scenes/cutscenes/testscene.js'
 import { GameOverScene } from './scenes/cutscenes/gameover.js'
 import { GameCompletedScene } from './scenes/cutscenes/gamecompleted.js'
 import { MenuScene } from './scenes/menuscene.js'
+import { InstructionScreen } from './scenes/minigames/minigame_2/screens/instruction_screen.js'
+import { Minigame2FailScreen } from './scenes/minigames/minigame_2/screens/minigame2_fail_screen.js'
 
 
 
@@ -40,14 +42,13 @@ export class Game extends Engine {
 
 
 
+
     startGame() {
 
-        this.add('menu', new MenuScene())
-        this.goToScene('menu')
-        console.log(this.goToScene('menu'))
-
+    
 
         console.log("start de game!")
+
         this.add('restaurantscene_1', new Restaurantscene_1())
         this.add('minigame_1', new Minigame_1())
         this.add('restaurantscene_2', new Restaurantscene_2())
@@ -59,10 +60,12 @@ export class Game extends Engine {
         this.add('testscene', new TestScene())
         this.add('gameover', new GameOverScene())
         this.add(`gamecompleted`, new GameCompletedScene())
+        this.add('minigame_2_instruction', new InstructionScreen())
+        this.add('minigame2_fail_screen', new Minigame2FailScreen())
+        this.add('menuscene', new MenuScene())
+        this.goToScene('menuscene')
 
-        this.goToScene('testscene')
-        this.goToScene('root')
-
+        
 
 
         this.debugControl = new DebugControl(this)
@@ -75,6 +78,9 @@ export class Game extends Engine {
             this.gamepadControl = connectevent.gamepad
         })
     }
+
+
+
 }
 
 new Game()
