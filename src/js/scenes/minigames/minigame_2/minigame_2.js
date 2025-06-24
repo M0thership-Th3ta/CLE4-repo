@@ -10,7 +10,6 @@ import { TimerDisplay } from "./ui/timer_display.js";
 import { GameState } from "./managers/game_state.js";
 import { InstructionScreen } from "./screens/instruction_screen.js";
 import { SuccessScreen } from "./screens/success_screen.js";
-import { FailScreen } from "./screens/fail_screen.js";
 
 // Constanten voor betere leesbaarheid en onderhoud
 const GAME_CONFIG = {
@@ -66,7 +65,7 @@ export class Minigame_2 extends Scene {
         this.engine.on('timeUp', () => {
             this.#gameActive = false;
             console.log("Game Over! Tijd is op!");
-            engine.goToScene('minigame_2_fail', {
+            this.engine.goToScene('minigame2_fail_screen', {
                 data: {
                     finalScore: this.#gameState.getScore(),
                     ordersCompleted: this.#gameState.getOrdersCompleted()

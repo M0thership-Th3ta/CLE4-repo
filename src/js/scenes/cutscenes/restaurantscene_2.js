@@ -78,7 +78,8 @@ export class Restaurantscene_2 extends Scene {
         const isOverlapping = this.#isOverlapping(this.#shanty, this.#triggerBar)
         const isStandingStill = Math.abs(this.#shanty.vel.x) < 1 && Math.abs(this.#shanty.vel.y) < 1
 
-        if (isOverlapping && isStandingStill) {
+        // Alleen doorgaan als dialog niet actief is
+        if (!this.dialogSystem.isDialogActive && isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
                 engine.goToScene('minigame_2_instruction')
@@ -86,9 +87,6 @@ export class Restaurantscene_2 extends Scene {
         } else {
             this.#overlapFrames = 0
         }
-
-    
-
     }
 
     // Simpele AABB overlap check
