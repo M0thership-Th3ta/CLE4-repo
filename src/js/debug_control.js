@@ -6,6 +6,10 @@ export class DebugControl extends Actor {
     constructor(engine) {
         super()
         this.engine = engine
+       /////////////////////////////////////////// Voeg DebugControl toe aan de huidige scene
+        if (engine.currentScene) {
+            engine.currentScene.add(this)
+        }
     }
 
     initialize() {

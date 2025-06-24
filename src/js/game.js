@@ -40,14 +40,13 @@ export class Game extends Engine {
 
 
 
+
     startGame() {
 
-        this.add('menu', new MenuScene())
-        this.goToScene('menu')
-        console.log(this.goToScene('menu'))
-
+    
 
         console.log("start de game!")
+
         this.add('restaurantscene_1', new Restaurantscene_1())
         this.add('minigame_1', new Minigame_1())
         this.add('restaurantscene_2', new Restaurantscene_2())
@@ -59,10 +58,10 @@ export class Game extends Engine {
         this.add('testscene', new TestScene())
         this.add('gameover', new GameOverScene())
         this.add(`gamecompleted`, new GameCompletedScene())
+        this.add('menuscene', new MenuScene())
+        this.goToScene('menuscene')
 
-        this.goToScene('testscene')
-        this.goToScene('root')
-
+        
 
 
         this.debugControl = new DebugControl(this)
@@ -75,6 +74,9 @@ export class Game extends Engine {
             this.gamepadControl = connectevent.gamepad
         })
     }
+
+
+
 }
 
 new Game()
