@@ -1,12 +1,17 @@
 import { Vector, Shape } from "excalibur"
 import { NPC } from './npc.js'
 import { Resources } from '../resources.js'
+import { DialogSystem } from '../dialog.js'
+import { Shanty } from '../player/shanty/shanty.js'
 
 export class Persona3 extends NPC {
     constructor(pos) {
         // Geef collision radius door aan parent constructor
         super(pos, "Persona3", 40) // 40 pixels radius voor ronde collision
     }
+
+     #shanty
+    #dialogSystem
 
     // Override de setupGraphics methode om Persona3 sprite te gebruiken
     setupGraphics() {
@@ -27,4 +32,24 @@ export class Persona3 extends NPC {
             console.log("Shanty overlapt met Persona3!")
         }
     }
+
+     onPostUpdate(engine, delta) {
+        // Controleer of Shanty en dialogSystem beschikbaar zijn
+        if (!this.#shanty || !this.#dialogSystem) return
+
+        // Bereken afstand tussen Persona3 en Shanty
+        const distance = this.pos.distance(this.#shanty.pos)
+        if (distance < 100 && !this.#dialogSystem.isDialogActive) {
+       this.#dialogSystem.showDialog([
+    "Shanty: Whoa. You look like you tried to hug a jet engine. What's up?",
+    "Miles: Turtle emergency. Storm last night washed hatchlings onto those broken docks by the cliffs—they're stranded!",
+    "Shanty: And let me guess... you want Clippy to play tightrope walker over shark bait?",
+    "Miles: Just across the floating debris! He's nimble, and I'll guide him from shore. Please?"
+]);
+        }
+    }
+
+    // Setters om dependencies te injecteren
+    setShanty(shanty) { this.#shanty = shanty }
+    setDialogSystem(dialogSystem) { this.#dialogSystem = dialogSystem }
 }

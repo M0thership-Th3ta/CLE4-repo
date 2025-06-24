@@ -3,16 +3,16 @@ import { Resources } from '../resources.js'
 import { Restaurantscene_2 } from './cutscenes/restaurantscene_2.js'
 
 
-// StartScene toont de titel en instructies
-export class StartScene extends Scene {
+// MenuScene toont de titel en instructies
+export class MenuScene extends Scene {
+    _keyHandler;
     constructor() {
         super({
-            id: 'startscene',
+            id: 'menuscene',
             width: 800,
             height: 600,
             backgroundColor: Color.fromHex('#f00e70'),
         })
-
     }
 
     onInitialize(engine) {
@@ -44,13 +44,20 @@ export class StartScene extends Scene {
         })
         this.add(instruction)
 
-        // Event listener voor starten
-        engine.input.keyboard.on('press', (evt) => {
-            console.log("Key pressed:", evt.key); // Debug: laat zien welke toets wordt geregistreerd
+        // Sla de handler op als property
+        this._keyHandler = (evt) => {
+            console.log("Key pressed:", evt.key);
             if (evt.key === Keys.Z || evt.key === Keys.Space) {
                 engine.goToScene('restaurantscene_2');
-                // console.log(" z or space was pressed, switching to restaurantscene_2")
             }
-        });
+        };
+        engine.input.keyboard.on('press', this._keyHandler);
+    }
+
+    onDeactivate() {
+        // Verwijder de event listener netjes bij verlaten scene
+        if (this._keyHandler) {
+            this.engine.input.keyboard.off('press', this._keyHandler);
+        }
     }
 }

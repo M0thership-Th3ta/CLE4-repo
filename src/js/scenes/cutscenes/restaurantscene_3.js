@@ -1,7 +1,8 @@
-import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit } from "excalibur";
+import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit, Keys } from "excalibur";
 import { Resources } from '../../resources.js';
 import { Shanty } from '../../player/shanty/shanty.js';
 import { Persona3 } from '../../actors/persona3.js';
+import { DialogSystem } from '../../dialog.js';
 
 export class Restaurantscene_3 extends Scene {
     #shanty
@@ -9,6 +10,7 @@ export class Restaurantscene_3 extends Scene {
     #persona3
     #overlapFrames = 0
     #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #dialogKeyHandler
 
     onInitialize(engine) {
         // Achtergrond
@@ -55,6 +57,32 @@ export class Restaurantscene_3 extends Scene {
         // Voeg Shanty toe NA het balkje zodat ze er visueel overheen loopt
         this.#shanty = new Shanty(new Vector(200, 300))
         this.add(this.#shanty)
+
+        //////////////////////////////////////////////// Maak dialogSystem aan en voeg toe aan scene
+        this.dialogSystem = new DialogSystem(engine)
+        this.add(this.dialogSystem.dialogBox)
+        this.add(this.dialogSystem.textActor)
+
+        // Koppel shanty en dialogSystem aan persona3
+        if (this.#persona3.setShanty && this.#persona3.setDialogSystem) {
+            this.#persona3.setShanty(this.#shanty)
+            this.#persona3.setDialogSystem(this.dialogSystem)
+        }
+
+        //////////////////////////////////// Sla de handler op zodat we hem later kunnen verwijderen
+        this.#dialogKeyHandler = (evt) => {
+            if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.dialogSystem.isDialogActive) {
+                this.dialogSystem.nextLine()
+                console.log("Next dialog line")
+            }
+        }
+        engine.input.keyboard.on('press', this.#dialogKeyHandler)
+    }
+
+    onDeactivate() {
+        if (this.#dialogKeyHandler) {
+            this.engine.input.keyboard.off('press', this.#dialogKeyHandler)
+        }
     }
 
     onPostUpdate(engine, delta) {
