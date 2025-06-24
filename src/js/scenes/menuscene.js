@@ -3,11 +3,11 @@ import { Resources } from '../resources.js'
 import { Restaurantscene_2 } from './cutscenes/restaurantscene_2.js'
 
 
-// MenuScene toont de titel en instructies
-export class MenuScene extends Scene {
+// StartScene toont de titel en instructies
+export class StartScene extends Scene {
     constructor() {
         super({
-            id: 'menuscene',
+            id: 'startscene',
             width: 800,
             height: 600,
             backgroundColor: Color.fromHex('#f00e70'),
