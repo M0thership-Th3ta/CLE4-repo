@@ -1,4 +1,4 @@
-import { Actor, CollisionType, CompositeCollider, EdgeCollider, Shape, Vector } from "excalibur";
+import { Actor, CollisionType, Shape, Vector } from "excalibur";
 import { Resources } from "../../../resources";
 
 export class Sea extends Actor {
@@ -18,7 +18,7 @@ export class Sea extends Actor {
     }
 
     onInitialize(engine) {
-        this.collider.set(Shape.Box(550, 150, Vector.Half, new Vector(120, -15)));
+        this.collider.set(Shape.Box(650, 120, Vector.Half, new Vector(160, -10)));
     }
 
     hit() {

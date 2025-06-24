@@ -83,7 +83,7 @@ export class Minigame_3 extends Scene {
         if (this.gameHasEnded) return;
         this.gameHasEnded = true;
         console.log("Game Completed");
-        this.engine.goToScene('gamecompleted');
+        this.engine.goToScene('restaurantscene_4');
     }
 
     gameOver() {

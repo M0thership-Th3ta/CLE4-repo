@@ -1,14 +1,15 @@
 import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit } from "excalibur";
 import { Resources } from '../../resources.js';
 import { Shanty } from '../../player/shanty/shanty.js'
-import { Restaurantscene_2 } from "./restaurantscene_2.js";
+import { Restaurantscene_3 } from "./restaurantscene_3.js";
+
 
 export class GameCompletedScene extends Scene {
     #player
     #triggerBar
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 
-    #START_POS = new Vector(200, 300) 
+    #REQUIRED_FRAMES = 120
+    #START_POS = new Vector(200, 300)
 
     onInitialize(engine) {
         const bgWidth = engine.drawWidth * 2
@@ -20,7 +21,7 @@ export class GameCompletedScene extends Scene {
             collisionType: CollisionType.PreventCollision,
             anchor: new Vector(0.5, 0.5)
         })
-        const sprite = Resources.Zwartachtergrond?.toSprite?.() ?? new Rectangle({width: bgWidth, height: bgHeight, color: Color.Black})
+        const sprite = Resources.Zwartachtergrond?.toSprite?.() ?? new Rectangle({ width: bgWidth, height: bgHeight, color: Color.Black })
         sprite.width = bgWidth
         sprite.height = bgHeight
         zwartAchtergrond.graphics.use(sprite)
@@ -45,7 +46,7 @@ export class GameCompletedScene extends Scene {
             color: Color.White,
             font: new Font({
                 family: 'Arial',
-                size:28,
+                size: 28,
                 unit: FontUnit.Px,
                 color: Color.White
             })
@@ -82,7 +83,7 @@ export class GameCompletedScene extends Scene {
             }),
             color: Color.White,
             anchor: new Vector(0.5, 0.5),
-            maxWidth: 500 
+            maxWidth: 500
         })
         this.add(uitlegLabel)
     }
@@ -106,15 +107,11 @@ export class GameCompletedScene extends Scene {
         if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.remove('minigame_3');
-                engine.add('restaurant', new Restaurantscene_2());
-                engine.goToScene('restaurant');
-            }
-            if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
                 engine.remove('minigame_2');
-                engine.add('restaurant', new Restaurantscene_2());
-                engine.goToScene('restaurant');
+                engine.add('restaurantscene_3', new Restaurantscene_3());
+                engine.goToScene('restaurantscene_3');
             }
+
         } else {
             this.#overlapFrames = 0
         }

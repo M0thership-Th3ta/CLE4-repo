@@ -1,4 +1,4 @@
-import { Actor, CollisionType, DegreeOfFreedom, Engine, Shape, Side, Vector } from "excalibur"
+import { Actor, CollisionType, DegreeOfFreedom, Shape, Side, Vector } from "excalibur"
 import { Resources } from '../resources.js'
 import { Turtle } from "../scenes/minigames/minigame_3/turtle.js";
 import { MarineBiologist } from "../actors/marine_biologist.js";
@@ -74,6 +74,11 @@ export class Player extends Actor {
         if (this.pos.y > 720) {
             this.engine.currentScene.gameOver();
         }
+
+        if (this.pos.x < this.width / 2) this.pos.x = this.width / 2;
+        if (this.pos.x > engine.drawWidth - this.width / 2) this.pos.x = engine.drawWidth - this.width / 2;
+        if (this.pos.y < this.height / 2) this.pos.y = this.height / 2;
+        if (this.pos.y > engine.drawHeight - this.height / 2) this.pos.y = engine.drawHeight - this.height / 2;
 
     }
 
