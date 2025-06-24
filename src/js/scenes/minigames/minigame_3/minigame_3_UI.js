@@ -22,12 +22,12 @@ export class Minigame3UI extends Actor {
         const font = new Font({
             family: "Arial",
             size: 24,
-            color: Color.White,
+            color: Color.Blue,
             textAlign: TextAlign.Left,
         })
 
         this.amountLabel = new Label({
-            text: `Aantal geredt schildpadden: 0`,
+            text: `Zeeschildpadden geredt: 0`,
             pos: new Vector(10, 10),
             font: font,
         })
@@ -37,6 +37,6 @@ export class Minigame3UI extends Actor {
     }
 
     updateAmount(amount) {
-        this.amountLabel.text = `Aantal geredt schildpadden: ${amount}`;
+        this.amountLabel.text = `Zeeschildpadden geredt: ${amount}`;
     }
 }
