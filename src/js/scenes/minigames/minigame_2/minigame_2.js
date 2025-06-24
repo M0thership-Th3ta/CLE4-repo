@@ -1,15 +1,15 @@
-import { Actor, Scene, Label, Vector, Color, Font, FontUnit, Keys } from "excalibur";
-import { Resources, ResourceLoader } from '../../../resources.js';
+import { Scene, Vector } from "excalibur";
+import { Resources } from '../../../resources.js';
 import { Pointer } from '../../../player/robot/pointer.js';
 import { Background2 } from "./background_2.js";
 import { Food } from "./actors/food.js";
 import { Customer } from "./actors/customer.js";
-import { Order } from "./actors/order.js";
 import { OrderDisplay } from "./ui/order_display.js";
 import { TimerDisplay } from "./ui/timer_display.js";
 import { GameState } from "./managers/game_state.js";
 import { InstructionScreen } from "./screens/instruction_screen.js";
 import { SuccessScreen } from "./screens/success_screen.js";
+import { GameCompletedScene } from "../../cutscenes/gamecompleted.js";
 
 // Constanten voor betere leesbaarheid en onderhoud
 const GAME_CONFIG = {
@@ -45,11 +45,11 @@ export class Minigame_2 extends Scene {
         this.engine.on('orderComplete', (evt) => {            if(evt.success) {
                 // Update game state
                 this.#gameState.incrementOrder()
-                
+
                 // Check of game compleet is
                 if (this.#gameState.isGameComplete()) {
                     console.log("Alle orders voltooid! Ga naar success screen")
-                    engine.goToScene('minigame_2_success', { 
+                    this.engine.goToScene('gamecompleted', { 
                         data: { 
                             finalScore: this.#gameState.getScore() 
                         } 
