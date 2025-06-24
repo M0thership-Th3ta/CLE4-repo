@@ -5,6 +5,12 @@ export class InstructionScreen extends Scene {
     #instructionLabels = []
     #controlsLabel
     #startLabel
+    
+    // Properties voor robuuste input handling
+    #keyboardEventHandler = null
+    #hasSceneSwitched = false
+    #lastInputTime = 0
+    #inputCooldown = 200 // Milliseconden cooldown tussen inputs
 
     constructor() {
         super()
@@ -24,7 +30,62 @@ export class InstructionScreen extends Scene {
         // Maak start prompt aan
         this.#createStartPrompt(engine)
         
-        console.log("Instruction screen geïnitialiseerd")
+        // Setup robuuste input handling
+        this.#setupInputHandling(engine)
+        
+        console.log("Instruction screen geïnitialiseerd met robuuste input handling")
+    }
+
+    // Setup van robuuste input handling met event listeners en fallback
+    #setupInputHandling(engine) {
+        // Maak een event handler functie die we later kunnen verwijderen
+        this.#keyboardEventHandler = (evt) => {
+            console.log("Keyboard event ontvangen:", evt.key, "Type:", evt.type)
+            
+            // Check of we recent al input hebben gehad (debounce)
+            const currentTime = Date.now()
+            if (currentTime - this.#lastInputTime < this.#inputCooldown) {
+                console.log("Input genegeerd vanwege cooldown")
+                return
+            }
+            
+            // Check verschillende varianten van space en enter keys
+            const isSpaceKey = evt.key === ' ' || 
+                              evt.key === 'Space' || 
+                              evt.key === Keys.Space ||
+                              evt.code === 'Space'
+            
+            const isEnterKey = evt.key === 'Enter' || 
+                              evt.key === Keys.Enter ||
+                              evt.code === 'Enter'
+            
+            if (isSpaceKey || isEnterKey) {
+                console.log("Geldige start key gedetecteerd:", evt.key)
+                this.#startMinigame(engine)
+            }
+        }
+        
+        // Registreer event listeners voor zowel keydown als keypress
+        // Dit zorgt voor betere compatibiliteit across browsers
+        engine.input.keyboard.on('press', this.#keyboardEventHandler)
+        console.log("Event listeners geregistreerd voor keyboard input")
+    }
+
+    // Start minigame functie met dubbele input preventie
+    #startMinigame(engine) {
+        // Voorkom dubbele scene switches
+        if (this.#hasSceneSwitched) {
+            console.log("Scene switch al in progress - genegeerd")
+            return
+        }
+        
+        console.log("=== STARTING MINIGAME 2 ===")
+        this.#hasSceneSwitched = true
+        this.#lastInputTime = Date.now()
+        
+        // Schakel naar minigame_2 scene
+        engine.goToScene('minigame_2')
+        console.log("Scene switch naar minigame_2 uitgevoerd")
     }
 
     // Maak de hoofdtitel aan
@@ -86,10 +147,10 @@ export class InstructionScreen extends Scene {
         this.add(this.#controlsLabel)
     }
 
-    // Maak de start prompt aan
+    // Maak de start prompt aan - aangepast voor SPACE en ENTER
     #createStartPrompt(engine) {
         this.#startLabel = new Label({
-            text: "Druk SPATIE om te beginnen",
+            text: "Druk SPATIE of ENTER om te beginnen",
             pos: new Vector(engine.halfDrawWidth, 550),
             color: Color.Green,
             font: new Font({
@@ -101,22 +162,46 @@ export class InstructionScreen extends Scene {
         this.add(this.#startLabel)
     }
 
-    // Deze functie wordt elke frame uitgevoerd
+    // Deze functie wordt elke frame uitgevoerd - fallback input handling
     onPreUpdate(engine, delta) {
-        // Luister naar spacebar om naar de minigame te gaan
-        if (engine.input.keyboard.wasPressed(Keys.Space)) {
-            console.log("Spacebar ingedrukt - start minigame!")
-            engine.goToScene('minigame_2')
+        // Fallback input handling als event listeners falen
+        // Check of we recent al input hebben gehad
+        const currentTime = Date.now()
+        if (currentTime - this.#lastInputTime < this.#inputCooldown) {
+            return
+        }
+        
+        // Check voor SPACE en ENTER met wasPressed (fallback methode)
+        const spacePressed = engine.input.keyboard.wasPressed(Keys.Space)
+        const enterPressed = engine.input.keyboard.wasPressed(Keys.Enter)
+        
+        if (spacePressed || enterPressed) {
+            const keyName = spacePressed ? 'Space' : 'Enter'
+            console.log(`Fallback input gedetecteerd: ${keyName}`)
+            this.#startMinigame(engine)
         }
     }
 
     // Wordt aangeroepen wanneer de scene actief wordt
     onActivate(context) {
         console.log("Instruction screen actief")
+        // Reset scene switch status en input timing
+        this.#hasSceneSwitched = false
+        this.#lastInputTime = 0
     }
 
-    // Wordt aangeroepen wanneer de scene wordt verlaten  
+    // Wordt aangeroepen wanneer de scene wordt verlaten - cleanup event listeners
     onDeactivate(context) {
-        console.log("Instruction screen verlaten")
+        console.log("Instruction screen verlaten - cleanup event listeners")
+        
+        // Verwijder event listeners om memory leaks te voorkomen
+        if (this.#keyboardEventHandler && this.engine?.input?.keyboard) {
+            this.engine.input.keyboard.off('press', this.#keyboardEventHandler)
+            console.log("Keyboard event listeners verwijderd")
+        }
+        
+        // Reset properties
+        this.#keyboardEventHandler = null
+        this.#hasSceneSwitched = false
     }
 }
