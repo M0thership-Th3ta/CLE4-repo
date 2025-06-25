@@ -1,10 +1,11 @@
-import { Scene, Label, Vector, Color, Font, FontUnit, Keys } from "excalibur"
+import { Scene, Label, Vector, Color, Font, FontUnit, Keys, TextAlign } from "excalibur"
 
 export class InstructionScreen extends Scene {
     #titleLabel
     #instructionLabels = []
     #controlsLabel
     #startLabel
+    #backgroundRect
     
     // Properties voor robuuste input handling
     #keyboardEventHandler = null
@@ -16,6 +17,9 @@ export class InstructionScreen extends Scene {
         super()
     }    // Deze functie wordt aangeroepen wanneer de scene wordt geïnitialiseerd
     onInitialize(engine) {
+        // Voeg een achtergrondkleur toe voor betere leesbaarheid
+        this.backgroundColor = Color.fromRGB(30, 144, 255, 0.9) // Nice blue background
+        
         // Initialiseer button state tracking voor controller
         this.aButtonWasPressed = false;
         this.bButtonWasPressed = false;
@@ -35,8 +39,8 @@ export class InstructionScreen extends Scene {
         // Setup robuuste input handling
         this.#setupInputHandling(engine)
         
-        console.log("Instruction screen geïnitialiseerd met robuuste input handling")
-    }    // Setup van robuuste input handling met event listeners
+        console.log("Instruction screen geïnitialiseerd met verbeterde layout")
+    }// Setup van robuuste input handling met event listeners
     #setupInputHandling(engine) {
         // Maak een event handler functie die we later kunnen verwijderen
         this.#keyboardEventHandler = (evt) => {
@@ -85,77 +89,74 @@ export class InstructionScreen extends Scene {
         // Schakel naar minigame_2 scene
         engine.goToScene('minigame_2')
         console.log("Scene switch naar minigame_2 uitgevoerd")
-    }
-
-    // Maak de hoofdtitel aan
+    }    // Maak de hoofdtitel aan
     #createTitle(engine) {
         this.#titleLabel = new Label({
-            text: "Restaurant Rush!",
-            pos: new Vector(engine.halfDrawWidth, 100),
+            text: "Help in de snackbar!",
+            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight - 250),
             color: Color.Yellow,
             font: new Font({
                 family: 'Arial',
-                size: 48,
-                unit: FontUnit.Px
+                size: 56,
+                unit: FontUnit.Px,
+                textAlign: TextAlign.Center
             })
         })
         this.add(this.#titleLabel)
-    }
-
-    // Maak de instructie teksten aan
+    }    // Maak de instructie teksten aan
     #createInstructions(engine) {
         const instructions = [
-            "Lever bestellingen af door food items te slepen",
-            "Gebruik WASD om te bewegen, Enter om te pakken/loslaten", 
-            "Match de exacte volgorde!"
+            "🥖 Je gaat Zhiwen helpen in de snackbar,",
+            "🔥 Het is erg druk in de snackbar, help een handje uit!",
+            "🎮 Gebruik de controller om te bewegen door het restaurant", 
+            "📦 Houdt de A-knop ingedrukt om producten op te pakken en en te geven aan de klanten",
         ]
 
-        // Startpositie voor instructies
-        let yPos = 250
-        const lineSpacing = 40
+        // Bereken centrale positie voor instructies
+        const startY = engine.halfDrawHeight - 120
+        const lineSpacing = 50
 
         instructions.forEach((instruction, index) => {
             const label = new Label({
                 text: instruction,
-                pos: new Vector(engine.halfDrawWidth, yPos + (index * lineSpacing)),
+                pos: new Vector(engine.halfDrawWidth, startY + (index * lineSpacing)),
                 color: Color.White,
                 font: new Font({
                     family: 'Arial',
-                    size: 24,
-                    unit: FontUnit.Px
+                    size: 26,
+                    unit: FontUnit.Px,
+                    textAlign: TextAlign.Center
                 })
             })
             
             this.#instructionLabels.push(label)
             this.add(label)
         })
-    }
-
-    // Maak de controls uitleg aan
+    }    // Maak de controls uitleg aan
     #createControls(engine) {
         this.#controlsLabel = new Label({
-            text: "🎮 WASD/Controller = Bewegen | ENTER/A = Pakken/Loslaten 🎮",
-            pos: new Vector(engine.halfDrawWidth, 400),
+            text: "🎮 L-Stick = Bewegen | A-knop = Pakken/Loslaten 🎮",
+            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 180),
             color: Color.Cyan,
             font: new Font({
                 family: 'Arial',
-                size: 20,
-                unit: FontUnit.Px
+                size: 22,
+                unit: FontUnit.Px,
+                textAlign: TextAlign.Center
             })
         })
         this.add(this.#controlsLabel)
-    }
-
-    // Maak de start prompt aan - aangepast voor SPACE en ENTER
+    }    // Maak de start prompt aan - alleen controller input
     #createStartPrompt(engine) {
         this.#startLabel = new Label({
-            text: "Druk SPATIE/ENTER of Controller A/B om te beginnen",
-            pos: new Vector(engine.halfDrawWidth, 550),
+            text: "Druk Controller A of B om te beginnen",
+            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 250),
             color: Color.Green,
             font: new Font({
                 family: 'Arial',
-                size: 28,
-                unit: FontUnit.Px
+                size: 30,
+                unit: FontUnit.Px,
+                textAlign: TextAlign.Center
             })
         })
         this.add(this.#startLabel)
