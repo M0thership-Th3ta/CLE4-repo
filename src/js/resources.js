@@ -1,4 +1,4 @@
-import { ImageSource, Sound, Loader } from 'excalibur'
+import { ImageSource, Sound, Loader, Font, FontSource } from 'excalibur'
 
 // Gebruik altijd paden relatief aan de public folder
 const Resources = {
@@ -33,6 +33,8 @@ const Resources = {
     Persona2: new ImageSource('images/persona2.png'),
     Persona3: new ImageSource('images/persona3.png'),
     Zwartachtergrond: new ImageSource('images/zwartachtergrond.png'),
+    PressStart2P: new FontSource('font/PressStart2P-Regular.ttf', 'basic'),
+    InstructionBackground: new ImageSource('images/instructionBackground.png'),
 }
    
 

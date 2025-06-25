@@ -1,7 +1,8 @@
-import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit } from "excalibur";
+import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit, None } from "excalibur";
 import { Resources } from '../../resources.js';
 import { Minigame_3 } from '../minigames/minigame_3/minigame_3.js'
 import { Shanty } from "../../player/shanty/shanty.js";
+import { InstructionBackground } from "../minigames/minigame_3/instruction_background.js";
 
 
 export class Instruction extends Scene {
@@ -12,43 +13,28 @@ export class Instruction extends Scene {
     #START_POS = new Vector(200, 300)
 
     onInitialize(engine) {
-        const bgWidth = engine.drawWidth * 2
-        const bgHeight = engine.drawHeight * 2
-        const zwartAchtergrond = new Actor({
-            pos: new Vector(engine.drawWidth / 2, engine.drawHeight / 2),
-            width: bgWidth,
-            height: bgHeight,
-            collisionType: CollisionType.PreventCollision,
-            anchor: new Vector(0.5, 0.5)
-        })
-        const sprite = Resources.Zwartachtergrond?.toSprite?.() ?? new Rectangle({ width: bgWidth, height: bgHeight, color: Color.Black })
-        sprite.width = bgWidth
-        sprite.height = bgHeight
-        zwartAchtergrond.graphics.use(sprite)
-        zwartAchtergrond.z = -100
-        this.add(zwartAchtergrond)
+
+        const backgroundInstruction = new InstructionBackground();
+        this.add(backgroundInstruction);
 
         this.#triggerBar = new Actor({
-            pos: new Vector(engine.halfDrawWidth, engine.drawHeight - 40),
+            pos: new Vector(engine.halfDrawWidth, engine.drawHeight - 180),
             width: 200,
             height: 40,
             collisionType: CollisionType.Passive
         })
         this.#triggerBar.graphics.use(new Rectangle({
-            width: 150,
+            width: 200,
             height: 40,
-            color: Color.Red
+            color: Color.Transparent
         }))
 
         const terugLabel = new Label({
             text: 'START',
-            pos: new Vector(-50, -13),
-            color: Color.White,
-            font: new Font({
-                family: 'Arial',
-                size: 30,
-                unit: FontUnit.Px,
-                color: Color.White
+            pos: new Vector(-75, 50),
+            color: Color.fromHex('#FF3333'),
+            font: Resources.PressStart2P.toFont({
+                size: 32,
             })
         })
         this.#triggerBar.addChild(terugLabel)
@@ -59,33 +45,89 @@ export class Instruction extends Scene {
 
         const gameOverLabel = new Label({
             text: 'Instructie',
-            pos: new Vector(500, 200),
-            font: new Font({
-                family: 'Arial',
-                size: 64,
+            pos: new Vector(330, 150),
+            font: Resources.PressStart2P.toFont({
+                size: 66,
+                color: Color.fromHex('#000000'),
                 unit: FontUnit.Px,
-                color: Color.White,
-                bold: true
             }),
-            color: Color.White,
             anchor: new Vector(0.5, 0.5)
         })
         this.add(gameOverLabel)
 
         const uitlegLabel = new Label({
-            text: 'Breng de zeeschildpadden één voor één naar de marien bioloog zodat hij ze weer naar de zee kunnen begeleiden om ze te redden!',
-            pos: new Vector(350, 300),
-            font: new Font({
-                family: 'Arial',
-                size: 27,
+            text: 'Breng de zeeschildpadden naar',
+            pos: new Vector(360, 300),
+            font: Resources.PressStart2P.toFont({
+                size: 20,
+                color: Color.fromHex('#2B2B2B'),
                 unit: FontUnit.Px,
-                color: Color.White
             }),
-            color: Color.White,
             anchor: new Vector(0.5, 0.5),
-            maxWidth: 700
+            maxWidth: 680
         })
         this.add(uitlegLabel)
+
+        const uitlegLabel2a = new Label({
+            text: 'Spring met ',
+            pos: new Vector(480, 400),
+            font: Resources.PressStart2P.toFont({
+                size: 20,
+                color: Color.fromHex('#005580'),
+                unit: FontUnit.Px,
+            }),
+            anchor: new Vector(0, 0.5)
+        });
+        this.add(uitlegLabel2a);
+
+        const uitlegLabel2b = new Label({
+            text: 'A-Knop',
+            pos: new Vector(700, 400),
+            font: Resources.PressStart2P.toFont({
+                size: 20,
+                color: Color.fromHex('#FFCC00'),
+                unit: FontUnit.Px,
+            }),
+            anchor: new Vector(0, 0.5)
+        });
+        this.add(uitlegLabel2b);
+
+        const uitlegLabel3a = new Label({
+            text: 'Beweeg met ',
+            pos: new Vector(480, 430),
+            font: Resources.PressStart2P.toFont({
+                size: 20,
+                color: Color.fromHex('#005580'),
+                unit: FontUnit.Px,
+            }),
+            anchor: new Vector(0, 0.5)
+        });
+        this.add(uitlegLabel3a);
+
+        const uitlegLabel3b = new Label({
+            text: 'L-Stick',
+            pos: new Vector(690, 430),
+            font: Resources.PressStart2P.toFont({
+                size: 20,
+                color: Color.fromHex('#FFCC00'),
+                unit: FontUnit.Px,
+            }),
+            anchor: new Vector(0, 0.5)
+        });
+        this.add(uitlegLabel3b);
+
+        const uitlegLabel4 = new Label({
+            text: 'de marien bioloog',
+            pos: new Vector(480, 330),
+            font: Resources.PressStart2P.toFont({
+                size: 20,
+                color: Color.White,
+                unit: FontUnit.Px,
+            }),
+            anchor: new Vector(0.5, 0.5),
+            maxWidth: 680
+        })
+        this.add(uitlegLabel4);
     }
 
     onActivate(context) {
