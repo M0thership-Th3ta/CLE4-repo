@@ -3,7 +3,7 @@ import { Resources } from "../../resources.js"
 
 export class Pointer extends Actor {
     #heldItem = null
-    #speed = 250
+    #speed = 300
     #isHolding = false
 
     constructor(pos) {

@@ -6,6 +6,7 @@ import { Food } from "./actors/food.js";
 import { Customer } from "./actors/customer.js";
 import { OrderDisplay } from "./ui/order_display.js";
 import { TimerDisplay } from "./ui/timer_display.js";
+import { OrderCounter } from "./ui/order_counter.js";
 import { GameState } from "./managers/game_state.js";
 import { InstructionScreen } from "./screens/instruction_screen.js";
 import { SuccessScreen } from "./screens/success_screen.js";
@@ -14,6 +15,7 @@ import { GameCompletedScene } from "../../cutscenes/gamecompleted.js";
 // Constanten voor betere leesbaarheid en onderhoud
 const GAME_CONFIG = {
     TIMER_POS: { x: 1195, y: 75 }, // Verplaatst naar rechts
+    ORDER_COUNTER_POS: { x: 50, y: 70 }, // Links boven
     CUSTOMER_POS: new Vector(735, 220),    FOOD_POSITIONS: {
         food1: new Vector(275, 360), // Verplaatst naar aanrecht
         food2: new Vector(175, 270), // Verplaatst naar aanrecht
@@ -30,6 +32,7 @@ export class Minigame_2 extends Scene {
     #orderDisplay
     #currentCustomer
     #timerDisplay
+    #orderCounter
     #gameState = new GameState()
     #gameActive = true
 
@@ -45,6 +48,11 @@ export class Minigame_2 extends Scene {
         this.engine.on('orderComplete', (evt) => {            if(evt.success) {
                 // Update game state
                 this.#gameState.incrementOrder()
+
+                // Update order counter
+                if (this.#orderCounter) {
+                    this.#orderCounter.updateOrder(this.#gameState.getOrdersCompleted())
+                }
 
                 // Check of game compleet is
                 if (this.#gameState.isGameComplete()) {
@@ -115,6 +123,7 @@ export class Minigame_2 extends Scene {
         // Voeg game elementen toe
         this.#addGameElements();
         this.#createTimer();
+        this.#createOrderCounter();
         this.#createOrderDisplay();
         this.#spawnInitialCustomer();
     }
@@ -147,6 +156,21 @@ export class Minigame_2 extends Scene {
             
         } catch (error) {
             console.error("Fout bij maken timer:", error);
+        }
+    }
+
+    // Maakt de order counter aan
+    #createOrderCounter() {
+        try {
+            console.log('=== ORDER COUNTER CREATION START ===')
+            this.#orderCounter = new OrderCounter(new Vector(GAME_CONFIG.ORDER_COUNTER_POS.x, GAME_CONFIG.ORDER_COUNTER_POS.y));
+            this.add(this.#orderCounter);
+            
+            console.log("Order counter succesvol toegevoegd");
+            console.log('Order counter object:', this.#orderCounter);
+            
+        } catch (error) {
+            console.error("Fout bij maken order counter:", error);
         }
     }
 

@@ -17,8 +17,8 @@ export class Persona3 extends NPC {
     setupGraphics() {
         // Gebruik de Persona3 resource voor de graphics en maak deze even groot als Shanty
         const sprite = Resources.Persona3.toSprite()
-        const scaleX = 80 / sprite.image.width
-        const scaleY = 80 / sprite.image.height
+        const scaleX = 150 / sprite.image.width
+        const scaleY = 150 / sprite.image.height
         sprite.scale = new Vector(scaleX, scaleY)
         this.graphics.use(sprite)
         // Stel een vierkante collider in van 80x80 (zoals Shanty)
