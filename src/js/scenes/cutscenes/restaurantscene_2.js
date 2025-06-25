@@ -9,7 +9,7 @@ export class Restaurantscene_2 extends Scene {
     #triggerBar
     #persona2
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
     dialogSystem
     #hasTalkedToPersona2 = false
 

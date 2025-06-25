@@ -8,7 +8,7 @@ export class Minigame2FailScreen extends Scene {
     #player
     #triggerBar
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120
+    #REQUIRED_FRAMES = 60
     #START_POS = new Vector(200, 300)
     #lastMinigame = 'minigame_3'
 

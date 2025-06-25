@@ -9,8 +9,12 @@ export class Restaurantscene_3 extends Scene {
     #triggerBar
     #persona3
     #overlapFrames = 0
+<<<<<<< HEAD
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
+=======
     #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
     #dialogKeyHandler
+>>>>>>> 9021918be2cc8ecae9889a9fd9ed38934e3bc2da
 
     onInitialize(engine) {
         // Initialiseer button state tracking voor controller

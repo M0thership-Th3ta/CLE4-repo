@@ -6,7 +6,7 @@ export class TestScene extends Scene {
     #player
     #worldMapTrigger
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
 
     // Deze functie wordt één keer aangeroepen wanneer de scene wordt geladen
     onInitialize(engine) {
@@ -16,7 +16,7 @@ export class TestScene extends Scene {
             pos: new Vector(engine.halfDrawWidth, 200),
             width: 32,
             height: 32,
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Passive
         })
         this.#player.graphics.use(Resources.Persona1.toSprite())
         this.add(this.#player)
@@ -46,8 +46,10 @@ export class TestScene extends Scene {
 
             if (isOverlapping && isStandingStill) {
                 this.#overlapFrames++
-                // Ga naar worldmap als speler 2 seconden stilstaat op het blok
+                // Ga naar worldmap als speler 1 seconde stilstaat op het blok
                 if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
+                    // Speel correct answer geluid af
+                    Resources.CorrectAnswer.play()
                     engine.goToScene('worldmap')
                 }
             } else {
