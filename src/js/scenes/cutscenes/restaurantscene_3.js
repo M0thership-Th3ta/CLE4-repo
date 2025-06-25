@@ -8,7 +8,7 @@ export class Restaurantscene_3 extends Scene {
     #triggerBar
     #persona3
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
 
     onInitialize(engine) {
         // Achtergrond

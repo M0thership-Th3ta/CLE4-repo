@@ -6,7 +6,7 @@ export class TestScene extends Scene {
     #player
     #worldMapTrigger
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
 
     // Deze functie wordt één keer aangeroepen wanneer de scene wordt geladen
     onInitialize(engine) {
