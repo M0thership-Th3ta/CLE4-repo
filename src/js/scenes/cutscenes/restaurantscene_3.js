@@ -13,6 +13,10 @@ export class Restaurantscene_3 extends Scene {
     #dialogKeyHandler
 
     onInitialize(engine) {
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false;
+        this.bButtonWasPressed = false;
+        
         // Achtergrond
         const restaurantBackground = new Actor({
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight),
@@ -75,26 +79,43 @@ export class Restaurantscene_3 extends Scene {
             }
         }
         engine.input.keyboard.on('press', this.#dialogKeyHandler)
-    }
-
-    update(engine, delta) {
+    }    update(engine, delta) {
         super.update(engine, delta);
 
-        // Controller input voor dialog - check elke frame
+        // Controller input voor dialog - check elke frame met edge detection
         if (this.dialogSystem.isDialogActive) {
             const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
             for (const gamepad of gamepads) {
                 if (!gamepad) continue;
                 
-                // A knop (index 0) of B knop (index 1) voor dialog voortzetten
-                if ((gamepad.buttons[0] && gamepad.buttons[0].pressed) || 
-                    (gamepad.buttons[1] && gamepad.buttons[1].pressed)) {
-                    this.dialogSystem.nextLine();
-                    console.log("Next dialog line (controller)");
+                // A knop (index 0) edge detection voor dialog voortzetten
+                if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                    if (!this.aButtonWasPressed) {
+                        this.aButtonWasPressed = true;
+                        this.dialogSystem.nextLine();
+                        console.log("Next dialog line (controller A)");
+                    }
+                } else {
+                    this.aButtonWasPressed = false;
+                }
+                
+                // B knop (index 1) edge detection als alternatief
+                if (gamepad.buttons[1] && gamepad.buttons[1].pressed) {
+                    if (!this.bButtonWasPressed) {
+                        this.bButtonWasPressed = true;
+                        this.dialogSystem.nextLine();
+                        console.log("Next dialog line (controller B)");
+                    }
+                } else {
+                    this.bButtonWasPressed = false;
                 }
             }
         }
     }    onDeactivate() {
+        // Reset button state bij verlaten scene
+        this.aButtonWasPressed = false;
+        this.bButtonWasPressed = false;
+        
         if (this.#dialogKeyHandler) {
             this.engine.input.keyboard.off('press', this.#dialogKeyHandler)
         }

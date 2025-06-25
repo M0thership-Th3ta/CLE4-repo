@@ -14,10 +14,12 @@ export class InstructionScreen extends Scene {
 
     constructor() {
         super()
-    }
-
-    // Deze functie wordt aangeroepen wanneer de scene wordt geïnitialiseerd
+    }    // Deze functie wordt aangeroepen wanneer de scene wordt geïnitialiseerd
     onInitialize(engine) {
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false;
+        this.bButtonWasPressed = false;
+        
         // Maak titel aan
         this.#createTitle(engine)
         
@@ -34,9 +36,7 @@ export class InstructionScreen extends Scene {
         this.#setupInputHandling(engine)
         
         console.log("Instruction screen geïnitialiseerd met robuuste input handling")
-    }
-
-    // Setup van robuuste input handling met event listeners en fallback
+    }    // Setup van robuuste input handling met event listeners
     #setupInputHandling(engine) {
         // Maak een event handler functie die we later kunnen verwijderen
         this.#keyboardEventHandler = (evt) => {
@@ -65,30 +65,9 @@ export class InstructionScreen extends Scene {
             }
         }
         
-        // Registreer event listeners voor zowel keydown als keypress
-        // Dit zorgt voor betere compatibiliteit across browsers
+        // Registreer event listeners voor keyboard input
         engine.input.keyboard.on('press', this.#keyboardEventHandler)
         console.log("Event listeners geregistreerd voor keyboard input")
-        
-        // Controller input check
-        this._controllerCheckInterval = setInterval(() => {
-            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
-            const gamepad = gamepads[0];
-            
-            if (gamepad && !this.#hasSceneSwitched) {
-                const currentTime = Date.now();
-                if (currentTime - this.#lastInputTime < this.#inputCooldown) {
-                    return;
-                }
-                
-                // A knop (index 0) of B knop (index 1) voor starten
-                if ((gamepad.buttons[0] && gamepad.buttons[0].pressed) || 
-                    (gamepad.buttons[1] && gamepad.buttons[1].pressed)) {
-                    console.log("Controller start button gedetecteerd");
-                    this.#startMinigame(engine);
-                }
-            }
-        }, 100);
     }
 
     // Start minigame functie met dubbele input preventie
@@ -200,17 +179,16 @@ export class InstructionScreen extends Scene {
             console.log(`Fallback input gedetecteerd: ${keyName}`)
             this.#startMinigame(engine)
         }
-    }
-
-    // Wordt aangeroepen wanneer de scene actief wordt
+    }    // Wordt aangeroepen wanneer de scene actief wordt
     onActivate(context) {
         console.log("Instruction screen actief")
         // Reset scene switch status en input timing
         this.#hasSceneSwitched = false
         this.#lastInputTime = 0
-    }
-
-    // Wordt aangeroepen wanneer de scene wordt verlaten - cleanup event listeners
+        // Reset button states
+        this.aButtonWasPressed = false
+        this.bButtonWasPressed = false
+    }    // Wordt aangeroepen wanneer de scene wordt verlaten - cleanup event listeners
     onDeactivate(context) {
         console.log("Instruction screen verlaten - cleanup event listeners")
         
@@ -220,13 +198,50 @@ export class InstructionScreen extends Scene {
             console.log("Keyboard event listeners verwijderd")
         }
         
-        // Stop controller check interval
-        if (this._controllerCheckInterval) {
-            clearInterval(this._controllerCheckInterval);
-        }
-        
-        // Reset properties
+        // Reset properties en button states
         this.#keyboardEventHandler = null
         this.#hasSceneSwitched = false
+        this.aButtonWasPressed = false
+        this.bButtonWasPressed = false
+    }
+
+    // Controller input check elke frame - de juiste Excalibur manier
+    update(engine, delta) {
+        super.update(engine, delta);
+
+        // Controller input met edge detection
+        if (!this.#hasSceneSwitched) {
+            const currentTime = Date.now();
+            if (currentTime - this.#lastInputTime < this.#inputCooldown) {
+                return;
+            }
+            
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            for (const gamepad of gamepads) {
+                if (!gamepad) continue;
+                
+                // A knop (index 0) edge detection voor starten
+                if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                    if (!this.aButtonWasPressed) {
+                        this.aButtonWasPressed = true;
+                        console.log("Controller A button gedetecteerd");
+                        this.#startMinigame(engine);
+                    }
+                } else {
+                    this.aButtonWasPressed = false;
+                }
+                
+                // B knop (index 1) edge detection als alternatief
+                if (gamepad.buttons[1] && gamepad.buttons[1].pressed) {
+                    if (!this.bButtonWasPressed) {
+                        this.bButtonWasPressed = true;
+                        console.log("Controller B button gedetecteerd");
+                        this.#startMinigame(engine);
+                    }
+                } else {
+                    this.bButtonWasPressed = false;
+                }
+            }
+        }
     }
 }
