@@ -35,15 +35,37 @@ export class Customer extends Actor {
         this.graphics.use(this.sprite.toSprite())
         console.log("Nieuwe bestelling:", this.#order.getOrder())
 
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false;
+
         // Event listeners met private methods voor betere encapsulation
         this.on(COLLISION_START, (evt) => this.#onCollisionStart(evt));
         this.on(COLLISION_END, (evt) => this.#onCollisionEnd(evt));
-    }
-
-    // Deze functie wordt elke frame uitgevoerd
+    }    // Deze functie wordt elke frame uitgevoerd
     onPreUpdate(engine) {
+        // Keyboard input
         if (engine.input.keyboard.wasReleased(Keys.Enter) && this.#collidingFood) {
             this.#handleFoodDelivery(this.#collidingFood)
+        }
+        
+        // Controller input - MET RELEASE DETECTION (net zoals keyboard wasReleased)
+        if (this.#collidingFood) {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            for (const gamepad of gamepads) {
+                if (!gamepad) continue;
+                
+                // A knop (index 0) - release detection voor food delivery
+                if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                    // Knop is ingedrukt - markeer alleen
+                    this.aButtonWasPressed = true;
+                } else {
+                    // Knop is losgelaten - nu pas food delivery (net zoals keyboard wasReleased)
+                    if (this.aButtonWasPressed) {
+                        this.aButtonWasPressed = false;
+                        this.#handleFoodDelivery(this.#collidingFood);
+                    }
+                }
+            }
         }
     }
 

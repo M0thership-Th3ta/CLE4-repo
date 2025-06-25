@@ -1,14 +1,14 @@
 import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit } from "excalibur";
 import { Resources } from '../../resources.js';
-import { Shanty } from '../../player/shanty/shanty.js'
-import { Restaurantscene_3 } from "./restaurantscene_3.js";
+import { Minigame_3 } from '../minigames/minigame_3/minigame_3.js'
+import { Shanty } from "../../player/shanty/shanty.js";
 
 
-export class GameCompletedScene extends Scene {
+export class Instruction extends Scene {
     #player
     #triggerBar
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 60
+    #REQUIRED_FRAMES = 120
     #START_POS = new Vector(200, 300)
 
     onInitialize(engine) {
@@ -35,18 +35,18 @@ export class GameCompletedScene extends Scene {
             collisionType: CollisionType.Passive
         })
         this.#triggerBar.graphics.use(new Rectangle({
-            width: 200,
+            width: 150,
             height: 40,
             color: Color.Red
         }))
 
         const terugLabel = new Label({
-            text: 'Het restaurant',
-            pos: new Vector(-89, -10),
+            text: 'START',
+            pos: new Vector(-50, -13),
             color: Color.White,
             font: new Font({
                 family: 'Arial',
-                size: 28,
+                size: 30,
                 unit: FontUnit.Px,
                 color: Color.White
             })
@@ -57,9 +57,9 @@ export class GameCompletedScene extends Scene {
         this.#player = new Shanty(this.#START_POS.clone())
         this.add(this.#player)
 
-        const gameCompletedLabel = new Label({
-            text: 'GAME COMPLETED',
-            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight - 40),
+        const gameOverLabel = new Label({
+            text: 'Instructie',
+            pos: new Vector(500, 200),
             font: new Font({
                 family: 'Arial',
                 size: 64,
@@ -70,20 +70,20 @@ export class GameCompletedScene extends Scene {
             color: Color.White,
             anchor: new Vector(0.5, 0.5)
         })
-        this.add(gameCompletedLabel)
+        this.add(gameOverLabel)
 
         const uitlegLabel = new Label({
-            text: 'Je hebt de level behaald! Ga terug naar het restaurant.',
-            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 30),
+            text: 'Breng de zeeschildpadden één voor één naar de marien bioloog zodat hij ze weer naar de zee kunnen begeleiden om ze te redden!',
+            pos: new Vector(350, 300),
             font: new Font({
                 family: 'Arial',
-                size: 28,
+                size: 27,
                 unit: FontUnit.Px,
                 color: Color.White
             }),
             color: Color.White,
             anchor: new Vector(0.5, 0.5),
-            maxWidth: 500
+            maxWidth: 700
         })
         this.add(uitlegLabel)
     }
@@ -107,11 +107,11 @@ export class GameCompletedScene extends Scene {
         if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.remove('minigame_2');
-                engine.add('restaurantscene_3', new Restaurantscene_3());
-                engine.goToScene('restaurantscene_3');
-            }
+                engine.remove('restaurantscene_3')
+                engine.add('minigame_3', new Minigame_3())
+                engine.goToScene('minigame_3')
 
+            }
         } else {
             this.#overlapFrames = 0
         }

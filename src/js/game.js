@@ -16,6 +16,7 @@ import { GameCompletedScene } from './scenes/cutscenes/gamecompleted.js'
 import { StartScene } from './scenes/startscene.js'
 import { InstructionScreen } from './scenes/minigames/minigame_2/screens/instruction_screen.js'
 import { Minigame2FailScreen } from './scenes/minigames/minigame_2/screens/minigame2_fail_screen.js'
+import { Instruction } from './scenes/cutscenes/minigame_3_instruction.js'
 
 
 
@@ -62,6 +63,7 @@ export class Game extends Engine {
         this.add('gamecompleted', new GameCompletedScene())
         this.add('minigame_2_instruction', new InstructionScreen())
         this.add('minigame2_fail_screen', new Minigame2FailScreen())
+        this.add('minigame_3_instruction', new Instruction())
         this.add('startscene', new StartScene())
         this.goToScene('startscene')
 

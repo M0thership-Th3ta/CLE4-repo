@@ -9,11 +9,15 @@ export class Restaurantscene_2 extends Scene {
     #triggerBar
     #persona2
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
     dialogSystem
     #hasTalkedToPersona2 = false
 
     onInitialize(engine) {
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false;
+        this.bButtonWasPressed = false;
+        
         // Achtergrond
         const restaurantBackground = new Actor({
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight),
@@ -62,15 +66,46 @@ export class Restaurantscene_2 extends Scene {
         //////////////////////////////////////////////////////Maak dialogSystem aan en voeg toe aan scene
         this.dialogSystem = new DialogSystem(engine)
         this.add(this.dialogSystem.dialogBox)
-        this.add(this.dialogSystem.textActor)
-
-        /////////////////////////////////////////////////////// Voeg event listener toe voor dialog input
-        engine.input.keyboard.on('press', (evt) => {
+        this.add(this.dialogSystem.textActor)        /////////////////////////////////////////////////////// Voeg event listener toe voor dialog input
+        this._dialogKeyHandler = (evt) => {
             if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.dialogSystem.isDialogActive) {
                 this.dialogSystem.nextLine()
                 console.log("Next dialog line")
             }
-        })
+        };
+        engine.input.keyboard.on('press', this._dialogKeyHandler);
+    }    update(engine, delta) {
+        super.update(engine, delta);
+
+        // Controller input voor dialog - check elke frame met edge detection
+        if (this.dialogSystem.isDialogActive) {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            for (const gamepad of gamepads) {
+                if (!gamepad) continue;
+                
+                // A knop (index 0) edge detection voor dialog voortzetten
+                if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                    if (!this.aButtonWasPressed) {
+                        this.aButtonWasPressed = true;
+                        this.dialogSystem.nextLine();
+                        console.log("Next dialog line (controller A)");
+                    }
+                } else {
+                    this.aButtonWasPressed = false;
+                }
+                
+                // B knop (index 1) edge detection als alternatief
+                if (gamepad.buttons[1] && gamepad.buttons[1].pressed) {
+                    if (!this.bButtonWasPressed) {
+                        this.bButtonWasPressed = true;
+                        this.dialogSystem.nextLine();
+                        console.log("Next dialog line (controller B)");
+                    }
+                } else {
+                    this.bButtonWasPressed = false;
+                }
+            }
+        }
     }
 
     onPostUpdate(engine, delta) {
@@ -97,5 +132,14 @@ export class Restaurantscene_2 extends Scene {
             actorA.pos.y + actorA.height / 2 > actorB.pos.y - actorB.height / 2 &&
             actorA.pos.y - actorA.height / 2 < actorB.pos.y + actorB.height / 2
         )
+    }    onDeactivate() {
+        // Reset button state bij verlaten scene
+        this.aButtonWasPressed = false;
+        this.bButtonWasPressed = false;
+        
+        // Cleanup event listeners
+        if (this._dialogKeyHandler) {
+            this.engine.input.keyboard.off('press', this._dialogKeyHandler);
+        }
     }
 }

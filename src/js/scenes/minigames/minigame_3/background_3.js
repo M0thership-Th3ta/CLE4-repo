@@ -13,7 +13,7 @@ export class Background3 extends Actor {
         });
 
         const sprite = Resources.Background3.toSprite();
-        sprite.destSize = {width: 1500, height: 800};
+        sprite.destSize = {width: 1280, height: 720};
         this.graphics.use(sprite);
     }
 }

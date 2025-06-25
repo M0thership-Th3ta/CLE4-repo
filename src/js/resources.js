@@ -3,9 +3,9 @@ import { ImageSource, Sound, Loader } from 'excalibur'
 // Gebruik altijd paden relatief aan de public folder
 const Resources = {
     Turtle: new ImageSource('images/turtle.png'),
-    Platform: new ImageSource('images/platform.png'),
+    Platform: new ImageSource('images/Rock.png'),
     Sea: new ImageSource('images/sea.png'),
-    Background3: new ImageSource('images/backgroundCliff.png'),
+    Background3: new ImageSource('images/beach-background.png'),
     Dock: new ImageSource('images/dock.png'),
     MarineBiologist: new ImageSource('images/miles2.png'),
     RobotWithTurtle: new ImageSource('images/robot-holding-turtle.png'),
@@ -33,6 +33,8 @@ const Resources = {
     Persona2: new ImageSource('images/zhiwen.png'),
     Persona3: new ImageSource('images/miles2.png'),
     Zwartachtergrond: new ImageSource('images/zwartachtergrond.png'),
+    CorrectAnswer: new Sound('dialogue/sounds/correctanswer.mp3'),
+    JumpSound: new Sound('sounds/jumpsound.mp3'),
 }
    
 

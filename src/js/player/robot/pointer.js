@@ -21,6 +21,9 @@ export class Pointer extends Actor {
         this.graphics.use(Resources.Pointer.toSprite())
         this.z = 1000
 
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false
+
         // Event listeners voor toetsenbord
         engine.input.keyboard.on('hold', (evt) => {
             if (evt.key === Keys.Enter) {
@@ -33,9 +36,7 @@ export class Pointer extends Actor {
                 this.dropItem()
             }
         })
-    }
-
-    // Per-frame logica voor beweging en item vasthouden
+    }    // Per-frame logica voor beweging en item vasthouden
     onPostUpdate(engine, delta) {
         let xspeed = 0
         let yspeed = 0
@@ -45,6 +46,38 @@ export class Pointer extends Actor {
         if (engine.input.keyboard.isHeld(Keys.D)) xspeed = this.#speed
         if (engine.input.keyboard.isHeld(Keys.W)) yspeed = -this.#speed
         if (engine.input.keyboard.isHeld(Keys.S)) yspeed = this.#speed
+
+        // Controller besturing - check elke frame
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        for (const gamepad of gamepads) {
+            if (!gamepad) continue;
+            
+            // Linker stick beweging (deadzone van 0.2)
+            const leftStickX = gamepad.axes[0] || 0;
+            const leftStickY = gamepad.axes[1] || 0;
+            
+            if (Math.abs(leftStickX) > 0.2) {
+                xspeed = leftStickX * this.#speed;
+            }
+            if (Math.abs(leftStickY) > 0.2) {
+                yspeed = leftStickY * this.#speed;
+            }
+              // A knop (index 0) voor pakken/loslaten - MET RELEASE DETECTION
+            if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                // Knop is ingedrukt - start holding (zoals keyboard hold)
+                if (!this.aButtonWasPressed) {
+                    this.aButtonWasPressed = true;
+                    this.#isHolding = true;
+                }
+            } else {
+                // Knop is losgelaten - stop holding en drop item (zoals keyboard release)
+                if (this.aButtonWasPressed) {
+                    this.aButtonWasPressed = false;
+                    this.#isHolding = false;
+                    this.dropItem();
+                }
+            }
+        }
 
         this.vel = new Vector(xspeed, yspeed)
 
@@ -81,8 +114,9 @@ export class Pointer extends Actor {
             this.pos.x - this.width / 2 < other.pos.x + otherWidth / 2 &&
             this.pos.y + this.height / 2 > other.pos.y - otherHeight / 2 &&
             this.pos.y - this.height / 2 < other.pos.y + otherHeight / 2
-        )
-    }    // Pak een item op
+        )    }
+    
+    // Pak een item op
     pickUpItem(item) {
         if (this.#heldItem) return
         

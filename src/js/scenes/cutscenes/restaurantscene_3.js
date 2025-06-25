@@ -4,15 +4,18 @@ import { Shanty } from '../../player/shanty/shanty.js';
 import { Persona3 } from '../../actors/persona3.js';
 import { DialogSystem } from '../../dialog.js';
 
-export class Restaurantscene_3 extends Scene {
-    #shanty
+export class Restaurantscene_3 extends Scene {    #shanty
     #triggerBar
     #persona3
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
     #dialogKeyHandler
 
     onInitialize(engine) {
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false;
+        this.bButtonWasPressed = false;
+        
         // Achtergrond
         const restaurantBackground = new Actor({
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight),
@@ -67,9 +70,7 @@ export class Restaurantscene_3 extends Scene {
         if (this.#persona3.setShanty && this.#persona3.setDialogSystem) {
             this.#persona3.setShanty(this.#shanty)
             this.#persona3.setDialogSystem(this.dialogSystem)
-        }
-
-        //////////////////////////////////// Sla de handler op zodat we hem later kunnen verwijderen
+        }        //////////////////////////////////// Sla de handler op zodat we hem later kunnen verwijderen
         this.#dialogKeyHandler = (evt) => {
             if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.dialogSystem.isDialogActive) {
                 this.dialogSystem.nextLine()
@@ -77,9 +78,43 @@ export class Restaurantscene_3 extends Scene {
             }
         }
         engine.input.keyboard.on('press', this.#dialogKeyHandler)
-    }
+    }    update(engine, delta) {
+        super.update(engine, delta);
 
-    onDeactivate() {
+        // Controller input voor dialog - check elke frame met edge detection
+        if (this.dialogSystem.isDialogActive) {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            for (const gamepad of gamepads) {
+                if (!gamepad) continue;
+                
+                // A knop (index 0) edge detection voor dialog voortzetten
+                if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                    if (!this.aButtonWasPressed) {
+                        this.aButtonWasPressed = true;
+                        this.dialogSystem.nextLine();
+                        console.log("Next dialog line (controller A)");
+                    }
+                } else {
+                    this.aButtonWasPressed = false;
+                }
+                
+                // B knop (index 1) edge detection als alternatief
+                if (gamepad.buttons[1] && gamepad.buttons[1].pressed) {
+                    if (!this.bButtonWasPressed) {
+                        this.bButtonWasPressed = true;
+                        this.dialogSystem.nextLine();
+                        console.log("Next dialog line (controller B)");
+                    }
+                } else {
+                    this.bButtonWasPressed = false;
+                }
+            }
+        }
+    }    onDeactivate() {
+        // Reset button state bij verlaten scene
+        this.aButtonWasPressed = false;
+        this.bButtonWasPressed = false;
+        
         if (this.#dialogKeyHandler) {
             this.engine.input.keyboard.off('press', this.#dialogKeyHandler)
         }
@@ -93,7 +128,7 @@ export class Restaurantscene_3 extends Scene {
         if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.goToScene('minigame_3')
+                engine.goToScene('minigame_3_instruction')
             }
         } else {
             this.#overlapFrames = 0
