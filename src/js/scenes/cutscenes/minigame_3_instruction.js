@@ -1,15 +1,17 @@
 import { Actor, Scene, Vector, CollisionType, Color, Rectangle, Label, Font, FontUnit } from "excalibur";
 import { Resources } from '../../resources.js';
-import { Shanty } from '../../player/shanty/shanty.js';
+import { Minigame_3 } from '../minigames/minigame_3/minigame_3.js'
+import { Shanty } from "../../player/shanty/shanty.js";
 
-export class Restaurantscene_4 extends Scene {
-    #shanty
+
+export class Instruction extends Scene {
+    #player
     #triggerBar
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
+    #REQUIRED_FRAMES = 120
+    #START_POS = new Vector(200, 300)
 
     onInitialize(engine) {
-        // Zwarte achtergrond (extra breed en hoog voor volledige dekking)
         const bgWidth = engine.drawWidth * 2
         const bgHeight = engine.drawHeight * 2
         const zwartAchtergrond = new Actor({
@@ -19,14 +21,13 @@ export class Restaurantscene_4 extends Scene {
             collisionType: CollisionType.PreventCollision,
             anchor: new Vector(0.5, 0.5)
         })
-        const sprite = Resources.Zwartachtergrond.toSprite()
+        const sprite = Resources.Zwartachtergrond?.toSprite?.() ?? new Rectangle({ width: bgWidth, height: bgHeight, color: Color.Black })
         sprite.width = bgWidth
         sprite.height = bgHeight
         zwartAchtergrond.graphics.use(sprite)
-        zwartAchtergrond.z = -100 // Zorg dat de achtergrond altijd achter alles staat
+        zwartAchtergrond.z = -100
         this.add(zwartAchtergrond)
 
-        // Triggerbalk onderaan
         this.#triggerBar = new Actor({
             pos: new Vector(engine.halfDrawWidth, engine.drawHeight - 40),
             width: 200,
@@ -34,33 +35,31 @@ export class Restaurantscene_4 extends Scene {
             collisionType: CollisionType.Passive
         })
         this.#triggerBar.graphics.use(new Rectangle({
-            width: 200,
+            width: 150,
             height: 40,
-            color: Color.Green
+            color: Color.Red
         }))
-        // Label toevoegen
-        const levelLabel = new Label({
-            text: 'Terug naar het begin',
-            pos: new Vector(-89, -10), // 80px naar links binnen de triggerbalk
+
+        const terugLabel = new Label({
+            text: 'START',
+            pos: new Vector(-50, -13),
             color: Color.White,
             font: new Font({
                 family: 'Arial',
-                size: 20,
+                size: 30,
                 unit: FontUnit.Px,
                 color: Color.White
             })
         })
-        this.#triggerBar.addChild(levelLabel)
+        this.#triggerBar.addChild(terugLabel)
         this.add(this.#triggerBar)
 
-        // Shanty toevoegen
-        this.#shanty = new Shanty(new Vector(200, 300))
-        this.add(this.#shanty)
+        this.#player = new Shanty(this.#START_POS.clone())
+        this.add(this.#player)
 
-        // Hoofdtekst: HET EINDE
-        const eindLabel = new Label({
-            text: 'HET EINDE',
-            pos: new Vector(engine.halfDrawWidth - 250, engine.halfDrawHeight - 40), // 250px naar links
+        const gameOverLabel = new Label({
+            text: 'Instructie',
+            pos: new Vector(500, 200),
             font: new Font({
                 family: 'Arial',
                 size: 64,
@@ -71,42 +70,53 @@ export class Restaurantscene_4 extends Scene {
             color: Color.White,
             anchor: new Vector(0.5, 0.5)
         })
-        this.add(eindLabel)
+        this.add(gameOverLabel)
 
-        // Subtekst: dankje wel voor het spelen, ik hoop dat je iets hebt geleerd
-        const dankLabel = new Label({
-            text: 'dankje wel voor het spelen, ik hoop dat je iets hebt geleerd',
-            pos: new Vector(engine.halfDrawWidth - 250, engine.halfDrawHeight + 30), // 250px naar links
+        const uitlegLabel = new Label({
+            text: 'Breng de zeeschildpadden één voor één naar de marien bioloog zodat hij ze weer naar de zee kunnen begeleiden om ze te redden!',
+            pos: new Vector(350, 300),
             font: new Font({
                 family: 'Arial',
-                size: 28,
+                size: 27,
                 unit: FontUnit.Px,
                 color: Color.White
             }),
             color: Color.White,
-            anchor: new Vector(0.5, 0.5)
+            anchor: new Vector(0.5, 0.5),
+            maxWidth: 700
         })
-        this.add(dankLabel)
+        this.add(uitlegLabel)
+    }
+
+    onActivate(context) {
+        if (this.#player) {
+            this.#player.pos = this.#START_POS.clone()
+            this.#player.vel = new Vector(0, 0)
+            this.#player.acc = new Vector(0, 0)
+            if (typeof this.#player.resetState === 'function') {
+                this.#player.resetState()
+            }
+        }
+        this.#overlapFrames = 0
     }
 
     onPostUpdate(engine, delta) {
-        // Check overlap met triggerbalk via bounding box
-        const isOverlapping = this.#isOverlapping(this.#shanty, this.#triggerBar)
-        const isStandingStill = Math.abs(this.#shanty.vel.x) < 1 && Math.abs(this.#shanty.vel.y) < 1
+        const isOverlapping = this.#isOverlapping(this.#player, this.#triggerBar)
+        const isStandingStill = Math.abs(this.#player.vel.x) < 1 && Math.abs(this.#player.vel.y) < 1
 
         if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
+                engine.remove('restaurantscene_3')
+                engine.add('minigame_3', new Minigame_3())
+                engine.goToScene('minigame_3')
 
-                // engine.goToScene('startscene');
-                window.location.reload();
             }
         } else {
             this.#overlapFrames = 0
         }
     }
 
-    // Simpele AABB overlap check
     #isOverlapping(actorA, actorB) {
         return (
             actorA.pos.x + actorA.width / 2 > actorB.pos.x - actorB.width / 2 &&

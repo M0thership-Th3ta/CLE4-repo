@@ -27,6 +27,9 @@ export class DialogSystem {
         this.currentDialog = [];
         this.currentLine = 0;
         this.isDialogActive = false;
+        this.completedDialogs = new Set(); // Track completed dialogs
+        this.cooldown = false; // Cooldown state
+        this.cooldownTimer = null; // Cooldown timer reference
     }
     
     hideDialog() {
@@ -55,8 +58,23 @@ export class DialogSystem {
             this.textActor.graphics.use(text);
             this.updateDialogVisibility();
         } else {
+            // Dialog finished
             this.hideDialog();
+            this.completedDialogs.add(this.currentDialog.join('')); // Store completed dialog
+            this.startCooldown();
         }
+    }
+    
+    startCooldown() {
+        this.cooldown = true;
+        // Clear any existing timer
+        if (this.cooldownTimer) {
+            clearTimeout(this.cooldownTimer);
+        }
+        // Set new timer
+        this.cooldownTimer = setTimeout(() => {
+            this.cooldown = false;
+        }, 5000); // 5 second cooldown
     }
     
     nextLine() {
@@ -65,6 +83,11 @@ export class DialogSystem {
     }
     
     showDialog(dialogLines) {
+        // Check if this dialog has been completed or is on cooldown
+        const dialogKey = dialogLines.join('');
+        if (this.completedDialogs.has(dialogKey)) return;
+        if (this.cooldown) return;
+        
         this.currentDialog = dialogLines;
         this.currentLine = 0;
         this.isDialogActive = true;

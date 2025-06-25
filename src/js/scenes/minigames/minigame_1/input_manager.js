@@ -10,9 +10,10 @@ export class InputManager {
       right: Keys.ArrowRight,
       action: Keys.Space
     };
-      // Basket posities (3 baskets) - moet overeenkomen met FruitGrabberGame
+    // Basket posities (3 baskets) - moet overeenkomen met FruitGrabberGame
     this.basketPositions = [200, 640, 1080]; // x-coördinaten van de 3 baskets
     this.currentBasket = 1; // Start bij basket 2 (midden, index 1)
+    this.controllerInputCooldown = 0; // Voor controller input debouncing
   }
 
   /**
@@ -21,7 +22,52 @@ export class InputManager {
   update(engine, robot) {
     this.handleMovement(engine, robot);
     this.handleActions(engine, robot);
+    this.handleControllerInput(engine, robot);
   }
+  
+  /**
+   * Handle controller input voor movement en actions
+   */
+  handleControllerInput(engine, robot) {
+    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+    const gamepad = gamepads[0];
+    
+    if (gamepad) {
+      // D-pad of linker stick horizontaal voor basket switching
+      const leftStickX = gamepad.axes[0] || 0;
+      
+      // D-pad knoppen - links is meestal index 14, rechts is index 15
+      const dpadLeft = gamepad.buttons[14] && gamepad.buttons[14].pressed;
+      const dpadRight = gamepad.buttons[15] && gamepad.buttons[15].pressed;
+      
+      // Linker stick deadzone check
+      const stickLeft = leftStickX < -0.5;
+      const stickRight = leftStickX > 0.5;
+      
+      // Debounce mechanisme om herhaalde inputs te voorkomen
+      if (!this.controllerInputCooldown) {
+        if (dpadLeft || stickLeft) {
+          this.jumpToBasket(robot, -1);
+          this.controllerInputCooldown = 20; // 20 frames cooldown
+        } else if (dpadRight || stickRight) {
+          this.jumpToBasket(robot, 1);
+          this.controllerInputCooldown = 20;
+        }
+        
+        // A knop (index 0) voor hook action - Xbox A of PlayStation X
+        if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+          robot.useHook();
+          this.controllerInputCooldown = 10; // Korte cooldown voor hook
+        }
+      }
+      
+      // Verlaag cooldown timer
+      if (this.controllerInputCooldown > 0) {
+        this.controllerInputCooldown--;
+      }
+    }
+  }
+
   /**
    * Behandel robot beweging - nu met basket jumping
    */

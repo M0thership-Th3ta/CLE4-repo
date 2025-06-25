@@ -1,6 +1,6 @@
 import '../css/style.css'
-import { Actor, Engine, Vector, DisplayMode, SolverStrategy, Color } from "excalibur"
-import { Resources, ResourceLoader } from './resources.js'
+import { Engine, Vector, DisplayMode, SolverStrategy, Color } from "excalibur"
+import { ResourceLoader } from './resources.js'
 import { DebugControl } from './debug_control.js'
 import { Minigame_1 } from './scenes/minigames/minigame_1/minigame_1.js'
 import { Minigame_2 } from './scenes/minigames/minigame_2/minigame_2.js'
@@ -13,9 +13,10 @@ import { WorldMap } from './scenes/locations/worldmap/worldmap.js'
 import { TestScene } from './scenes/cutscenes/testscene.js'
 import { GameOverScene } from './scenes/cutscenes/gameover.js'
 import { GameCompletedScene } from './scenes/cutscenes/gamecompleted.js'
-import { MenuScene } from './scenes/menuscene.js'
+import { StartScene } from './scenes/startscene.js'
 import { InstructionScreen } from './scenes/minigames/minigame_2/screens/instruction_screen.js'
 import { Minigame2FailScreen } from './scenes/minigames/minigame_2/screens/minigame2_fail_screen.js'
+import { Instruction } from './scenes/cutscenes/minigame_3_instruction.js'
 
 
 
@@ -59,11 +60,12 @@ export class Game extends Engine {
         this.add('worldmap', new WorldMap())
         this.add('testscene', new TestScene())
         this.add('gameover', new GameOverScene())
-        this.add(`gamecompleted`, new GameCompletedScene())
+        this.add('gamecompleted', new GameCompletedScene())
         this.add('minigame_2_instruction', new InstructionScreen())
         this.add('minigame2_fail_screen', new Minigame2FailScreen())
-        this.add('menuscene', new MenuScene())
-        this.goToScene('menuscene')
+        this.add('minigame_3_instruction', new Instruction())
+        this.add('startscene', new StartScene())
+        this.goToScene('startscene')
 
         
 
