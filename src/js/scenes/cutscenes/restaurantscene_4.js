@@ -97,7 +97,9 @@ export class Restaurantscene_4 extends Scene {
         if (isOverlapping && isStandingStill) {
             this.#overlapFrames++
             if (this.#overlapFrames >= this.#REQUIRED_FRAMES) {
-                engine.goToScene('restaurantscene_2') // Teleporteer naar restaurantscene_2
+
+                // engine.goToScene('startscene');
+                window.location.reload();
             }
         } else {
             this.#overlapFrames = 0
