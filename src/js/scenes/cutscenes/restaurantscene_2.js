@@ -62,15 +62,33 @@ export class Restaurantscene_2 extends Scene {
         //////////////////////////////////////////////////////Maak dialogSystem aan en voeg toe aan scene
         this.dialogSystem = new DialogSystem(engine)
         this.add(this.dialogSystem.dialogBox)
-        this.add(this.dialogSystem.textActor)
-
-        /////////////////////////////////////////////////////// Voeg event listener toe voor dialog input
-        engine.input.keyboard.on('press', (evt) => {
+        this.add(this.dialogSystem.textActor)        /////////////////////////////////////////////////////// Voeg event listener toe voor dialog input
+        this._dialogKeyHandler = (evt) => {
             if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.dialogSystem.isDialogActive) {
                 this.dialogSystem.nextLine()
                 console.log("Next dialog line")
             }
-        })
+        };
+        engine.input.keyboard.on('press', this._dialogKeyHandler);
+    }
+
+    update(engine, delta) {
+        super.update(engine, delta);
+
+        // Controller input voor dialog - check elke frame
+        if (this.dialogSystem.isDialogActive) {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            for (const gamepad of gamepads) {
+                if (!gamepad) continue;
+                
+                // A knop (index 0) of B knop (index 1) voor dialog voortzetten
+                if ((gamepad.buttons[0] && gamepad.buttons[0].pressed) || 
+                    (gamepad.buttons[1] && gamepad.buttons[1].pressed)) {
+                    this.dialogSystem.nextLine();
+                    console.log("Next dialog line (controller)");
+                }
+            }
+        }
     }
 
     onPostUpdate(engine, delta) {
@@ -97,5 +115,10 @@ export class Restaurantscene_2 extends Scene {
             actorA.pos.y + actorA.height / 2 > actorB.pos.y - actorB.height / 2 &&
             actorA.pos.y - actorA.height / 2 < actorB.pos.y + actorB.height / 2
         )
+    }    onDeactivate() {
+        // Cleanup event listeners
+        if (this._dialogKeyHandler) {
+            this.engine.input.keyboard.off('press', this._dialogKeyHandler);
+        }
     }
 }

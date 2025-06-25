@@ -1,11 +1,11 @@
-import { Actor, Scene, Vector, CollisionType, Color, Rectangle, clamp, Keys, Label, Font, FontUnit } from "excalibur"
+import { Actor, Scene, Vector, Color, Label, Font, FontUnit, Keys } from "excalibur"
 import { Resources } from '../resources.js'
 import { Restaurantscene_2 } from './cutscenes/restaurantscene_2.js'
-
 
 // StartScene toont de titel en instructies
 export class StartScene extends Scene {
     _keyHandler;
+    
     constructor() {
         super({
             id: 'startscene',
@@ -16,6 +16,8 @@ export class StartScene extends Scene {
     }
 
     onInitialize(engine) {
+        this.engine = engine; // sla engine op voor later gebruik
+
         // Voeg een titel toe
         const title = new Label({
             text: 'Shanty Kitchen!',
@@ -23,7 +25,7 @@ export class StartScene extends Scene {
             font: new Font({
                 family: 'Arial',
                 size: 32,
-                color: Color.White, // Maak wit voor zichtbaarheid
+                color: Color.White,
                 textAlign: 'center',
             }),
             anchor: new Vector(0.5, 0.5),
@@ -32,12 +34,12 @@ export class StartScene extends Scene {
 
         // Voeg een instructie toe
         const instruction = new Label({
-            text: 'Druk op [Z] of [Spatie] om te starten',
+            text: 'Druk op [Z] of [Spatie] of [A]/[X] op je controller om te starten',
             pos: new Vector(engine.drawWidth / 2, 350),
             font: new Font({
-                family: 'Arial', // consistent hoofdlettergebruik
+                family: 'Arial',
                 size: 18,
-                color: Color.White, // Maak wit voor zichtbaarheid
+                color: Color.White,
                 textAlign: 'center'
             }),
             anchor: new Vector(0.5, 0.5)
@@ -46,7 +48,6 @@ export class StartScene extends Scene {
 
         // Sla de handler op als property
         this._keyHandler = (evt) => {
-            console.log("Key pressed:", evt.key);
             if (evt.key === Keys.Z || evt.key === Keys.Space) {
                 engine.goToScene('restaurantscene_2');
             }
@@ -54,9 +55,22 @@ export class StartScene extends Scene {
         engine.input.keyboard.on('press', this._keyHandler);
     }
 
-    onDeactivate() {
+    // Gebruik de update-methode i.p.v. setInterval
+    update(engine, delta) {
+        super.update(engine, delta);
+
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        for (const pad of gamepads) {
+            if (!pad) continue;
+            // A-knop (Xbox: 0), X-knop (PlayStation: 0), eventueel B/Circle (index 1)
+            if ((pad.buttons[0] && pad.buttons[0].pressed) || 
+                (pad.buttons[1] && pad.buttons[1].pressed)) {
+                engine.goToScene('restaurantscene_2');
+            }
+        }
+    }    onDeactivate() {
         // Verwijder de event listener netjes bij verlaten scene
-        if (this._keyHandler) {
+        if (this._keyHandler && this.engine) {
             this.engine.input.keyboard.off('press', this._keyHandler);
         }
     }

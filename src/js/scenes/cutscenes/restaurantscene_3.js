@@ -67,9 +67,7 @@ export class Restaurantscene_3 extends Scene {
         if (this.#persona3.setShanty && this.#persona3.setDialogSystem) {
             this.#persona3.setShanty(this.#shanty)
             this.#persona3.setDialogSystem(this.dialogSystem)
-        }
-
-        //////////////////////////////////// Sla de handler op zodat we hem later kunnen verwijderen
+        }        //////////////////////////////////// Sla de handler op zodat we hem later kunnen verwijderen
         this.#dialogKeyHandler = (evt) => {
             if ((evt.key === Keys.Z || evt.key === Keys.Space) && this.dialogSystem.isDialogActive) {
                 this.dialogSystem.nextLine()
@@ -79,7 +77,24 @@ export class Restaurantscene_3 extends Scene {
         engine.input.keyboard.on('press', this.#dialogKeyHandler)
     }
 
-    onDeactivate() {
+    update(engine, delta) {
+        super.update(engine, delta);
+
+        // Controller input voor dialog - check elke frame
+        if (this.dialogSystem.isDialogActive) {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            for (const gamepad of gamepads) {
+                if (!gamepad) continue;
+                
+                // A knop (index 0) of B knop (index 1) voor dialog voortzetten
+                if ((gamepad.buttons[0] && gamepad.buttons[0].pressed) || 
+                    (gamepad.buttons[1] && gamepad.buttons[1].pressed)) {
+                    this.dialogSystem.nextLine();
+                    console.log("Next dialog line (controller)");
+                }
+            }
+        }
+    }    onDeactivate() {
         if (this.#dialogKeyHandler) {
             this.engine.input.keyboard.off('press', this.#dialogKeyHandler)
         }

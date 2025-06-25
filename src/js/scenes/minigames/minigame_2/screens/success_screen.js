@@ -95,7 +95,7 @@ export class SuccessScreen extends Scene {
     #createButtons(engine) {
         // Opnieuw spelen knop
         this.#playAgainLabel = new Label({
-            text: "🔄 Druk R voor Opnieuw",
+            text: "🔄 Druk R/Y voor Opnieuw",
             pos: new Vector(engine.halfDrawWidth, 450),
             color: Color.Orange,
             font: new Font({
@@ -108,7 +108,7 @@ export class SuccessScreen extends Scene {
 
         // Verder gaan knop
         this.#continueLabel = new Label({
-            text: "➡️ Druk SPATIE voor Verder",
+            text: "➡️ Druk SPATIE/A voor Verder",
             pos: new Vector(engine.halfDrawWidth, 520),
             color: Color.LightGreen,
             font: new Font({
@@ -118,10 +118,10 @@ export class SuccessScreen extends Scene {
             })
         })
         this.add(this.#continueLabel)
-    }
-
-    // Deze functie wordt elke frame uitgevoerd
-    onPreUpdate(engine, delta) {        // Luister naar R key voor opnieuw spelen
+    }    // Deze functie wordt elke frame uitgevoerd
+    onPreUpdate(engine, delta) {
+        // Keyboard input
+        // Luister naar R key voor opnieuw spelen
         if (engine.input.keyboard.wasPressed(Keys.R)) {
             console.log("R ingedrukt - restart minigame!")
             engine.goToScene('minigame_2_instruction')
@@ -131,6 +131,24 @@ export class SuccessScreen extends Scene {
         if (engine.input.keyboard.wasPressed(Keys.Space)) {
             console.log("Spacebar ingedrukt - ga verder naar restaurant scene!")
             engine.goToScene('restaurantscene_3')
+        }
+        
+        // Controller input - check elke frame
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        for (const gamepad of gamepads) {
+            if (!gamepad) continue;
+            
+            // Y knop (index 3) voor restart - Xbox Y of PlayStation Triangle
+            if (gamepad.buttons[3] && gamepad.buttons[3].pressed) {
+                console.log("Controller Y/Triangle - restart minigame!");
+                engine.goToScene('minigame_2_instruction');
+            }
+            
+            // A knop (index 0) voor verder gaan - Xbox A of PlayStation X
+            if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                console.log("Controller A/X - ga verder naar restaurant scene!");
+                engine.goToScene('restaurantscene_3');
+            }
         }
     }
 

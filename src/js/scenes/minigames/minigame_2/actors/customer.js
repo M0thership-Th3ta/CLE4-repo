@@ -38,12 +38,24 @@ export class Customer extends Actor {
         // Event listeners met private methods voor betere encapsulation
         this.on(COLLISION_START, (evt) => this.#onCollisionStart(evt));
         this.on(COLLISION_END, (evt) => this.#onCollisionEnd(evt));
-    }
-
-    // Deze functie wordt elke frame uitgevoerd
+    }    // Deze functie wordt elke frame uitgevoerd
     onPreUpdate(engine) {
+        // Keyboard input
         if (engine.input.keyboard.wasReleased(Keys.Enter) && this.#collidingFood) {
             this.#handleFoodDelivery(this.#collidingFood)
+        }
+        
+        // Controller input - check elke frame voor delivery
+        if (this.#collidingFood) {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            for (const gamepad of gamepads) {
+                if (!gamepad) continue;
+                
+                // A knop (index 0) voor leveren - Xbox A of PlayStation X
+                if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
+                    this.#handleFoodDelivery(this.#collidingFood);
+                }
+            }
         }
     }
 
