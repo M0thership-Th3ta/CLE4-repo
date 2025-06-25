@@ -12,6 +12,7 @@ export class Customer extends Actor {
     #order
     #processedCollisions = new Set()
     #collidingFood = null
+    #orderCompleted = false // Flag om dubbele orderComplete events te voorkomen
 
     constructor(pos, sprite, orderSize = 1) {
         super({
@@ -105,10 +106,14 @@ export class Customer extends Actor {
             })
         }
 
-        // Check of order compleet is
-        if (this.#givenFood.length === orderList.length) {
+        // Check of order compleet is (maar alleen als niet al voltooid)
+        if (!this.#orderCompleted && this.#givenFood.length === orderList.length) {
             if (Customer.#arraysEqual(this.#givenFood, orderList)) {
                 console.log("Order correct! 🎉");
+                
+                // Markeer als voltooid om dubbele events te voorkomen
+                this.#orderCompleted = true;
+                
                 this.scene.engine.emit('orderComplete', { success: true, customer: this });
                 this.kill();
             } else {

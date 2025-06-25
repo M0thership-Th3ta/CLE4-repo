@@ -93,7 +93,6 @@ export class GameState {
     reset() {
         this.#score = 0
         this.#ordersCompleted = 0
-        console.log("Game state gereset")
     }
 
     /**
