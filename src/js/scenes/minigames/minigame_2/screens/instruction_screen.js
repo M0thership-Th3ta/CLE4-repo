@@ -69,6 +69,26 @@ export class InstructionScreen extends Scene {
         // Dit zorgt voor betere compatibiliteit across browsers
         engine.input.keyboard.on('press', this.#keyboardEventHandler)
         console.log("Event listeners geregistreerd voor keyboard input")
+        
+        // Controller input check
+        this._controllerCheckInterval = setInterval(() => {
+            const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+            const gamepad = gamepads[0];
+            
+            if (gamepad && !this.#hasSceneSwitched) {
+                const currentTime = Date.now();
+                if (currentTime - this.#lastInputTime < this.#inputCooldown) {
+                    return;
+                }
+                
+                // A knop (index 0) of B knop (index 1) voor starten
+                if ((gamepad.buttons[0] && gamepad.buttons[0].pressed) || 
+                    (gamepad.buttons[1] && gamepad.buttons[1].pressed)) {
+                    console.log("Controller start button gedetecteerd");
+                    this.#startMinigame(engine);
+                }
+            }
+        }, 100);
     }
 
     // Start minigame functie met dubbele input preventie
@@ -135,7 +155,7 @@ export class InstructionScreen extends Scene {
     // Maak de controls uitleg aan
     #createControls(engine) {
         this.#controlsLabel = new Label({
-            text: "🎮 WASD = Bewegen | ENTER = Pakken/Loslaten 🎮",
+            text: "🎮 WASD/Controller = Bewegen | ENTER/A = Pakken/Loslaten 🎮",
             pos: new Vector(engine.halfDrawWidth, 400),
             color: Color.Cyan,
             font: new Font({
@@ -150,7 +170,7 @@ export class InstructionScreen extends Scene {
     // Maak de start prompt aan - aangepast voor SPACE en ENTER
     #createStartPrompt(engine) {
         this.#startLabel = new Label({
-            text: "Druk SPATIE of ENTER om te beginnen",
+            text: "Druk SPATIE/ENTER of Controller A/B om te beginnen",
             pos: new Vector(engine.halfDrawWidth, 550),
             color: Color.Green,
             font: new Font({
@@ -198,6 +218,11 @@ export class InstructionScreen extends Scene {
         if (this.#keyboardEventHandler && this.engine?.input?.keyboard) {
             this.engine.input.keyboard.off('press', this.#keyboardEventHandler)
             console.log("Keyboard event listeners verwijderd")
+        }
+        
+        // Stop controller check interval
+        if (this._controllerCheckInterval) {
+            clearInterval(this._controllerCheckInterval);
         }
         
         // Reset properties

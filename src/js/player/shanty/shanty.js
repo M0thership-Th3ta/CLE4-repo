@@ -31,12 +31,12 @@ export class Shanty extends Actor {
         this.handleMovement(engine)
         // Houd Shanty binnen het scherm
         this.clampToScreen(engine)
-    }
-
-    // Behandel input voor beweging
+    }    // Behandel input voor beweging
     handleMovement(engine) {
         let xspeed = 0
         let yspeed = 0
+        
+        // Keyboard input
         if (engine.input.keyboard.isHeld(Keys.Left)) {
             xspeed = -this.speed
         }
@@ -49,6 +49,24 @@ export class Shanty extends Actor {
         if (engine.input.keyboard.isHeld(Keys.Down)) {
             yspeed = this.speed
         }
+        
+        // Controller input - check elke frame
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+        for (const gamepad of gamepads) {
+            if (!gamepad) continue;
+            
+            // Linker stick beweging (deadzone van 0.2)
+            const leftStickX = gamepad.axes[0] || 0;
+            const leftStickY = gamepad.axes[1] || 0;
+            
+            if (Math.abs(leftStickX) > 0.2) {
+                xspeed = leftStickX * this.speed;
+            }
+            if (Math.abs(leftStickY) > 0.2) {
+                yspeed = leftStickY * this.speed;
+            }
+        }
+        
         this.vel = new Vector(xspeed, yspeed)
     }
 
