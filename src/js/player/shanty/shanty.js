@@ -16,7 +16,7 @@ export class Shanty extends Actor {
     onInitialize(engine) {
         // Laad de sprite uit resources en schaal deze naar gewenste grootte
         const sprite = Resources.Shanty.toSprite()
-        sprite.scale = new Vector(0.10, 0.10) // Maak sprite 10% van originele grootte
+        sprite.scale = new Vector(0.30, 0.30) // Maak sprite 10% van originele grootte
         this.graphics.use(sprite)
         // Stel een grotere vierkante collider in
         this.collider.set(Shape.Box(80, 80)) // Vierkant van 80x80 pixels

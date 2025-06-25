@@ -28,8 +28,8 @@ export class Persona2 extends NPC {
         // Gebruik de Persona2 resource voor de graphics en maak deze even groot als Shanty
         const sprite = Resources.Persona2.toSprite()
         // Bepaal de juiste schaalfactor zodat de afbeelding 80x80 wordt
-        const scaleX = 80 / sprite.image.width
-        const scaleY = 80 / sprite.image.height
+        const scaleX = 110 / sprite.image.width
+        const scaleY = 110 / sprite.image.height
         sprite.scale = new Vector(scaleX, scaleY)
         this.graphics.use(sprite)
         // Stel een vierkante collider in van 80x80 (zoals Shanty)
@@ -52,12 +52,13 @@ export class Persona2 extends NPC {
         // Bereken afstand tussen Persona2 en Shanty
         const distance = this.pos.distance(this.#shanty.pos)
         if (distance < 100 && !this.#dialogSystem.isDialogActive) {
-       this.#dialogSystem.showDialog([
-    "Shanty: Whoa. You look like you tried to hug a jet engine. What's up?",
-    "Miles: Turtle emergency. Storm last night washed hatchlings onto those broken docks by the cliffs—they're stranded!",
-    "Shanty: And let me guess... you want Clippy to play tightrope walker over shark bait?",
-    "Miles: Just across the floating debris! He's nimble, and I'll guide him from shore. Please?"
-]);
+            this.#dialogSystem.showDialog([
+                'Zhiwen: "Shanty! Aiya—family wedding today. Can you watch the shop? Just one day!"',
+                'Shanty: "Let me guess: Auntie Lilis ‘mandatory happiness’ event?"',
+                'Zhiwen: "Six-hour ceremony.',
+                 'Zhiwen: Six!!!!!.',
+                 'Zhiwen: don’t let Clippy near the Manegtron."'
+            ]);
         }
     }
 }
