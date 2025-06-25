@@ -115,6 +115,13 @@ export class Player extends Actor {
             event.other.owner.hit();
 
             if (this.hasTurtle) {
+                // Speel correct answer geluid af
+                // Debug: log voor play()
+                console.log('trying to play', Resources.CorrectAnswer, window.__correctAnswerUnlocked);
+                if (Resources.CorrectAnswer) {
+                    Resources.CorrectAnswer.play(1)
+                        .catch(e => console.error('Kon geluid niet afspelen:', e));
+                }
                 this.engine.currentScene.collectedTurtles++;
                 this.engine.currentScene.amountTracker.amount++;
                 if (this.engine.currentScene.minigame3UI) {
@@ -124,6 +131,7 @@ export class Player extends Actor {
                 this.scale = new Vector(0.7, 0.7);
                 this.collider.set(Shape.Box(100, 80, Vector.Half, new Vector(0, -8)));
                 this.hasTurtle = false;
+
 
                 if (this.engine.currentScene.collectedTurtles >= this.engine.currentScene.totalTurtles) {
                     this.engine.currentScene.gameCompleted();

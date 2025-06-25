@@ -34,6 +34,7 @@ const Resources = {
     Persona3: new ImageSource('images/persona3.png'),
     Zwartachtergrond: new ImageSource('images/zwartachtergrond.png'),
     CorrectAnswer: new Sound('dialogue/sounds/correctanswer.mp3'),
+    JumpSound: new Sound('sounds/jumpsound.mp3'),
 }
    
 
