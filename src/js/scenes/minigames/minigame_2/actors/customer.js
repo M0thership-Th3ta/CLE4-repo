@@ -48,20 +48,22 @@ export class Customer extends Actor {
             this.#handleFoodDelivery(this.#collidingFood)
         }
         
-        // Controller input - check elke frame voor delivery met edge detection
+        // Controller input - MET RELEASE DETECTION (net zoals keyboard wasReleased)
         if (this.#collidingFood) {
             const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
             for (const gamepad of gamepads) {
                 if (!gamepad) continue;
                 
-                // A knop (index 0) edge detection voor leveren - Xbox A of PlayStation X
+                // A knop (index 0) - release detection voor food delivery
                 if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
-                    if (!this.aButtonWasPressed) {
-                        this.aButtonWasPressed = true;
+                    // Knop is ingedrukt - markeer alleen
+                    this.aButtonWasPressed = true;
+                } else {
+                    // Knop is losgelaten - nu pas food delivery (net zoals keyboard wasReleased)
+                    if (this.aButtonWasPressed) {
+                        this.aButtonWasPressed = false;
                         this.#handleFoodDelivery(this.#collidingFood);
                     }
-                } else {
-                    this.aButtonWasPressed = false;
                 }
             }
         }

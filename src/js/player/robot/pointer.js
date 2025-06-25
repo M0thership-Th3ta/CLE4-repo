@@ -21,6 +21,9 @@ export class Pointer extends Actor {
         this.graphics.use(Resources.Pointer.toSprite())
         this.z = 1000
 
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false
+
         // Event listeners voor toetsenbord
         engine.input.keyboard.on('hold', (evt) => {
             if (evt.key === Keys.Enter) {
@@ -59,15 +62,20 @@ export class Pointer extends Actor {
             if (Math.abs(leftStickY) > 0.2) {
                 yspeed = leftStickY * this.#speed;
             }
-            
-            // A knop (index 0) voor pakken/loslaten - Xbox A of PlayStation X
+              // A knop (index 0) voor pakken/loslaten - MET RELEASE DETECTION
             if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
-                this.#isHolding = true;
+                // Knop is ingedrukt - start holding (zoals keyboard hold)
+                if (!this.aButtonWasPressed) {
+                    this.aButtonWasPressed = true;
+                    this.#isHolding = true;
+                }
             } else {
-                if (this.#isHolding) {
+                // Knop is losgelaten - stop holding en drop item (zoals keyboard release)
+                if (this.aButtonWasPressed) {
+                    this.aButtonWasPressed = false;
+                    this.#isHolding = false;
                     this.dropItem();
                 }
-                this.#isHolding = false;
             }
         }
 
