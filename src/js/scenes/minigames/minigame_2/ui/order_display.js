@@ -5,12 +5,11 @@ export class OrderDisplay extends Actor {
     #orderSprites = [] // Verander van labels naar sprites
     #deliveredItems = []
     #currentOrder = [] // Bewaar de huidige order voor highlighting logic
-    
-    /**
+      /**
      * Creates a new OrderDisplay for showing customer orders
      * @param {Vector} pos - Position for the display (default: top-left corner)
      */
-    constructor(pos = new Vector(930, 100)) {
+    constructor(pos = new Vector(1050, 100)) {
         super({
             pos, // Gebruik parameter voor flexibele positionering
             anchor: Vector.Zero
@@ -100,17 +99,30 @@ export class OrderDisplay extends Actor {
             if (this.#currentOrder[i] === foodId && !this.#deliveredItems[i]) {
                 // Markeer als geleverd
                 this.#deliveredItems[i] = true
-                
                 // Voeg groen overlay toe aan de sprite
                 if (this.#orderSprites[i]) {
                     this.#orderSprites[i].graphics.opacity = 0.6 // Maak iets transparant
                     console.log(`OrderDisplay: Item ${foodId} op index ${i} highlighted`)
                 }
+                // Speel correctanswer.mp3 op zachter volume bij deels goed
+                if (Resources.CorrectAnswer ) {
+                    Resources.CorrectAnswer.play(0.4).catch(e => {})
+                }
+                // Check of nu alles compleet is
+                if (this.#deliveredItems.every(v => v)) {
+                    // Speel correctanswer.mp3 op vol volume bij complete order
+                    if (Resources.CorrectAnswer ) {
+                        Resources.CorrectAnswer.play(1).catch(e => {})
+                    }
+                }
                 return // Stop na de eerste match
             }
         }
-        
         console.warn(`OrderDisplay: Geen niet-geleverd item gevonden voor foodId ${foodId}`)
+        // Speel errorsound af als het item niet in de order past
+        if (Resources.ErrorSound) {
+            Resources.ErrorSound.play(1).catch(e => {})
+        }
     }/**
      * Reset the display to show no order
      */

@@ -64,6 +64,10 @@ export class Player extends Actor {
         }
 
         if (engine.input.keyboard.wasPressed(this.upKey) && this.isGrounded) {
+            // Speel jumpsound
+            if (Resources.JumpSound ) {
+                Resources.JumpSound.play(1).catch(e => console.error('Kon jumpsound niet afspelen:', e));
+            }
             this.vel.y = -480;
             this.isGrounded = false;
         }
@@ -103,6 +107,10 @@ export class Player extends Actor {
 
         if (event.other.owner instanceof Turtle) {
             if (!this.hasTurtle) {
+                // Speel ting sound af bij oppakken turtle
+                if (Resources.TingSound) {
+                    Resources.TingSound.play(1).catch(e => console.error('Kon ting sound niet afspelen:', e));
+                }
                 event.other.owner.hit();
                 this.graphics.use(Resources.RobotWithTurtle.toSprite());
                 this.scale = new Vector(0.7, 0.7);
@@ -115,6 +123,13 @@ export class Player extends Actor {
             event.other.owner.hit();
 
             if (this.hasTurtle) {
+                // Speel correct answer geluid af
+                // Debug: log voor play()
+                console.log('trying to play', Resources.CorrectAnswer, );
+                if (Resources.CorrectAnswer) {
+                    Resources.CorrectAnswer.play(1)
+                        .catch(e => console.error('Kon geluid niet afspelen:', e));
+                }
                 this.engine.currentScene.collectedTurtles++;
                 this.engine.currentScene.amountTracker.amount++;
                 if (this.engine.currentScene.minigame3UI) {
@@ -124,6 +139,7 @@ export class Player extends Actor {
                 this.scale = new Vector(0.7, 0.7);
                 this.collider.set(Shape.Box(100, 80, Vector.Half, new Vector(0, -8)));
                 this.hasTurtle = false;
+
 
                 if (this.engine.currentScene.collectedTurtles >= this.engine.currentScene.totalTurtles) {
                     this.engine.currentScene.gameCompleted();

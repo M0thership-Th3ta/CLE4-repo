@@ -12,6 +12,7 @@ export class Customer extends Actor {
     #order
     #processedCollisions = new Set()
     #collidingFood = null
+    #orderCompleted = false // Flag om dubbele orderComplete events te voorkomen
 
     constructor(pos, sprite, orderSize = 1) {
         super({
@@ -35,6 +36,9 @@ export class Customer extends Actor {
         this.graphics.use(this.sprite.toSprite())
         console.log("Nieuwe bestelling:", this.#order.getOrder())
 
+        // Initialiseer button state tracking voor controller
+        this.aButtonWasPressed = false;
+
         // Event listeners met private methods voor betere encapsulation
         this.on(COLLISION_START, (evt) => this.#onCollisionStart(evt));
         this.on(COLLISION_END, (evt) => this.#onCollisionEnd(evt));
@@ -45,15 +49,22 @@ export class Customer extends Actor {
             this.#handleFoodDelivery(this.#collidingFood)
         }
         
-        // Controller input - check elke frame voor delivery
+        // Controller input - MET RELEASE DETECTION (net zoals keyboard wasReleased)
         if (this.#collidingFood) {
             const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
             for (const gamepad of gamepads) {
                 if (!gamepad) continue;
                 
-                // A knop (index 0) voor leveren - Xbox A of PlayStation X
+                // A knop (index 0) - release detection voor food delivery
                 if (gamepad.buttons[0] && gamepad.buttons[0].pressed) {
-                    this.#handleFoodDelivery(this.#collidingFood);
+                    // Knop is ingedrukt - markeer alleen
+                    this.aButtonWasPressed = true;
+                } else {
+                    // Knop is losgelaten - nu pas food delivery (net zoals keyboard wasReleased)
+                    if (this.aButtonWasPressed) {
+                        this.aButtonWasPressed = false;
+                        this.#handleFoodDelivery(this.#collidingFood);
+                    }
                 }
             }
         }
@@ -95,10 +106,14 @@ export class Customer extends Actor {
             })
         }
 
-        // Check of order compleet is
-        if (this.#givenFood.length === orderList.length) {
+        // Check of order compleet is (maar alleen als niet al voltooid)
+        if (!this.#orderCompleted && this.#givenFood.length === orderList.length) {
             if (Customer.#arraysEqual(this.#givenFood, orderList)) {
                 console.log("Order correct! 🎉");
+                
+                // Markeer als voltooid om dubbele events te voorkomen
+                this.#orderCompleted = true;
+                
                 this.scene.engine.emit('orderComplete', { success: true, customer: this });
                 this.kill();
             } else {

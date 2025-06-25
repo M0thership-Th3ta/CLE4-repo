@@ -20,7 +20,7 @@ export class StartScene extends Scene {
 
         // Voeg een titel toe
         const title = new Label({
-            text: 'Shanty Kitchen!',
+            text: "Shanty's Kitchen",
             pos: new Vector(engine.drawWidth / 2, 200),
             font: new Font({
                 family: 'Arial',
@@ -34,7 +34,7 @@ export class StartScene extends Scene {
 
         // Voeg een instructie toe
         const instruction = new Label({
-            text: 'Druk op [Z] of [Spatie] of [A]/[X] op je controller om te starten',
+            text: 'Druk op A-Knop om te beginnen!',
             pos: new Vector(engine.drawWidth / 2, 350),
             font: new Font({
                 family: 'Arial',

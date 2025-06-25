@@ -6,7 +6,7 @@ export class Restaurantscene_4 extends Scene {
     #shanty
     #triggerBar
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
+    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
 
     onInitialize(engine) {
         // Zwarte achtergrond (extra breed en hoog voor volledige dekking)

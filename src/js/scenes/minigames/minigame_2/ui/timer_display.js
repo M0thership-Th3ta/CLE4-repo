@@ -4,7 +4,7 @@ export class TimerDisplay extends Actor {
     #timeRemaining = 60
     #timerText
 
-    constructor(pos = new Vector(1150, 50)) { // Aangepast naar nieuwe positie
+    constructor(pos = new Vector(1250, 50)) { // Aangepast naar nieuwe positie
         super({
             pos,
             anchor: new Vector(0.5, 0.5),
