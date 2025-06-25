@@ -10,7 +10,7 @@ const Resources = {
     MarineBiologist: new ImageSource('images/miles2.png'),
     RobotWithTurtle: new ImageSource('images/robot-holding-turtle.png'),
     BG1: new ImageSource('images/greengrassbluebackground.png'),
-    BG2: new ImageSource('images/snackbar.png'),
+    BG2: new ImageSource('images/snackbar-background.png'),
     RestaurantLayout: new ImageSource('images/restau-2.png'),
     Player: new ImageSource('images/robot-02.png'),
     Food1: new ImageSource('images/pastechi.png'),
