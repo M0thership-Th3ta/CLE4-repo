@@ -5,12 +5,11 @@ export class OrderDisplay extends Actor {
     #orderSprites = [] // Verander van labels naar sprites
     #deliveredItems = []
     #currentOrder = [] // Bewaar de huidige order voor highlighting logic
-    
-    /**
+      /**
      * Creates a new OrderDisplay for showing customer orders
      * @param {Vector} pos - Position for the display (default: top-left corner)
      */
-    constructor(pos = new Vector(930, 100)) {
+    constructor(pos = new Vector(1050, 100)) {
         super({
             pos, // Gebruik parameter voor flexibele positionering
             anchor: Vector.Zero

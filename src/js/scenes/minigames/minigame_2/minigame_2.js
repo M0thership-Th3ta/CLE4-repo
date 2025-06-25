@@ -14,14 +14,14 @@ import { GameCompletedScene } from "../../cutscenes/gamecompleted.js";
 
 // Constanten voor betere leesbaarheid en onderhoud
 const GAME_CONFIG = {
-    TIMER_POS: { x: 1195, y: 75 }, // Verplaatst naar rechts
-    ORDER_COUNTER_POS: { x: 50, y: 70 }, // Links boven
+    ORDER_COUNTER_POS: { x: 50, y: 100 }, // Links boven
+    TIMER_POS: { x: 125, y: 150 }, // Links onder de order counter
     CUSTOMER_POS: new Vector(735, 220),    FOOD_POSITIONS: {
-        food1: new Vector(275, 360), // Verplaatst naar aanrecht
-        food2: new Vector(175, 270), // Verplaatst naar aanrecht
-        food3: new Vector(400, 360), // Verplaatst naar aanrecht
-        food4: new Vector(1050, 350),
-        food5: new Vector(950, 500)
+        food1: new Vector(275, 280), // Verplaatst naar aanrecht
+        food2: new Vector(125, 270), // Verplaatst naar aanrecht
+        food3: new Vector(450, 275), // Verplaatst naar aanrecht
+        food4: new Vector(1100, 460),
+        food5: new Vector(1200, 575)
     },
     FOOD_SCALE: 0.8,
     ORDER_UPDATE_DELAY: 100,
@@ -104,20 +104,18 @@ export class Minigame_2 extends Scene {
         // Luister naar orderReset event voor highlighting reset
         this.engine.on('orderReset', (evt) => {
             this.#orderDisplay.resetHighlights()
-        })
-    }
+        })    }
 
     onInitialize(engine) {
         console.log("Minigame_2 geïnitialiseerd")
-    }
-            
+        
+        // Event listener voor debug toetsen
+        engine.input.keyboard.on('press', (evt) => {
             // Voeg G-toets toe voor game state debug
             if (evt.key === 'g' || evt.key === 'G') {
                 this.debugGameState()
             }
         })
-
-        console.log("Minigame_2 geïnitialiseerd")
     }
 
     // Deze functie bevat de minigame functionaliteit
