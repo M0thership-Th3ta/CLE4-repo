@@ -4,12 +4,10 @@ import { Shanty } from '../../player/shanty/shanty.js';
 import { Persona3 } from '../../actors/persona3.js';
 import { DialogSystem } from '../../dialog.js';
 
-export class Restaurantscene_3 extends Scene {
-    #shanty
+export class Restaurantscene_3 extends Scene {    #shanty
     #triggerBar
     #persona3
     #overlapFrames = 0
-    #REQUIRED_FRAMES = 60 // 1 seconde bij 60fps
     #REQUIRED_FRAMES = 120 // 2 seconden bij 60fps
     #dialogKeyHandler
 
