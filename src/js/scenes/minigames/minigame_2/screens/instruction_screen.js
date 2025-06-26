@@ -1,4 +1,6 @@
 import { Scene, Label, Vector, Color, Font, FontUnit, Keys, TextAlign } from "excalibur"
+import { Resources } from "../../../../resources"
+import { BackgroundMinigame2 } from "../background_minigame_2"
 
 export class InstructionScreen extends Scene {
     #titleLabel
@@ -18,8 +20,10 @@ export class InstructionScreen extends Scene {
     }    // Deze functie wordt aangeroepen wanneer de scene wordt geïnitialiseerd
     onInitialize(engine) {
         // Voeg een achtergrondkleur toe voor betere leesbaarheid
-        this.backgroundColor = Color.fromRGB(30, 144, 255, 0.9) // Nice blue background
-        
+        // this.backgroundColor = Color.fromRGB(30, 144, 255, 0.9) // Nice blue background
+        const backgroundminigame2 = new BackgroundMinigame2()
+        this.add(backgroundminigame2)
+
         // Initialiseer button state tracking voor controller
         this.aButtonWasPressed = false;
         this.bButtonWasPressed = false;
@@ -93,14 +97,13 @@ export class InstructionScreen extends Scene {
     #createTitle(engine) {
         this.#titleLabel = new Label({
             text: "Help in de snackbar!",
-            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight - 250),
-            color: Color.Yellow,
-            font: new Font({
-                family: 'Arial',
-                size: 56,
+            pos: new Vector(200, 80),
+            // color: Color.Yellow,
+            font: Resources.PressStart2P.toFont({
+                size: 45,
+                color: Color.fromHex('#3E1E00'),
                 unit: FontUnit.Px,
-                textAlign: TextAlign.Center
-            })
+            }),
         })
         this.add(this.#titleLabel)
     }    // Maak de instructie teksten aan
@@ -109,24 +112,25 @@ export class InstructionScreen extends Scene {
             "🥖 Je gaat Zhiwen helpen in de snackbar,",
             "🔥 Het is erg druk in de snackbar, help een handje uit!",
             "🎮 Gebruik de controller om te bewegen door het restaurant", 
-            "📦 Houdt de A-knop ingedrukt om producten op te pakken en en te geven aan de klanten",
+            "📦 Houdt de A-knop ingedrukt om producten op te pakken en  het te geven aan de klanten",
         ]
 
         // Bereken centrale positie voor instructies
-        const startY = engine.halfDrawHeight - 120
-        const lineSpacing = 50
+        const startY = engine.halfDrawHeight - 160
+        const lineSpacing = 60
 
         instructions.forEach((instruction, index) => {
             const label = new Label({
                 text: instruction,
-                pos: new Vector(engine.halfDrawWidth, startY + (index * lineSpacing)),
-                color: Color.White,
-                font: new Font({
-                    family: 'Arial',
-                    size: 26,
-                    unit: FontUnit.Px,
-                    textAlign: TextAlign.Center
-                })
+                pos: new Vector(210, startY + (index * lineSpacing)),
+                // color: Color.White,
+                font: Resources.PressStart2P.toFont({
+                size: 15,
+                color: Color.fromHex('#E0E0E0'),
+                unit: FontUnit.Px,
+            }),
+            maxWidth: 890
+
             })
             
             this.#instructionLabels.push(label)
@@ -136,28 +140,26 @@ export class InstructionScreen extends Scene {
     #createControls(engine) {
         this.#controlsLabel = new Label({
             text: "🎮 L-Stick = Bewegen | A-knop = Pakken/Loslaten 🎮",
-            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 180),
-            color: Color.Cyan,
-            font: new Font({
-                family: 'Arial',
-                size: 22,
+            pos: new Vector(210, 550),
+            // color: Color.Cyan,
+            font: Resources.PressStart2P.toFont({
+                size: 18,
+                color: Color.fromHex('#17D8D9'),
                 unit: FontUnit.Px,
-                textAlign: TextAlign.Center
-            })
+            }),
         })
         this.add(this.#controlsLabel)
     }    // Maak de start prompt aan - alleen controller input
     #createStartPrompt(engine) {
         this.#startLabel = new Label({
             text: "Druk Controller A of B om te beginnen",
-            pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 250),
-            color: Color.Green,
-            font: new Font({
-                family: 'Arial',
-                size: 30,
+            pos: new Vector(280, 600),
+            // color: Color.Green,
+            font: Resources.PressStart2P.toFont({
+                size: 18,
+                color: Color.fromHex('#17D8D9'),
                 unit: FontUnit.Px,
-                textAlign: TextAlign.Center
-            })
+            }),
         })
         this.add(this.#startLabel)
     }

@@ -73,7 +73,7 @@ export class Instruction extends Scene {
             pos: new Vector(480, 400),
             font: Resources.PressStart2P.toFont({
                 size: 20,
-                color: Color.fromHex('#005580'),
+                color: Color.White,
                 unit: FontUnit.Px,
             }),
             anchor: new Vector(0, 0.5)
@@ -97,7 +97,7 @@ export class Instruction extends Scene {
             pos: new Vector(480, 430),
             font: Resources.PressStart2P.toFont({
                 size: 20,
-                color: Color.fromHex('#005580'),
+                color: Color.White,
                 unit: FontUnit.Px,
             }),
             anchor: new Vector(0, 0.5)
@@ -121,7 +121,7 @@ export class Instruction extends Scene {
             pos: new Vector(480, 330),
             font: Resources.PressStart2P.toFont({
                 size: 20,
-                color: Color.White,
+                color: Color.fromHex('#005580'),
                 unit: FontUnit.Px,
             }),
             anchor: new Vector(0.5, 0.5),
