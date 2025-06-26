@@ -1,4 +1,5 @@
 import { ImageSource, Sound, Loader, Font, FontSource } from 'excalibur'
+import { StartScene } from './scenes/startscene'
 
 // Gebruik altijd paden relatief aan de public folder
 const Resources = {
@@ -44,6 +45,7 @@ const Resources = {
     snackbar_personage2 : new ImageSource('images/snackbar-personage2.png'),
     snackbar_personage3 : new ImageSource('images/snackbar-personage3.png'),
     snackbar_personage4 : new ImageSource('images/snackbar-personage4.png'),
+    Startscene: new ImageSource ('images/startscenes.png'),
 
 }
    
