@@ -49,13 +49,20 @@ export class StartScene extends Scene {
         // Voeg een instructie toe
         const instruction = new Label({
                 text: 'Druk op A-Knop om te beginnen!',
-                pos: new Vector(engine.drawWidth / 2, 350),
-                font: new Font({
-                    family: 'Arial',
-                    size: 18,
-                    color: Color.White,
-                    textAlign: 'center'
-                }),
+                // pos: new Vector(engine.drawWidth / 2, 350),
+                pos: new Vector(380, 380),
+
+                // font: new Font({
+                //     family: 'Arial',
+                //     size: 18,
+                //     color: Color.White,
+                //     textAlign: 'center'
+                // }),
+                font: Resources.PressStart2P.toFont({
+                size: 18,
+                color: Color.White,
+                unit: FontUnit.Px,
+            }),
                 anchor: new Vector(0.5, 0.5)
             })
         this.add(instruction)
