@@ -34,7 +34,7 @@ export class DebugControl extends Actor {
                 this.switchScene('restaurantscene_3')
                 break
             case Keys.Y:
-                this.switchScene('gameover')
+                this.switchScene('minigame_3')
                 break
             case Keys.O:
                 this.switchScene('restaurantscene_4')
