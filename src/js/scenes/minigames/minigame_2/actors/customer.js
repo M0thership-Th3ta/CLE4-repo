@@ -14,12 +14,12 @@ export class Customer extends Actor {
     #collidingFood = null
     #orderCompleted = false // Flag om dubbele orderComplete events te voorkomen
 
-    constructor(pos, sprite, orderSize = 1) {
+    constructor(pos, sprite, orderSize = 1, scale = 0.75) {
         super({
             pos,
             width: sprite.width,
             height: sprite.height,
-            scale: new Vector(0.75, 0.75),
+            scale: new Vector(scale, scale),
             collisionType: CollisionType.Fixed
         })
         this.sprite = sprite;
