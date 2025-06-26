@@ -57,7 +57,7 @@ export class Persona2 extends NPC {
                 'Zhiwen: "Shanty! Aiya—familiebruiloft vandaag. Kun jij op de winkel passen? Slechts één dag!"',
                 'Shanty: "Laat me raden: Tante Lilis ‘verplichte gezelligheid’ evenement?"',
                 'Zhiwen: "Zes uur durende ceremonie.',
-                'Zhiwen: Zes uur!!!!!.',
+                'Zhiwen: Zes uur!!!!!',
                 'Zhiwen: laat Clippy alsjeblieft niet bij de Manegtron in de buurt komen."'
             ]);
         }
