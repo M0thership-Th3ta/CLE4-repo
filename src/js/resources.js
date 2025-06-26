@@ -37,6 +37,11 @@ const Resources = {
     JumpSound: new Sound('dialogue/sounds/jumpsound.mp3'),
     ErrorSound: new Sound('dialogue/sounds/error.mp3'),
     TingSound: new Sound('dialogue/sounds/ting.mp3'),
+    snackbar_personage1 : new ImageSource('images/snackbar-personage1.png'),
+    snackbar_personage2 : new ImageSource('images/snackbar-personage2.png'),
+    snackbar_personage3 : new ImageSource('images/snackbar-personage3.png'),
+    snackbar_personage4 : new ImageSource('images/snackbar-personage4.png'),
+
 }
    
 

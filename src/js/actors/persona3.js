@@ -10,7 +10,7 @@ export class Persona3 extends NPC {
         super(pos, "Persona3", 40) // 40 pixels radius voor ronde collision
     }
 
-     #shanty
+    #shanty
     #dialogSystem
 
     // Override de setupGraphics methode om Persona3 sprite te gebruiken
@@ -33,19 +33,21 @@ export class Persona3 extends NPC {
         }
     }
 
-     onPostUpdate(engine, delta) {
+    onPostUpdate(engine, delta) {
         // Controleer of Shanty en dialogSystem beschikbaar zijn
         if (!this.#shanty || !this.#dialogSystem) return
 
         // Bereken afstand tussen Persona3 en Shanty
         const distance = this.pos.distance(this.#shanty.pos)
         if (distance < 100 && !this.#dialogSystem.isDialogActive) {
-       this.#dialogSystem.showDialog([
-    "Shanty: Whoa. You look like you tried to hug a jet engine. What's up?",
-    "Miles: Turtle emergency. Storm last night washed hatchlings onto those broken docks by the cliffs—they're stranded!",
-    "Shanty: And let me guess... you want Clippy to play tightrope walker over shark bait?",
-    "Miles: Just across the floating debris! He's nimble, and I'll guide him from shore. Please?"
-]);
+            this.#dialogSystem.showDialog([
+                "Shanty: Wow. Je ziet eruit alsof je de zon hebt proberen te knuffelen. Wat is er gebeurd?",
+                "Miles: Schildpadden-noodgeval. Door het nieuwe resort is een deel van het strand afgesloten!",
+                "Miles: Daardoor zijn er schildpadden gestrand aan de rotskant van het strand. Ik moet ze terug naar het water brengen.",
+                "Shanty: Kan ik ergens mee helpen?",
+                "Miles: Ik moet over het drijvende puin heen, maar ik ben niet zo lenig.",
+                "Miles: Misschien kan jouw kleine robot helpen om over het drijvende puin te komen! Hij is wendbaar, en ik begeleid hem vanaf de kant. Alsjeblieft?"
+            ]);
         }
     }
 

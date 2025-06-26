@@ -53,11 +53,12 @@ export class Persona2 extends NPC {
         const distance = this.pos.distance(this.#shanty.pos)
         if (distance < 100 && !this.#dialogSystem.isDialogActive) {
             this.#dialogSystem.showDialog([
-                'Zhiwen: "Shanty! Aiya—family wedding today. Can you watch the shop? Just one day!"',
-                'Shanty: "Let me guess: Auntie Lilis ‘mandatory happiness’ event?"',
-                'Zhiwen: "Six-hour ceremony.',
-                 'Zhiwen: Six!!!!!.',
-                 'Zhiwen: don’t let Clippy near the Manegtron."'
+                
+                'Zhiwen: "Shanty! Aiya—familiebruiloft vandaag. Kun jij op de winkel passen? Slechts één dag!"',
+                'Shanty: "Laat me raden: Tante Lilis ‘verplichte gezelligheid’ evenement?"',
+                'Zhiwen: "Zes uur durende ceremonie.',
+                'Zhiwen: Zes uur!!!!!.',
+                'Zhiwen: laat Clippy alsjeblieft niet bij de Manegtron in de buurt komen."'
             ]);
         }
     }
