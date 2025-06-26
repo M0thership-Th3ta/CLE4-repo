@@ -14,9 +14,9 @@ import { GameCompletedScene } from "../../cutscenes/gamecompleted.js";
 
 // Constanten voor betere leesbaarheid en onderhoud
 const GAME_CONFIG = {
-    ORDER_COUNTER_POS: { x: 50, y: 100 }, // Links boven
-    TIMER_POS: { x: 125, y: 150 }, // Links onder de order counter
-    CUSTOMER_POS: new Vector(735, 220),    FOOD_POSITIONS: {
+    ORDER_COUNTER_POS: { x: 87, y: 135 }, // Iets meer naar links (was 125)
+    TIMER_POS: { x: 150, y: 95 }, // Meer naar rechts verplaatst (was 50)
+    CUSTOMER_POS: new Vector(735, 183),    FOOD_POSITIONS: {
         food1: new Vector(275, 280), // Verplaatst naar aanrecht
         food2: new Vector(125, 270), // Verplaatst naar aanrecht
         food3: new Vector(450, 275), // Verplaatst naar aanrecht
@@ -24,6 +24,7 @@ const GAME_CONFIG = {
         food5: new Vector(1200, 575)
     },
     FOOD_SCALE: 0.8,
+    CUSTOMER_SCALE: 0.15, // 2x zo groot als de vorige 0.1 (nu 20% van origineel)
     ORDER_UPDATE_DELAY: 100,
     CUSTOMER_SPAWN_DELAY: 1000
 };
@@ -184,8 +185,14 @@ export class Minigame_2 extends Scene {
         console.log(`=== SPAWN INITIAL CUSTOMER ===`)
         console.log(`Game state voor spawning:`, this.#gameState.getOrderProgressionInfo())
         
+        // Bepaal beschikbare customer sprites
+        const availableSprites = this.#getAvailableCustomerSprites();
+        
+        // Random pick een sprite voor de eerste customer ook
+        const randomSprite = availableSprites[Math.floor(Math.random() * availableSprites.length)];
+        
         const orderSize = this.#gameState.getCurrentOrderSize();
-        this.#currentCustomer = new Customer(GAME_CONFIG.CUSTOMER_POS, Resources.Customer1, orderSize);
+        this.#currentCustomer = new Customer(GAME_CONFIG.CUSTOMER_POS, randomSprite, orderSize, GAME_CONFIG.CUSTOMER_SCALE);
         this.add(this.#currentCustomer);
 
         // Update display met kleine delay voor initialisatie
@@ -219,7 +226,7 @@ export class Minigame_2 extends Scene {
         const orderSize = this.#gameState.getCurrentOrderSize();
         
         // Maak nieuwe customer aan met progressive order size
-        this.#currentCustomer = new Customer(GAME_CONFIG.CUSTOMER_POS, randomSprite, orderSize);
+        this.#currentCustomer = new Customer(GAME_CONFIG.CUSTOMER_POS, randomSprite, orderSize, GAME_CONFIG.CUSTOMER_SCALE);
         this.add(this.#currentCustomer);
         
         // Update order display
@@ -230,12 +237,18 @@ export class Minigame_2 extends Scene {
 
     // Bepaalt welke customer sprites beschikbaar zijn met veilige checks
     #getAvailableCustomerSprites() {
-        const sprites = [Resources.Customer1] // Altijd beschikbaar
+        const sprites = [] // Lege array voor snackbar personages
         
-        // Veilige checks voor optionele resources
-        if (Resources.Customer2) sprites.push(Resources.Customer2)
-        if (Resources.Persona2) sprites.push(Resources.Persona2)
-        if (Resources.Persona3) sprites.push(Resources.Persona3)
+        // Gebruik de 4 verschillende snackbar-personage sprites
+        if (Resources.snackbar_personage1) sprites.push(Resources.snackbar_personage1)
+        if (Resources.snackbar_personage2) sprites.push(Resources.snackbar_personage2)
+        if (Resources.snackbar_personage3) sprites.push(Resources.snackbar_personage3)
+        if (Resources.snackbar_personage4) sprites.push(Resources.snackbar_personage4)
+        
+        // Fallback naar Customer1 als geen snackbar sprites beschikbaar zijn
+        if (sprites.length === 0) {
+            sprites.push(Resources.Customer1)
+        }
         
         return sprites
     }

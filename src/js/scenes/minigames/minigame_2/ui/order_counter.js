@@ -24,7 +24,7 @@ export class OrderCounter extends Actor {
             text: `Order ${this.#currentOrder}/${this.#totalOrders}`,
             font: new Font({
                 family: 'Arial',
-                size: 36,
+                size: 30, // Verkleind van 36 naar 30 (1/6 kleiner)
                 color: Color.White
             })
         })

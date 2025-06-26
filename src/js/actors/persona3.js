@@ -43,7 +43,8 @@ export class Persona3 extends NPC {
             this.#dialogSystem.showDialog([
                 "Shanty: Wow. Je ziet eruit alsof je de zon hebt proberen te knuffelen. Wat is er gebeurd?",
                 "Miles: Schildpadden-noodgeval. Door het nieuwe resort is een deel van het strand afgesloten!",
-                "Miles: Daardoor zijn er schildpadden gestrand aan de rotskant van het strand. Ik moet ze terug naar het water brengen.",
+                "Miles: Daardoor zijn er schildpadden gestrand aan de rotskant van het strand.",
+                "Miles: Ik moet ze terug naar het water brengen.",
                 "Shanty: Kan ik ergens mee helpen?",
                 "Miles: Ik moet over het drijvende puin heen, maar ik ben niet zo lenig.",
                 "Miles: Misschien kan jouw kleine robot helpen om over het drijvende puin te komen! Hij is wendbaar, en ik begeleid hem vanaf de kant. Alsjeblieft?"
