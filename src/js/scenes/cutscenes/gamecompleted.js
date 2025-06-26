@@ -44,12 +44,17 @@ export class GameCompletedScene extends Scene {
             text: 'Het restaurant',
             pos: new Vector(-89, -10),
             color: Color.White,
-            font: new Font({
-                family: 'Arial',
-                size: 28,
+            // font: new Font({
+            //     family: 'Arial',
+            //     size: 28,
+            //     unit: FontUnit.Px,
+            //     color: Color.White
+            // })
+            font: Resources.PressStart2P.toFont({
+                size: 13,
+                color: Color.White,
                 unit: FontUnit.Px,
-                color: Color.White
-            })
+            }),
         })
         this.#triggerBar.addChild(terugLabel)
         this.add(this.#triggerBar)
@@ -60,12 +65,17 @@ export class GameCompletedScene extends Scene {
         const gameCompletedLabel = new Label({
             text: 'GAME COMPLETED',
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight - 40),
-            font: new Font({
-                family: 'Arial',
-                size: 64,
-                unit: FontUnit.Px,
+            // font: new Font({
+            //     family: 'Arial',
+            //     size: 64,
+            //     unit: FontUnit.Px,
+            //     color: Color.White,
+            //     bold: true
+            // }),
+            font: Resources.PressStart2P.toFont({
+                size: 30,
                 color: Color.White,
-                bold: true
+                unit: FontUnit.Px,
             }),
             color: Color.White,
             anchor: new Vector(0.5, 0.5)
@@ -75,15 +85,20 @@ export class GameCompletedScene extends Scene {
         const uitlegLabel = new Label({
             text: 'Je hebt de level behaald! Ga terug naar het restaurant.',
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 30),
-            font: new Font({
-                family: 'Arial',
-                size: 28,
+            // font: new Font({
+            //     family: 'Arial',
+            //     size: 28,
+            //     unit: FontUnit.Px,
+            //     color: Color.White
+            // }),
+            font: Resources.PressStart2P.toFont({
+                size: 15,
+                color: Color.White,
                 unit: FontUnit.Px,
-                color: Color.White
             }),
-            color: Color.White,
+            // color: Color.White,
             anchor: new Vector(0.5, 0.5),
-            maxWidth: 500
+            maxWidth: 450
         })
         this.add(uitlegLabel)
     }

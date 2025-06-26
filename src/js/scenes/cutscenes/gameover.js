@@ -45,12 +45,17 @@ export class GameOverScene extends Scene {
             text: 'Opnieuw proberen',
             pos: new Vector(-89, -10),
             color: Color.White,
-            font: new Font({
-                family: 'Arial',
-                size: 20,
+            // font: new Font({
+            //     family: 'Arial',
+            //     size: 20,
+            //     unit: FontUnit.Px,
+            //     color: Color.White
+            // })
+            font: Resources.PressStart2P.toFont({
+                size: 11,
+                color: Color.White,
                 unit: FontUnit.Px,
-                color: Color.White
-            })
+            }),
         })
         this.#triggerBar.addChild(terugLabel)
         this.add(this.#triggerBar)
@@ -61,12 +66,17 @@ export class GameOverScene extends Scene {
         const gameOverLabel = new Label({
             text: 'GAME OVER',
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight - 40),
-            font: new Font({
-                family: 'Arial',
-                size: 64,
-                unit: FontUnit.Px,
+            // font: new Font({
+            //     family: 'Arial',
+            //     size: 64,
+            //     unit: FontUnit.Px,
+            //     color: Color.White,
+            //     bold: true
+            // }),
+            font: Resources.PressStart2P.toFont({
+                size: 30,
                 color: Color.White,
-                bold: true
+                unit: FontUnit.Px,
             }),
             color: Color.White,
             anchor: new Vector(0.5, 0.5)
@@ -76,11 +86,16 @@ export class GameOverScene extends Scene {
         const uitlegLabel = new Label({
             text: 'Je hebt verloren! Ga naar de rode balk om opnieuw te proberen.',
             pos: new Vector(engine.halfDrawWidth, engine.halfDrawHeight + 30),
-            font: new Font({
-                family: 'Arial',
-                size: 28,
+            // font: new Font({
+            //     family: 'Arial',
+            //     size: 28,
+            //     unit: FontUnit.Px,
+            //     color: Color.White
+            // }),
+            font: Resources.PressStart2P.toFont({
+                size: 15,
+                color: Color.White,
                 unit: FontUnit.Px,
-                color: Color.White
             }),
             color: Color.White,
             anchor: new Vector(0.5, 0.5),
