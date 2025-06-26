@@ -97,11 +97,11 @@ export class InstructionScreen extends Scene {
     #createTitle(engine) {
         this.#titleLabel = new Label({
             text: "Help in de snackbar!",
-            pos: new Vector(200, 80),
+            pos: new Vector(280, 80),
             // color: Color.Yellow,
             font: Resources.PressStart2P.toFont({
-                size: 45,
-                color: Color.fromHex('#3E1E00'),
+                size: 40,
+                color: Color.fromHex('#FFCF4A'),
                 unit: FontUnit.Px,
             }),
         })
@@ -110,9 +110,9 @@ export class InstructionScreen extends Scene {
     #createInstructions(engine) {
         const instructions = [
             "🥖 Je gaat Zhiwen helpen in de snackbar,",
-            "🔥 Het is erg druk in de snackbar, help een handje uit!",
-            "🎮 Gebruik de controller om te bewegen door het restaurant", 
-            "📦 Houdt de A-knop ingedrukt om producten op te pakken en  het te geven aan de klanten",
+            "🔥 Het is erg druk in de snackbar, help een   handje uit!",
+            "🎮 Gebruik de controller om te bewegen door   het restaurant", 
+            "📦 Houdt de A-knop ingedrukt om producten op  te pakken en  het te geven aan de klanten",
         ]
 
         // Bereken centrale positie voor instructies
@@ -122,14 +122,14 @@ export class InstructionScreen extends Scene {
         instructions.forEach((instruction, index) => {
             const label = new Label({
                 text: instruction,
-                pos: new Vector(210, startY + (index * lineSpacing)),
+                pos: new Vector(340, startY + (index * lineSpacing)),
                 // color: Color.White,
                 font: Resources.PressStart2P.toFont({
                 size: 15,
-                color: Color.fromHex('#E0E0E0'),
+                color: Color.White,
                 unit: FontUnit.Px,
             }),
-            maxWidth: 890
+            maxWidth: 700
 
             })
             
@@ -140,11 +140,11 @@ export class InstructionScreen extends Scene {
     #createControls(engine) {
         this.#controlsLabel = new Label({
             text: "🎮 L-Stick = Bewegen | A-knop = Pakken/Loslaten 🎮",
-            pos: new Vector(210, 550),
+            pos: new Vector(310, 480),
             // color: Color.Cyan,
             font: Resources.PressStart2P.toFont({
-                size: 18,
-                color: Color.fromHex('#17D8D9'),
+                size: 14,
+                color: Color.fromHex('#00008B'),
                 unit: FontUnit.Px,
             }),
         })
@@ -153,11 +153,11 @@ export class InstructionScreen extends Scene {
     #createStartPrompt(engine) {
         this.#startLabel = new Label({
             text: "Druk Controller A of B om te beginnen",
-            pos: new Vector(280, 600),
+            pos: new Vector(380, 550),
             // color: Color.Green,
             font: Resources.PressStart2P.toFont({
-                size: 18,
-                color: Color.fromHex('#17D8D9'),
+                size: 14,
+                color: Color.fromHex('#006400'),
                 unit: FontUnit.Px,
             }),
         })
