@@ -1,4 +1,5 @@
-import { Actor, Color, Font, Label, TextAlign, Vector } from "excalibur";
+import { Actor, Color, Font, FontUnit, Label, TextAlign, Vector } from "excalibur";
+import { Resources } from "../../../resources";
 
 export class Minigame3UI extends Actor {
 
@@ -28,8 +29,12 @@ export class Minigame3UI extends Actor {
 
         this.amountLabel = new Label({
             text: `Zeeschildpadden geredt: 0`,
-            pos: new Vector(10, 10),
-            font: font,
+            pos: new Vector(800, 25),
+            font: Resources.PressStart2P.toFont({
+                size: 15,
+                color: Color.White,
+                unit: FontUnit.Px,
+            }),
         })
 
         this.addChild(this.amountLabel);

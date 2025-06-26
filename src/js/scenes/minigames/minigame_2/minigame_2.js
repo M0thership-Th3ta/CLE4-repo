@@ -14,14 +14,14 @@ import { GameCompletedScene } from "../../cutscenes/gamecompleted.js";
 
 // Constanten voor betere leesbaarheid en onderhoud
 const GAME_CONFIG = {
-    TIMER_POS: { x: 1195, y: 75 }, // Verplaatst naar rechts
-    ORDER_COUNTER_POS: { x: 50, y: 70 }, // Links boven
+    ORDER_COUNTER_POS: { x: 50, y: 100 }, // Links boven
+    TIMER_POS: { x: 125, y: 150 }, // Links onder de order counter
     CUSTOMER_POS: new Vector(735, 220),    FOOD_POSITIONS: {
-        food1: new Vector(275, 360), // Verplaatst naar aanrecht
-        food2: new Vector(175, 270), // Verplaatst naar aanrecht
-        food3: new Vector(400, 360), // Verplaatst naar aanrecht
-        food4: new Vector(1050, 350),
-        food5: new Vector(950, 500)
+        food1: new Vector(275, 280), // Verplaatst naar aanrecht
+        food2: new Vector(125, 270), // Verplaatst naar aanrecht
+        food3: new Vector(450, 275), // Verplaatst naar aanrecht
+        food4: new Vector(1100, 460),
+        food5: new Vector(1200, 575)
     },
     FOOD_SCALE: 0.8,
     ORDER_UPDATE_DELAY: 100,
@@ -33,7 +33,7 @@ export class Minigame_2 extends Scene {
     #currentCustomer
     #timerDisplay
     #orderCounter
-    #gameState = new GameState()
+    #gameState = null // Initialiseer als null, maak pas aan bij onActivate
     #gameActive = true
 
     constructor() {
@@ -41,11 +41,26 @@ export class Minigame_2 extends Scene {
     }
 
     onActivate(engine) {
-        // Start de minigame zodra de scene geladen wordt
+        // Verwijder alle oude event listeners om dubbele events te voorkomen
+        this.engine.off('orderComplete')
+        this.engine.off('timeUp')
+        this.engine.off('foodDelivered')
+        this.engine.off('orderReset')
+        
+        // Zorg ervoor dat er maar één GameState instance is
+        if (!this.#gameState) {
+            this.#gameState = new GameState()
+        }
+        
+        // Hard reset de game state
+        this.#gameState.reset()
+        
+        // Start de minigame
         this.startMinigame2(engine)
         
         // Event listeners voor game flow
-        this.engine.on('orderComplete', (evt) => {            if(evt.success) {
+        this.engine.on('orderComplete', (evt) => {
+            if(evt.success) {
                 // Update game state
                 this.#gameState.incrementOrder()
 
@@ -89,36 +104,29 @@ export class Minigame_2 extends Scene {
         // Luister naar orderReset event voor highlighting reset
         this.engine.on('orderReset', (evt) => {
             this.#orderDisplay.resetHighlights()
-        })    }    onInitialize(engine) {
-        console.log('=== MINIGAME 2 INITIALIZE START ===')
+        })    }
+
+    onInitialize(engine) {
+        console.log("Minigame_2 geïnitialiseerd")
         
-        // Voeg debugknop toe: druk op D om een nieuwe customer te spawnen
+        // Event listener voor debug toetsen
         engine.input.keyboard.on('press', (evt) => {
-            if (evt.key === 'd' || evt.key === 'D') {
-                this.spawnNewCustomer()
-                console.log('DEBUG: Nieuwe customer gespawned:', this.#currentCustomer?.getOrder?.())
-            }
-            
-            // Voeg T-toets toe voor timer debug
-            if (evt.key === 't' || evt.key === 'T') {
-                this.debugTimerStatus()
-            }
-              // Voeg S-toets toe voor scene debug
-            if (evt.key === 's' || evt.key === 'S') {
-                this.debugSceneStatus()
-            }
-            
             // Voeg G-toets toe voor game state debug
             if (evt.key === 'g' || evt.key === 'G') {
                 this.debugGameState()
             }
         })
+    }
 
-        console.log("Minigame_2 geïnitialiseerd")
-        console.log('=== MINIGAME 2 INITIALIZE END ===')
-    }    // Deze functie bevat de minigame functionaliteit
+    // Deze functie bevat de minigame functionaliteit
     startMinigame2(engine) {
         console.log("Start minigame 2!");
+        
+        // Clear alle bestaande actors voor herstart
+        this.clear()
+        
+        // Reset gameActive flag
+        this.#gameActive = true
         
         // Voeg game elementen toe
         this.#addGameElements();
@@ -161,17 +169,11 @@ export class Minigame_2 extends Scene {
 
     // Maakt de order counter aan
     #createOrderCounter() {
-        try {
-            console.log('=== ORDER COUNTER CREATION START ===')
-            this.#orderCounter = new OrderCounter(new Vector(GAME_CONFIG.ORDER_COUNTER_POS.x, GAME_CONFIG.ORDER_COUNTER_POS.y));
-            this.add(this.#orderCounter);
-            
-            console.log("Order counter succesvol toegevoegd");
-            console.log('Order counter object:', this.#orderCounter);
-            
-        } catch (error) {
-            console.error("Fout bij maken order counter:", error);
-        }
+        this.#orderCounter = new OrderCounter(new Vector(GAME_CONFIG.ORDER_COUNTER_POS.x, GAME_CONFIG.ORDER_COUNTER_POS.y));
+        this.add(this.#orderCounter);
+        
+        // Zet de counter op de juiste startwaarde
+        this.#orderCounter.updateOrder(0) // 0 omdat updateOrder +1 doet
     }
 
     // Maakt en toont de order display
@@ -191,16 +193,17 @@ export class Minigame_2 extends Scene {
             this.#updateOrderDisplay();
         }, GAME_CONFIG.ORDER_UPDATE_DELAY);
         
-        console.log(`Eerste customer gespawned met order size: ${orderSize}`);
-    }    // Update de order display als het bestaat
+        console.log(`Eerste customer gespawned met order size: ${orderSize}`)
+    }
+
+    // Update de order display als het bestaat
     #updateOrderDisplay() {
         if (this.#orderDisplay && this.#currentCustomer) {
-            this.#orderDisplay.updateOrder(this.#currentCustomer.orderArray);
+            this.#orderDisplay.updateOrder(this.#currentCustomer.orderArray)
         }
-    }spawnNewCustomer() {
-        console.log(`=== SPAWN NEW CUSTOMER ===`)
-        console.log(`Game state voor spawning:`, this.#gameState.getOrderProgressionInfo())
-        
+    }
+
+    spawnNewCustomer() {
         // Verwijder oude customer als die bestaat
         if (this.#currentCustomer) {
             this.remove(this.#currentCustomer);
@@ -220,53 +223,25 @@ export class Minigame_2 extends Scene {
         this.add(this.#currentCustomer);
         
         // Update order display
-        this.#updateOrderDisplay();
+        this.#updateOrderDisplay()
         
-        console.log(`Nieuwe customer gespawned met order size: ${orderSize}`);
+        console.log(`Nieuwe customer gespawned met order size: ${orderSize}`)
     }
 
     // Bepaalt welke customer sprites beschikbaar zijn met veilige checks
     #getAvailableCustomerSprites() {
-        const sprites = [Resources.Customer1]; // Altijd beschikbaar
+        const sprites = [Resources.Customer1] // Altijd beschikbaar
         
         // Veilige checks voor optionele resources
-        if (Resources.Customer2) sprites.push(Resources.Customer2);
-        if (Resources.Persona2) sprites.push(Resources.Persona2);
-        if (Resources.Persona3) sprites.push(Resources.Persona3);
+        if (Resources.Customer2) sprites.push(Resources.Customer2)
+        if (Resources.Persona2) sprites.push(Resources.Persona2)
+        if (Resources.Persona3) sprites.push(Resources.Persona3)
         
-        return sprites;
-    }    onPreUpdate(engine, delta) {
-        // Geen timer logic meer nodig - wordt afgehandeld door TimerDisplay
-        // Game over wordt afgehandeld door timeUp event listener
+        return sprites
     }
 
-    // Debug methode voor timer status
-    debugTimerStatus() {
-        console.log('=== TIMER DEBUG STATUS ===')
-        if (this.#timerDisplay) {
-            console.log('Timer Status:', this.#timerDisplay.getDebugInfo())
-        } else {
-            console.log('Timer Display is null/undefined!')
-        }
-    }    // Debug methode voor scene status
-    debugSceneStatus() {
-        console.log('=== SCENE DEBUG STATUS ===')
-        console.log('Totaal actors in scene:', this.actors.length)
-        console.log('Timer in actors lijst:', this.actors.includes(this.#timerDisplay))
-        console.log('Scene camera positie:', this.camera.pos)
-        console.log('Scene camera zoom:', this.camera.zoom)
-        
-        this.actors.forEach((actor, index) => {
-            console.log(`Actor ${index}:`, actor.constructor.name, 'pos:', actor.pos, 'visible:', actor.graphics.visible, 'z:', actor.z)
-        })
-    }    // Debug methode voor game state
-    debugGameState() {
-        console.log('=== GAME STATE DEBUG ===')
-        console.log('Current progression info:', this.#gameState.getOrderProgressionInfo())
-        this.#gameState.logState()
-        if (this.#currentCustomer) {
-            console.log('Current customer order (getOrder):', this.#currentCustomer.getOrder())
-            console.log('Current customer order (orderArray):', this.#currentCustomer.orderArray)
-        }
+    onPreUpdate(engine, delta) {
+        // Geen timer logic meer nodig - wordt afgehandeld door TimerDisplay
+        // Game over wordt afgehandeld door timeUp event listener
     }
 }
