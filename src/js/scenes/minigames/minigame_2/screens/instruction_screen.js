@@ -109,10 +109,11 @@ export class InstructionScreen extends Scene {
     }    // Maak de instructie teksten aan
     #createInstructions(engine) {
         const instructions = [
-            "🥖 Je gaat Zhiwen helpen in de snackbar,",
-            "🔥 Het is erg druk in de snackbar, help een   handje uit!",
-            "🎮 Gebruik de controller om te bewegen door   het restaurant", 
-            "📦 Houdt de A-knop ingedrukt om producten op  te pakken en  het te geven aan de klanten",
+            "🍴 Je gaat Zhiwen helpen in de snackbar",
+            "📋 Rechts bovenin staat de bestelling van de klant", 
+            "🎮 Houdt A ingedrukt om producten op te pakken",
+            "🚚 Sleep producten naar de klant om te leveren",
+            "⌛ Je hebt 60 seconden voor alle bestellingen!"
         ]
 
         // Bereken centrale positie voor instructies
@@ -122,7 +123,7 @@ export class InstructionScreen extends Scene {
         instructions.forEach((instruction, index) => {
             const label = new Label({
                 text: instruction,
-                pos: new Vector(340, startY + (index * lineSpacing)),
+                pos: new Vector(300, startY + (index * lineSpacing)),
                 // color: Color.White,
                 font: Resources.PressStart2P.toFont({
                 size: 15,
@@ -140,7 +141,7 @@ export class InstructionScreen extends Scene {
     #createControls(engine) {
         this.#controlsLabel = new Label({
             text: "🎮 L-Stick = Bewegen | A-knop = Pakken/Loslaten 🎮",
-            pos: new Vector(310, 480),
+            pos: new Vector(310, 500),
             // color: Color.Cyan,
             font: Resources.PressStart2P.toFont({
                 size: 14,
