@@ -109,11 +109,11 @@ export class InstructionScreen extends Scene {
     }    // Maak de instructie teksten aan
     #createInstructions(engine) {
         const instructions = [
-            "🍴 Je gaat Zhiwen helpen in de snackbar",
-            "📋 Rechts bovenin staat de bestelling van de klant", 
+            "🍴 Je gaat Zhiwen helpen in de snackbar!",
+            "📋 Rechts bovenin staat de bestelling", 
             "🎮 Houdt A ingedrukt om producten op te pakken",
-            "🚚 Sleep producten naar de klant om te leveren",
-            "⌛ Je hebt 60 seconden voor alle bestellingen!"
+            "🚚 Sleep de producten naar de klant",
+            "⌛ Je hebt 60 seconden de tijd!"
         ]
 
         // Bereken centrale positie voor instructies
